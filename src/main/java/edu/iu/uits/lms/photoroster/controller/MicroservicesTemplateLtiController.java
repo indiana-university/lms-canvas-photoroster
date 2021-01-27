@@ -76,7 +76,7 @@ public class MicroservicesTemplateLtiController extends LtiController {
 
     @Override
     protected String getToolContext() {
-        return "microservices-template";
+        return "photoroster";
     }
 
     @Override

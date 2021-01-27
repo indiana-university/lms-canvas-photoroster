@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>microservices-template</artifactId>
+    <artifactId>photoroster</artifactId>
     <packaging>jar</packaging>
-    <name>microservices-template</name>
+    <name>photoroster</name>
     <version>4.0.0-SNAPSHOT</version>
 
     <parent>
@@ -15,9 +15,9 @@
 
     <properties>
         <app.version>${project.version}</app.version>
-        <docker_repository_name>microservices-template</docker_repository_name>
+        <docker_repository_name>photoroster</docker_repository_name>
         <docker_tag>stable</docker_tag>
-        <helm_service_name>microservices-template</helm_service_name>
+        <helm_service_name>photoroster</helm_service_name>
     </properties>
 
     <dependencies>
@@ -114,7 +114,7 @@
 
 
     <build>
-        <finalName>microservices-template</finalName>
+        <finalName>photoroster</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -154,7 +154,7 @@
                         <param>postgresql9</param>
                     </dialects>
                     <packages>
-                        <param>edu.iu.uits.lms.microservices-template</param>
+                        <param>edu.iu.uits.lms.photoroster</param>
                     </packages>
 <!--                    <persistenceXml>src/main/webapp/META-INF/canvasnotifier-persistence.xml</persistenceXml>-->
                 </configuration>
