@@ -1,0 +1,181 @@
+button.transparencyOverride, input[type=text].transparencyOverride {
+    background-color: #FFFFFF;
+}
+
+.currentViewColor {
+    fill: lightgray;
+}
+
+.photoGridPanel {
+    display: inline-table;
+    width: 214px;
+    height: 290px;
+}
+
+.photoListPanel {
+    width: 600px;
+    min-height: 140px;
+}
+
+.cardPanelPaddingOverride {
+    padding: 1.5rem 0.5rem 1.0rem 0.50rem;
+
+}
+
+.twentyfive-percent {
+    width: 25%;
+}
+
+.imageContainer {
+    position: relative;
+    display: inline-block;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+}
+
+.imageWrapper {
+    padding: 5px;
+}
+
+.ferpa {
+    width: 100%;
+    background: #f5bb17;
+    position: absolute;
+    bottom: 0;
+    color: black;
+}
+
+.ferpaModalOverride {
+    width: 240px;
+    line-height: 1.1;
+    justify-content: center;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.overrideDropdownWidth {
+    min-width: 20rem;
+}
+
+.pointerEventOverride {
+    pointer-events: none;
+}
+
+.textOverflow {
+    max-width: 160px;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+}
+
+.forceWrap {
+    overflow-wrap: break-word;
+}
+
+.search-input {
+    min-width: 217px;
+    max-width: 217px;
+}
+
+.rvt-badge--secondary.student-badge {
+    border-color: transparent;
+}
+
+img.image-S75x100 {
+    height: 100px;
+}
+
+img.image-S240x320 {
+    height: 200px;
+}
+
+img.image-CanvasAvatar {
+    height: 100px;
+}
+
+div.ferpa-S75x100, img.image-S75x100 {
+    width: 75px;
+}
+
+div.ferpa-S240x320, img.image-S240x320 {
+    width: 150px;
+}
+
+div.ferpa-CanvasAvatar, img.image-CanvasAvatar {
+    width: 100px;
+}
+
+.card-S75x100 {
+    height: 290px;
+}
+
+.card-S240x320 {
+    height: 390px;
+}
+
+.card-CanvasAvatar {
+    height: 290px;
+}
+
+.loader_container {
+    display: flex;
+    align-items: center;
+}
+
+.actionBar {
+    display: flex;
+    flex-direction: column;
+}
+
+.name-wrapper {
+    display: inline-block;
+    min-height: 30px;
+    max-width: 160px;
+    padding-right: 5px;
+}
+
+.namecoach {
+    width: 0;
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+}
+
+#printHeader {
+    display: none;
+}
+
+@media screen and (min-width: 740px) {
+    .actionBar {
+        flex-direction: row;
+    }
+}
+
+.ie11CursorOverride {
+    cursor: pointer;
+}
+
+.overrideBoxColor {
+    background-color: #fafafa
+}
+
+a.svgObjectHelper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+a.svgObjectHelper:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left:0;
+}
+.hideRemoveAll {
+    border-top: none !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
