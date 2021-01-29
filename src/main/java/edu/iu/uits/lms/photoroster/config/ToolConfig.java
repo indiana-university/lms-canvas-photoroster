@@ -1,4 +1,4 @@
-package edu.iu.uits.lms.microservicestemplate.config;
+package edu.iu.uits.lms.photoroster.config;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,4 +13,5 @@ public class ToolConfig {
 
    private String version;
    private String env;
+   private String[] roleGroupings;
 }

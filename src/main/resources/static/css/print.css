@@ -1,0 +1,98 @@
+
+@page {
+    margin: 1.0cm;
+}
+
+a {
+    color: #000;
+}
+
+.hidePrint {
+    display: none;
+}
+
+.photoGridPanel {
+    box-shadow: none;
+    border: 1px solid #ccc !important;
+    height: 220px;
+    width: 200px;
+    padding: 0.5rem 0.2rem 0 0.2rem;
+    page-break-inside: avoid;
+    margin-top: 0.5rem !important;
+}
+
+.photoListPanel {
+    box-shadow: none;
+    border: 1px solid #ccc !important;
+    page-break-inside: avoid;
+    padding-top: 0.5rem;
+    padding-bottom: 0.2rem;
+    min-height: auto;
+    margin-top: 0.5rem !important;
+}
+
+#content-container {
+    border: none !important;
+    padding: 1rem 0 0 0;
+    box-shadow: none;
+}
+
+.actionBar {
+    display: none;
+}
+
+#toolHeader {
+    display: none;
+}
+
+.namecoach {
+    display: none;
+}
+
+#printHeader {
+    display: block;
+    border-bottom: 1px solid #ccc !important;
+}
+
+.textOverflow {
+    white-space: normal;
+    hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+}
+
+.photoListPanel .textOverflow {
+    max-width: inherit;
+}
+
+.photoListPanel .name-wrapper {
+    max-width: inherit;
+}
+
+.grouping:nth-of-type(n+2) {
+    page-break-inside: avoid;
+}
+
+/* this section overrides the border colors, padding, and column width in sign-in sheet table */
+.rvt-table-cells {
+    border-top: 1px solid #000 !important;
+}
+
+.rvt-table-cells tr {
+    border-bottom: 1px solid #000 !important;
+}
+
+.rvt-table-cells tr td:first-child, .rvt-table-cells tr th:first-child {
+    border-left: 1px solid #000 !important;
+    padding: .25rem !important;
+}
+
+.rvt-table-cells tr td, .rvt-table-cells tr th {
+    border-right: 1px solid #000 !important;
+    padding: .25rem !important;
+}
+
+/* this is essentially overriding the class "twentyfive-percent" */
+.rvt-table-cells colgroup col {
+    width: 40% !important;
+}

@@ -1,0 +1,49 @@
+{
+  "name": "lms-lti-photoroster",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server --open",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "autoprefixer": "9.3.1",
+    "babel-core": "6.26.3",
+    "babel-jest": "23.6.0",
+    "babel-loader": "7.1.2",
+    "babel-preset-env": "1.7.0",
+    "babel-preset-react": "6.24.1",
+    "babel-preset-stage-2": "6.24.1",
+    "css-loader": "1.0.0",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "file-loader": "2.0.0",
+    "jest": "23.6.0",
+    "style-loader": "0.23.1",
+    "less": "3.8.1",
+    "less-loader": "4.1.0",
+    "path": "0.12.7",
+    "postcss-loader": "3.0.0",
+    "postcss-preset-env": "6.2.0",
+    "webpack": "3.8.1",
+    "webpack-dev-server": "2.9.4"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
+    "classnames": "2.2.6",
+    "dateformat": "^3.0.3",
+    "lodash": "^4.17.11",
+    "react": "16.6.0",
+    "react-csv": "^1.0.19",
+    "react-dom": "16.6.0",
+    "react-lines-ellipsis": "^0.14.0",
+    "react-native-uuid": "^1.4.9",
+    "react-scroll-up-button": "1.6.4",
+    "rest": "^2.0.0",
+    "rivet-clearable-input": "maurercw/rivet-clearable-input#v0.2.0",
+    "rivet-react": "^1.4.0",
+    "rxjs": "6.3.3",
+    "styled-components": "^4.0.2"
+  }
+}
