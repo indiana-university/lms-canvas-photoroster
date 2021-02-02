@@ -22,7 +22,7 @@ import org.springframework.context.annotation.PropertySource;
 import java.util.Date;
 
 @SpringBootApplication
-@EnableGlobalErrorHandler
+@EnableGlobalErrorHandler(accessDeniedViewName = "accessDenied")
 @PropertySource(value = {"classpath:env.properties",
       "${app.fullFilePath}/database.properties",
       "${app.fullFilePath}/namecoach.properties",
