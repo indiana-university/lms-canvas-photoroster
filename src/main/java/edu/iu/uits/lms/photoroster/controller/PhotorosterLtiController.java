@@ -1,12 +1,15 @@
-package edu.iu.uits.lms.microservicestemplate.controller;
+package edu.iu.uits.lms.photoroster.controller;
 
 import canvas.helpers.CanvasConstants;
+import edu.iu.uits.lms.common.session.CourseSessionService;
 import edu.iu.uits.lms.lti.LTIConstants;
 import edu.iu.uits.lms.lti.controller.LtiController;
 import edu.iu.uits.lms.lti.security.LtiAuthenticationProvider;
 import edu.iu.uits.lms.lti.security.LtiAuthenticationToken;
+import edu.iu.uits.lms.photoroster.security.SessionUser;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,17 +24,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Created by chmaurer on 11/13/14.
+ */
 @Controller
-@RequestMapping({"/lti"})
+@RequestMapping("/lti")
 @Slf4j
-public class MicroservicesTemplateLtiController extends LtiController {
+public class PhotorosterLtiController extends LtiController {
 
-    private boolean openLaunchUrlInNewWindow = false;
+    @Autowired
+    private CourseSessionService courseSessionService;
 
     @Override
     protected String getLaunchUrl(Map<String, String> launchParams) {
         String courseId = launchParams.get(CUSTOM_CANVAS_COURSE_ID);
-        return "/app/index/" + courseId;
+        return "/app/" + courseId;
     }
 
     @Override
@@ -40,59 +47,39 @@ public class MicroservicesTemplateLtiController extends LtiController {
 
         paramMap.put(CUSTOM_CANVAS_COURSE_ID, payload.get(CUSTOM_CANVAS_COURSE_ID));
         paramMap.put(BasicLTIConstants.ROLES, payload.get(BasicLTIConstants.ROLES));
+        paramMap.put(BasicLTIConstants.USER_ID, payload.get(BasicLTIConstants.USER_ID));
+        paramMap.put(CUSTOM_CANVAS_USER_ID, payload.get(CUSTOM_CANVAS_USER_ID));
         paramMap.put(CUSTOM_CANVAS_USER_LOGIN_ID, payload.get(CUSTOM_CANVAS_USER_LOGIN_ID));
-        paramMap.put(BasicLTIConstants.CONTEXT_TITLE, payload.get(BasicLTIConstants.CONTEXT_TITLE));
-        paramMap.put(BasicLTIConstants.LIS_PERSON_CONTACT_EMAIL_PRIMARY, payload.get(BasicLTIConstants.LIS_PERSON_CONTACT_EMAIL_PRIMARY));
-        paramMap.put(BasicLTIConstants.LIS_PERSON_SOURCEDID, payload.get(BasicLTIConstants.LIS_PERSON_SOURCEDID));
-
-        openLaunchUrlInNewWindow = Boolean.valueOf(payload.get(CUSTOM_OPEN_IN_NEW_WINDOW));
 
         return paramMap;
     }
 
     @Override
     protected void preLaunchSetup(Map<String, String> launchParams, HttpServletRequest request, HttpServletResponse response) {
+        SessionUser sessionUser = new SessionUser();
+        sessionUser.setUsername(launchParams.get(BasicLTIConstants.USER_ID));
+        sessionUser.setCanvasUserId(launchParams.get(CUSTOM_CANVAS_USER_ID));
+        sessionUser.setCourseId(launchParams.get(CUSTOM_CANVAS_COURSE_ID));
+
+        log.debug("User: " + sessionUser);
+
         String rolesString = launchParams.get(BasicLTIConstants.ROLES);
         String[] userRoles = rolesString.split(",");
         String authority = returnEquivalentAuthority(Arrays.asList(userRoles), getDefaultInstructorRoles());
         log.debug("LTI equivalent authority: " + authority);
 
         String userId = launchParams.get(CUSTOM_CANVAS_USER_LOGIN_ID);
-        String userEmail = launchParams.get(BasicLTIConstants.LIS_PERSON_CONTACT_EMAIL_PRIMARY);
-        String userSisId = launchParams.get(BasicLTIConstants.LIS_PERSON_SOURCEDID);
         String systemId = launchParams.get(BasicLTIConstants.TOOL_CONSUMER_INSTANCE_GUID);
         String courseId = launchParams.get(CUSTOM_CANVAS_COURSE_ID);
-        String courseTitle = launchParams.get(BasicLTIConstants.CONTEXT_TITLE);
 
         HttpSession session = request.getSession();
-//        session.setAttribute(Constants.COURSE_TITLE_KEY, courseTitle);
-//        session.setAttribute(Constants.USER_EMAIL_KEY, userEmail);
-//        session.setAttribute(Constants.USER_SIS_ID_KEY, userSisId);
+        courseSessionService.addAttributeToSession(session, courseId, "sessionUser", sessionUser);
 
         LtiAuthenticationToken token = new LtiAuthenticationToken(userId,
                 courseId, systemId, AuthorityUtils.createAuthorityList(LtiAuthenticationProvider.LTI_USER_ROLE, authority), getToolContext());
         SecurityContextHolder.getContext().setAuthentication(token);
     }
 
-    @Override
-    protected String getToolContext() {
-        return "photoroster";
-    }
-
-    @Override
-    protected LAUNCH_MODE launchMode() {
-        if (openLaunchUrlInNewWindow)
-            return LAUNCH_MODE.WINDOW;
-
-        return LAUNCH_MODE.FORWARD;
-    }
-
-    /**
-     * Given a list of user roles, return the internal equivalent role
-     * @param userRoles
-     * @param instructorRoles
-     * @return
-     */
     @Override
     protected String returnEquivalentAuthority(List<String> userRoles, List<String> instructorRoles) {
         for (String instructorRole : instructorRoles) {
@@ -105,8 +92,8 @@ public class MicroservicesTemplateLtiController extends LtiController {
             return LTIConstants.TA_AUTHORITY;
         }
 
-        if (userRoles.contains(CanvasConstants.DESIGNER_ROLE)) {
-            return LTIConstants.DESIGNER_AUTHORITY;
+        if (userRoles.contains(CanvasConstants.LEARNER_ROLE)) {
+            return LTIConstants.STUDENT_AUTHORITY;
         }
 
         if (userRoles.contains(CanvasConstants.OBSERVER_ROLE)) {
@@ -115,4 +102,14 @@ public class MicroservicesTemplateLtiController extends LtiController {
 
         return LTIConstants.STUDENT_AUTHORITY;
     }
+
+    @Override
+    protected String getToolContext() {
+        return "lms_photoroster";
+    }
+
+//    @Override
+//    protected LAUNCH_MODE launchMode() {
+//        return LAUNCH_MODE.FORWARD;
+//    }
 }

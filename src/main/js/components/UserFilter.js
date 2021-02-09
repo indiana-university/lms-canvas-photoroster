@@ -1,0 +1,104 @@
+import React, { Component } from 'react'
+import UserFilterGroups from 'components/UserFilterGroups'
+
+class UserFilter extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+    componentDidUpdate() {
+        this.computeAndDisplayActiveFilters();
+    }
+
+    render() {
+        const roles = Object.entries(this.props.roles).map(([key,value]) => (
+            <li key={key}>
+                <input type="checkbox" id={"role_" + key} name="rolesCheckboxes" className="filter-input"
+                    value={`${key}`} onChange={this.handleRoleFiltering.bind(this)} />
+                <label htmlFor={"role_" + key} className="rvt-m-right-sm rvt-text-nobr">{value}</label>
+            </li>
+          ))
+
+          const sections = Object.entries(this.props.sections).map(([key,value]) => (
+            <li key={key}>
+                <input type="checkbox" id={"section_" + key} name="sectionsCheckboxes" className="filter-input"
+                    value={`${key}`} onChange={this.handleSectionFiltering.bind(this)} />
+                <label htmlFor={"section_" + key} className="rvt-m-right-sm rvt-text-nobr">{value}</label>
+            </li>
+          ))
+
+      return (
+        <div className="rvt-dropdown rvt-p-top-xs rvt-m-right-sm-md-up">
+            <button id="rosterFiltering" className="rvt-button rvt-button--secondary transparencyOverride" data-dropdown-toggle="filterDropdown" aria-haspopup="true" aria-expanded="false">
+                <span>Filter By <span id="filters-active"></span></span>
+                <svg aria-hidden="true" className="rvt-m-left-xs" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                    <path fill="currentColor" d="M8,12.46a2,2,0,0,1-1.52-.7L1.24,5.65a1,1,0,1,1,1.52-1.3L8,10.46l5.24-6.11a1,1,0,0,1,1.52,1.3L9.52,11.76A2,2,0,0,1,8,12.46Z"/>
+                </svg>
+            </button>
+            <div className="rvt-dropdown__menu overrideDropdownWidth" id="filterDropdown" aria-hidden="true" role="menu">
+                <a href="#" id="remove-filters" onClick={this.handleRemoveFilterClick.bind(this)}>Remove Filters</a>
+                <div role="group" id="role-division">
+                    <fieldset className="rvt-p-left-sm">
+                        <legend className="sr-only">Role filter options</legend>
+                        <div className="rvt-text-bold rvt-p-tb-xs">Role</div>
+                        <ul className="rvt-plain-list">
+                            {roles}
+                        </ul>
+                    </fieldset>
+                </div>
+                <div role="group">
+                    <fieldset className="rvt-p-left-sm">
+                        <legend className="sr-only">Section filter options</legend>
+                        <div className="rvt-text-bold rvt-p-tb-xs">Sections</div>
+                        <ul className="rvt-plain-list">
+                            {sections}
+                        </ul>
+                    </fieldset>
+                </div>
+
+                <UserFilterGroups groups={this.props.groups} handleGroupFiltering={this.handleGroupFiltering.bind(this)} />
+            </div>
+        </div>
+    );
+  }
+
+
+   handleSectionFiltering(event) {
+        var data = {id: event.target.value, checked: event.target.checked}
+        this.props.filterPeople(data, null, null, null)
+    }
+
+   handleRoleFiltering(event) {
+        var data = {id: event.target.value, checked: event.target.checked}
+        this.props.filterPeople(null, data, null, null)
+    }
+
+    handleGroupFiltering(event) {
+        var data = {id: event.target.value, checked: event.target.checked}
+        this.props.filterPeople(null, null, data, null)
+    }
+
+    computeAndDisplayActiveFilters() {
+        var numberOfChecked = $(".filter-input:checked").length
+        var newContent = ""
+
+        if (numberOfChecked == 0) {
+            newContent = "";
+            $("#remove-filters").hide()
+            $("#role-division").addClass("hideRemoveAll")
+        } else {
+            newContent = "(" + numberOfChecked + ")"
+            $("#remove-filters").show()
+            $("#role-division").removeClass("hideRemoveAll")
+        }
+
+      	$("#filters-active").html(newContent)
+    }
+
+    handleRemoveFilterClick(event) {
+        //Uncheck stuff, reset the UI and call the filter, passing the reset flag
+        $(".filter-input").prop('checked', false)
+        this.props.filterPeople(null, null, null, true)
+    }
+}
+export default UserFilter
