@@ -14,8 +14,7 @@ const paths = {
 
 module.exports = {
   context: paths.src,
-//  entry: 'App.js',
-  entry: ['babel-polyfill', 'index.js'],
+  entry: ['index.js'],
   output: {
     filename: packageJSON.name + '.js',
     path: paths.dest
@@ -33,43 +32,29 @@ module.exports = {
       'process.env': {
         // NODE_ENV: JSON.stringify('production')
       }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      uglifyOptions: {
-        compress: { warnings: false },
-        beautify: false,
-        comments: false
-      },
-      sourceMap: true
     })
   ],
-  devServer: {
-    port: 8080,
-    contentBase: [ paths.prototype, paths.webapp ],
-    historyApiFallback: true
-  },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.(js|jsx)$/,
         include: [paths.src, paths.devserver],
         loader: 'babel-loader',
         options: {
-          presets: ['react', 'env', 'stage-2']
+          presets: ['@babel/preset-react', '@babel/preset-env']
         }
       }, {
-        test: /\.(less)$/,
-        loaders: [
-          `file-loader?name=media/${packageJSON.name}.css`,
-          'postcss-loader',
-          'less-loader'
-        ]
-      }, {
          test: /\.css$/,
-         loaders: ['style-loader', 'css-loader']
+         use: [
+           {loader: 'style-loader'},
+           {loader: 'css-loader'}
+         ]
        }, {
         test: /\.(html|gif|jpg|png|svg)$/,
-        loader: 'file-loader?name=media/[name].[ext]'
+        loader: 'file-loader',
+        options: {
+          name: 'media/[name].[ext]'
+        }
       }
     ]
   }
