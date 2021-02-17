@@ -3,6 +3,7 @@ package edu.iu.uits.lms.photoroster.service;
 import canvas.client.generated.api.AccountsApi;
 import canvas.client.generated.api.CoursesApi;
 import canvas.client.generated.api.GroupsApi;
+import canvas.client.generated.model.Account;
 import canvas.client.generated.model.CanvasRole;
 import canvas.client.generated.model.Course;
 import canvas.client.generated.model.CourseGroup;
@@ -411,15 +412,17 @@ public class PhotorosterService {
         if (isInstructor) {
             if (course != null) {
                 String sisCourseId = course.getSisCourseId();
+                List<Account> parentAccounts = accountService.getParentAccounts(course.getAccountId());
+                List<String> parentAccountIds = parentAccounts.stream().map(Account::getId).collect(Collectors.toList());
                 if (sisCourseId != null && !sisCourseId.isEmpty()) {
                     // see if this a legit SIS course
                     isSisSite = sudsService.isLegitSisCourse(course.getSisCourseId(), course.getTerm().getSisTermId());
 
                     // See if we want to override and show official photos anyway
-                    override = featureAccessService.isFeatureEnabledForAccount(FEATURE_OVERRIDE_WITH_SISID, course.getAccountId());
+                    override = featureAccessService.isFeatureEnabledForAccount(FEATURE_OVERRIDE_WITH_SISID, course.getAccountId(), parentAccountIds);
                 } else {
                     // Override even though there is no sis course id
-                    override = featureAccessService.isFeatureEnabledForAccount(FEATURE_OVERRIDE, course.getAccountId());
+                    override = featureAccessService.isFeatureEnabledForAccount(FEATURE_OVERRIDE, course.getAccountId(), parentAccountIds);
                 }
             }
         }
