@@ -36,7 +36,7 @@ class ToolHeader extends React.Component {
                 </div>
                 {exportMarkup}
                 <div className="rvt-p-right-xs ie11CursorOverride" title="Open in New Window">
-                    <a href={window.location.toString()} id="newWindowOption" target="_blank" className="svgObjectHelper">
+                    <a href={`/app/${window.config.courseid}`} id="newWindowOption" target="_blank" className="svgObjectHelper">
                         <img alt="Open roster in new window" src={imageBase + "newWindow.svg"} width="24" height="24" className="pointerEventOverride"></img>
                     </a>
                 </div>

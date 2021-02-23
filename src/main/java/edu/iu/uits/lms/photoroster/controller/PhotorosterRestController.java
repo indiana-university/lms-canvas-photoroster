@@ -2,11 +2,9 @@ package edu.iu.uits.lms.photoroster.controller;
 
 import canvas.client.generated.api.GroupsApi;
 import canvas.client.generated.model.CourseGroup;
-import edu.iu.uits.lms.common.session.CourseSessionService;
 import edu.iu.uits.lms.lti.LTIConstants;
 import edu.iu.uits.lms.lti.security.LtiAuthenticationToken;
 import edu.iu.uits.lms.photoroster.model.BackingModel;
-import edu.iu.uits.lms.photoroster.security.SessionUser;
 import edu.iu.uits.lms.photoroster.service.PhotorosterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,18 +29,15 @@ public class PhotorosterRestController extends PhotorosterController {
    private PhotorosterService photorosterService = null;
 
    @Autowired
-   private CourseSessionService courseSessionService = null;
-
-   @Autowired
    private GroupsApi groupsApi = null;
 
    @RequestMapping(value = "/people/{courseId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
    @Secured({LTIConstants.INSTRUCTOR_AUTHORITY, LTIConstants.TA_AUTHORITY, LTIConstants.STUDENT_AUTHORITY})
    public BackingModel getPeople(@PathVariable("courseId") String courseId, HttpServletRequest request) {
       LtiAuthenticationToken token = getValidatedToken(courseId);
-      SessionUser sessionUser = courseSessionService.getAttributeFromSession(request.getSession(), courseId, "sessionUser", SessionUser.class);
+      String canvasUserId = (String)token.getPrincipal();
       log.debug("/people/" + courseId);
-      return photorosterService.buildBackingModel(courseId, sessionUser.getCanvasUserId(), request);
+      return photorosterService.buildBackingModel(courseId, canvasUserId, request);
    }
 
    @RequestMapping(value = "/sections/{courseId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
