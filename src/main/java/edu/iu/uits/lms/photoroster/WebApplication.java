@@ -5,7 +5,6 @@ import edu.iu.uits.lms.common.samesite.EnableCookieFilter;
 import edu.iu.uits.lms.common.server.GitRepositoryState;
 import edu.iu.uits.lms.common.server.ServerInfo;
 import edu.iu.uits.lms.common.server.ServerUtils;
-import edu.iu.uits.lms.common.session.EnableCourseSessionService;
 import edu.iu.uits.lms.lti.config.EnableGlobalErrorHandler;
 import edu.iu.uits.lms.lti.config.EnableLtiClient;
 import edu.iu.uits.lms.photoroster.config.ToolConfig;
@@ -24,7 +23,6 @@ import java.util.Date;
 @SpringBootApplication
 @EnableGlobalErrorHandler(accessDeniedViewName = "accessDenied")
 @PropertySource(value = {"classpath:env.properties",
-      "${app.fullFilePath}/database.properties",
       "${app.fullFilePath}/namecoach.properties",
       "${app.fullFilePath}/crimsoncard.properties",
       "${app.fullFilePath}/oauth.properties",
@@ -32,12 +30,11 @@ import java.util.Date;
       "${app.fullFilePath}/security.properties"}, ignoreResourceNotFound = true)
 @Slf4j
 @EnableRedisConfiguration
-@EnableCookieFilter(ignoredRequestPatterns = {"/rest/**"})
+@EnableCookieFilter(ignoredRequestPatterns = {"/app/rest/**"})
 @EnableLtiClient
 @EnableCanvasClient
 @EnableIuOnlyClient
 @EnableConfigurationProperties(GitRepositoryState.class)
-@EnableCourseSessionService(sessionKey = "photoroster_course_session")
 public class WebApplication {
 
     @Autowired

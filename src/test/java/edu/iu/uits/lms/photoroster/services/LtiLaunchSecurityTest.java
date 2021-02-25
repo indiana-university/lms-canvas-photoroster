@@ -94,7 +94,7 @@ public class LtiLaunchSecurityTest {
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .content(EntityUtils.toString(new UrlEncodedFormEntity(nvpList))))
 
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().isOk());
    }
 
    private Map<String, String> signParameters(Map<String, String> parameters, String key, String secret, String url, String method) throws Exception {
