@@ -97,6 +97,7 @@ public class NameCoachService {
             HttpEntity<SearchCriteria> requestEntity = new HttpEntity<>(searchCriteria, headers);
 
             try {
+                log.debug("URI: {}", uri);
                 participants = pagedExchange(ncRestTemplate, uri.toString(), requestEntity, hasErrors);
             } catch (HttpStatusCodeException e) {
                 log.warn("Unable to lookup namecoach data for " + emailString, e);
@@ -144,11 +145,11 @@ public class NameCoachService {
                 log.debug("Fetched results " + resultList.size() + " of " + meta.getTotalCount());
             }
         } catch (HttpStatusCodeException e) {
-            log.debug("{}", url);
+            log.debug("URI: {}", url);
             log.error("Error getting namecoach data: " + e.getResponseBodyAsString(), e);
             hasErrors.setValue(true);
         } catch (Exception e) {
-            log.debug("{}", url);
+            log.debug("URI: {}", url);
             log.error("Something unexpected happened with the namecoach call", e);
             hasErrors.setValue(true);
         }
