@@ -144,9 +144,11 @@ public class NameCoachService {
                 log.debug("Fetched results " + resultList.size() + " of " + meta.getTotalCount());
             }
         } catch (HttpStatusCodeException e) {
+            log.debug("{}", url);
             log.error("Error getting namecoach data: " + e.getResponseBodyAsString(), e);
             hasErrors.setValue(true);
         } catch (Exception e) {
+            log.debug("{}", url);
             log.error("Something unexpected happened with the namecoach call", e);
             hasErrors.setValue(true);
         }
