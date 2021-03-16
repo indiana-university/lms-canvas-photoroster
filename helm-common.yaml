@@ -19,7 +19,7 @@ resources:
 
 env:
 #  JAVA_TOOL_OPTIONS: "-Dhttp.proxyHost=156.56.18.228 -Dhttp.proxyPort=8080 -Dhttps.proxyHost=156.56.18.228 -Dhttps.proxyPort=8443 -Dhttp.nonProxyHosts='localhost|127.0.0.1|*.ait.iu.edu|*.iu.edu|*.iupui.edu|*.indiana.edu' -Dlogging.level.edu.iu.uits.lms=DEBUG"
-  HTTP_PROXY: "http://156:56:18:228:8080"
+  HTTP_PROXY: "http://156.56.18.228:8080"
   HTTPS_PROXY: "http://156.56.18.228:8443"
   NO_PROXY: "localhost,127.0.0.1,iu.edu,iupui.edu,indiana.edu"
 
