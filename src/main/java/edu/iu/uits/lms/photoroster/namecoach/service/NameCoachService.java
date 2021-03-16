@@ -97,7 +97,6 @@ public class NameCoachService {
             HttpEntity<SearchCriteria> requestEntity = new HttpEntity<>(searchCriteria, headers);
 
             try {
-                log.debug("URI: {}", uri);
                 participants = pagedExchange(ncRestTemplate, uri.toString(), requestEntity, hasErrors);
             } catch (HttpStatusCodeException e) {
                 log.warn("Unable to lookup namecoach data for " + emailString, e);
