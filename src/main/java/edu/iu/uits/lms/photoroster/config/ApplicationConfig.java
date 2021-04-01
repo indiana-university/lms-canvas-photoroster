@@ -1,6 +1,6 @@
 package edu.iu.uits.lms.photoroster.config;
 
-import edu.iu.uits.lms.photoroster.security.PhotorosterSessionIdResolver;
+import edu.iu.uits.lms.common.session.DualSessionIdResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +37,6 @@ public class ApplicationConfig implements WebMvcConfigurer {
     */
    @Bean
    public HttpSessionIdResolver httpSessionIdResolver() {
-      return new PhotorosterSessionIdResolver("/app/rest/");
+      return new DualSessionIdResolver("/app/rest/");
    }
 }
