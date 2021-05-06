@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: photoroster-ingress
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: selfsigned-issuer
+spec:
+  rules:
+  - host: photoroster.lms.dev
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: photoroster
+            port:
+              number: 8080
+  tls:
+  - hosts:
+      - photoroster.lms.dev
+    secretName: lms-cert-tls

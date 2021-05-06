@@ -16,6 +16,7 @@ spring:
 photoroster:
   version: @app.version@
   env: ${app.env}
+  roleGroupings: TeacherEnrollment,StudentEnrollment,ObserverEnrollment,TaEnrollment,DesignerEnrollment,OtherEnrollment
 
 server:
   error:

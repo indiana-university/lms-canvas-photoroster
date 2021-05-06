@@ -1,7 +1,8 @@
-package edu.iu.uits.lms.microservicestemplate.services;
+package edu.iu.uits.lms.photoroster.services;
 
-import edu.iu.uits.lms.microservicestemplate.config.ToolConfig;
-import edu.iu.uits.lms.microservicestemplate.controller.MicroservicesTemplateLtiController;
+import edu.iu.uits.lms.photoroster.config.ToolConfig;
+import edu.iu.uits.lms.photoroster.controller.PhotorosterLtiController;
+import edu.iu.uits.lms.photoroster.service.PhotorosterService;
 import lti.client.generated.api.LtiAuthApi;
 import lti.client.generated.api.LtiPropsApi;
 import lti.client.generated.model.LmsLtiAuthz;
@@ -40,13 +41,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(MicroservicesTemplateLtiController.class)
+@WebMvcTest(PhotorosterLtiController.class)
 @Import(ToolConfig.class)
 @ActiveProfiles("none")
 public class LtiLaunchSecurityTest {
 
    @Autowired
    private MockMvc mvc;
+
+   @MockBean
+   private PhotorosterService photorosterService;
 
    @MockBean
    private LtiAuthApi ltiAuthApi;
@@ -74,6 +78,7 @@ public class LtiLaunchSecurityTest {
       params.put("oauth_consumer_key", key);
       params.put(BasicLTIConstants.USER_ID, "user");
       params.put(BasicLTIConstants.ROLES, "Instructor");
+      params.put("custom_canvas_course_id", "12345");
 
       Map<String, String> signedParams = signParameters(params, key, secret, "http://localhost/lti", "POST");
 
