@@ -23,7 +23,7 @@
         <helm_service_name>photoroster</helm_service_name>
         <javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
         <jquery.version>3.5.1</jquery.version>
-        <lms-bom.version>4.0.7</lms-bom.version>
+        <lms-bom.version>4.0.19-SNAPSHOT</lms-bom.version>
     </properties>
 
     <dependencyManagement>
