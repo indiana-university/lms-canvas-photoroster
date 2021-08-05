@@ -24,6 +24,7 @@ import edu.iu.uits.lms.photoroster.namecoach.model.Participants;
 import edu.iu.uits.lms.photoroster.namecoach.service.NameCoachService;
 import iuonly.client.generated.api.FeatureAccessApi;
 import iuonly.client.generated.api.SudsApi;
+import iuonly.client.generated.model.ListWrapper;
 import iuonly.client.generated.model.SudsFerpaEntry;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
@@ -103,8 +104,9 @@ public class PhotorosterService {
 
         // No need to make a database call if there's no users for an enrollment lookup!
         if (!ids.isEmpty()) {
-            sudsFerpaEntries = sudsService.getFerpaEntriesByListOfSisUserIds(ids, true);
+            sudsFerpaEntries = sudsService.getFerpaEntriesByListOfSisUserIds(new ListWrapper().listItems(ids), true);
         }
+        log.debug("Ferpa Entries: " + sudsFerpaEntries.size());
 
         // convert the list to a map
         return sudsFerpaEntries.stream().collect(
