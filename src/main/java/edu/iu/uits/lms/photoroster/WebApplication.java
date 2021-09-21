@@ -23,10 +23,6 @@ import java.util.Date;
 @SpringBootApplication
 @EnableGlobalErrorHandler(accessDeniedViewName = "accessDenied")
 @PropertySource(value = {"classpath:env.properties",
-      "${app.fullFilePath}/namecoach.properties",
-      "${app.fullFilePath}/crimsoncard.properties",
-      "${app.fullFilePath}/oauth.properties",
-      "${app.fullFilePath}/services.properties",
       "${app.fullFilePath}/security.properties"}, ignoreResourceNotFound = true)
 @Slf4j
 @EnableRedisConfiguration
