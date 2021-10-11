@@ -1,11 +1,13 @@
 package edu.iu.uits.lms.photoroster.config;
 
+import edu.iu.uits.lms.photoroster.PhotorosterConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.jcache.JCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import javax.cache.Caching;
 import javax.cache.configuration.MutableConfiguration;
@@ -15,10 +17,11 @@ import javax.cache.expiry.Duration;
 import javax.cache.spi.CachingProvider;
 import java.util.concurrent.TimeUnit;
 
+@Profile("ehcache")
 @Configuration
 @EnableCaching
 @Slf4j
-public class CacheConfig {
+public class EhCacheConfig {
     String EHCACHE_PROVIDER_TYPE = "org.ehcache.jsr107.EhcacheCachingProvider";
 
     @Bean(name = "PhotorosterCacheManager")
@@ -69,12 +72,12 @@ public class CacheConfig {
 
         final javax.cache.CacheManager cacheManager = provider.getCacheManager();
 
-        createCacheIfMissing(cacheManager, "Photoroster.Course", mutableMediumAccessedConfiguration);
-        createCacheIfMissing(cacheManager, "Photoroster.CourseSections", mutableMediumAccessedConfiguration);
-        createCacheIfMissing(cacheManager, "Photoroster.CourseGroups", mutableMediumAccessedConfiguration);
-        createCacheIfMissing(cacheManager, "Photoroster.CourseRoster", mutableMediumAccessedConfiguration);
-        createCacheIfMissing(cacheManager, "Photoroster.FerpaMap", mutableMediumAccessedConfiguration);
-        createCacheIfMissing(cacheManager, "Photoroster.Roles", mutableLongConfiguration);
+        createCacheIfMissing(cacheManager, PhotorosterConstants.COURSE_CACHE, mutableMediumAccessedConfiguration);
+        createCacheIfMissing(cacheManager, PhotorosterConstants.COURSESECTIONS_CACHE, mutableMediumAccessedConfiguration);
+        createCacheIfMissing(cacheManager, PhotorosterConstants.COURSEGROUPS_CACHE, mutableMediumAccessedConfiguration);
+        createCacheIfMissing(cacheManager, PhotorosterConstants.COURSEROSTER_CACHE, mutableMediumAccessedConfiguration);
+        createCacheIfMissing(cacheManager, PhotorosterConstants.FERPA_CACHE, mutableMediumAccessedConfiguration);
+        createCacheIfMissing(cacheManager, PhotorosterConstants.ROLES_CACHE, mutableLongConfiguration);
 
         return new JCacheCacheManager(cacheManager);
     }
