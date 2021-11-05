@@ -12,6 +12,7 @@ import canvas.client.generated.model.Section;
 import canvas.client.generated.model.User;
 import canvas.helpers.EnrollmentHelper;
 import edu.iu.uits.lms.lti.LTIConstants;
+import edu.iu.uits.lms.photoroster.PhotorosterConstants;
 import edu.iu.uits.lms.photoroster.config.ToolConfig;
 import edu.iu.uits.lms.photoroster.crimsoncard.service.CrimsonCardPhotoService;
 import edu.iu.uits.lms.photoroster.crimsoncard.service.DefaultImageUtil;
@@ -85,13 +86,13 @@ public class PhotorosterService {
     @Qualifier("PhotorosterCacheManager")
     private CacheManager cacheManager;
 
-    @Cacheable("Photoroster.Course")
+    @Cacheable(PhotorosterConstants.COURSE_CACHE)
     public Course getCourse(String courseId) {
         log.debug("course lookup");
         return courseService.getCourse(courseId);
     }
 
-    @Cacheable("Photoroster.FerpaMap")
+    @Cacheable(PhotorosterConstants.FERPA_CACHE)
     public Map<String, String> getFerpaMap(List<User> users) {
         log.debug("build ferpa map");
         // Convert users into a List of Strings
@@ -113,7 +114,7 @@ public class PhotorosterService {
                 Collectors.toMap(SudsFerpaEntry::getIuImsUsername, SudsFerpaEntry::getFerpa));
     }
 
-    @Cacheable(value = "Photoroster.Roles")
+    @Cacheable(value = PhotorosterConstants.ROLES_CACHE)
     public Map<String, String> getCanvasRoleMap(String accountId) {
         List<CanvasRole> canvasRoles;
         //TODO This if check an probably go away when we remove the old photoroster
@@ -128,7 +129,7 @@ public class PhotorosterService {
                 .collect(Collectors.toMap(CanvasRole::getRole, CanvasRole::getLabel));
     }
 
-    @Cacheable("Photoroster.CourseSections")
+    @Cacheable(PhotorosterConstants.COURSESECTIONS_CACHE)
     public Map<String, String> getSectionMap(String courseId) {
         Map<String, String> sectionMap = new TreeMap<>();
         List<Section> sections = courseService.getCourseSections(courseId);
@@ -142,7 +143,7 @@ public class PhotorosterService {
         return sectionMap;
     }
 
-    @Cacheable("Photoroster.CourseGroups")
+    @Cacheable(PhotorosterConstants.COURSEGROUPS_CACHE)
     public Map<String, String> getCourseGroupMap(String courseId) {
         Map<String, String> groupMap = new LinkedHashMap<>();
         List<CourseGroup> groups = groupService.getGroupsForCourse(courseId);
@@ -156,7 +157,7 @@ public class PhotorosterService {
         return groupMap;
     }
 
-    @Cacheable("Photoroster.CourseRoster")
+    @Cacheable(PhotorosterConstants.COURSEROSTER_CACHE)
     public List<User> getRosterForCourse(String courseId, String currentUser) {
         List<String> enrollmentStates = Arrays.asList(EnrollmentHelper.STATE.active.name(), EnrollmentHelper.STATE.invited.name());
         List<String> enrollmentTypes = Arrays.stream(EnrollmentHelper.TYPE.values())
