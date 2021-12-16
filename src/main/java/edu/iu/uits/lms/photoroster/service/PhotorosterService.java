@@ -251,7 +251,6 @@ public class PhotorosterService {
         }
 
         // Filter out records with no useful data. We are looking for a recording
-//        .filter(nc -> nc.getRecordingLink() != null || (nc.getCustomObjects() != null && nc.getCustomObjects().getGenderPronouns() != null))
         List<Participant> filteredNCResults = nameCoachResults.stream()
               .filter(nc -> nc.getRecordingLink() != null)
               .collect(Collectors.toList());
@@ -319,9 +318,6 @@ public class PhotorosterService {
 
                     if (participant != null) {
                         pm.setRecordingUrl(participant.getRecordingLink());
-//                        if (participant.getCustomObjects() != null) {
-//                            pm.setPreferredPronouns(participant.getCustomObjects().getGenderPronouns());
-//                        }
                     }
                 }
 
