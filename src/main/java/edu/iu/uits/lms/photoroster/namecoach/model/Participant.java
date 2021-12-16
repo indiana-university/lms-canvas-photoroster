@@ -20,10 +20,7 @@ public class Participant {
       "event_access_code": "3A0CB",
       "institution_id": null,
       "photo": "https://www.name-coach.com/images/photo-blank.gif",
-      "name_badge_link": "https://www.name-coach.com/john-snow-13014cd1-4d53-4995-bb83-a17bcafff9fa",
-      "custom_objects": {
-        "gender_pronouns": "they / them / theirs"
-      }
+      "name_badge_link": "https://www.name-coach.com/john-snow-13014cd1-4d53-4995-bb83-a17bcafff9fa"
     },
     */
 
@@ -40,13 +37,4 @@ public class Participant {
 
    @JsonProperty("name_badge_link")
    private String nameBadgeLink;
-
-   @JsonProperty("custom_objects")
-   private CustomObjects customObjects;
-
-   @Data
-   public static class CustomObjects {
-      @JsonProperty("gender_pronouns")
-      private String genderPronouns;
-   }
 }
