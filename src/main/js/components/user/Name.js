@@ -36,7 +36,7 @@ const Name = (props) => {
     return (
         <div>
             <div className="name-wrapper">{name1}</div>
-            <NameCoach inModal={props.inModal} recordingUrl={props.recordingUrl}/>
+            <NameCoach inModal={props.inModal} recordingUrl={props.recordingUrl} srName={props.srName} />
         </div>
     )
 
