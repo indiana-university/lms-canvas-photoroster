@@ -29,11 +29,11 @@ describe("Roles", () => {
       };
 
     const wrapper = render(<Roles {...props} />);
-    const span = wrapper.find('span');
+    const span = wrapper.find('span.roleContainer');
     expect(span.length).toBe(1);
     expect(span.hasClass('rvt-badge--secondary')).toBeTruthy();
     expect(span.prop('title')).toEqual('Sections: SectionA\nGroups: Group 1, Group 3');
-    expect(span.text()).toEqual('Student');
+    expect(span.text()).toEqual('Role Student');
 
   });
 
@@ -52,11 +52,11 @@ describe("Roles", () => {
 
       };
     const wrapper = render(<Roles {...props} />);
-    const span = wrapper.find('span');
+    const span = wrapper.find('span.roleContainer');
     expect(span.length).toBe(1);
     expect(span.hasClass('rvt-badge--secondary')).toBeTruthy();
     expect(span.prop('title')).toEqual('Sections: SectionA, SectionB\nGroups: None');
-    expect(span.text()).toEqual('Student');
+    expect(span.text()).toEqual('Role Student');
 
   });
 
@@ -79,7 +79,7 @@ describe("Roles", () => {
         };
       const wrapper = mount(<Roles {...props} />);
 
-      const spans = wrapper.find('span');
+      const spans = wrapper.find('span.roleContainer');
 
       expect(spans.length).toBe(2);
 
@@ -87,13 +87,13 @@ describe("Roles", () => {
       const instSpan = spans.at(0);
       expect(instSpan.hasClass('rvt-badge--secondary')).toBeFalsy();
       expect(instSpan.prop('title')).toEqual('Sections: SectionC');
-      expect(instSpan.text()).toEqual('Teacher');
+      expect(instSpan.text()).toEqual('Role Teacher');
 
       //Get the second span, which should be student role
       const studSpan = spans.at(1);
       expect(studSpan.hasClass('rvt-badge--secondary')).toBeTruthy();
       expect(studSpan.prop('title')).toEqual('Sections: SectionA, SectionB');
-      expect(studSpan.text()).toEqual('Student');
+      expect(studSpan.text()).toEqual('Role Student');
 
     });
 

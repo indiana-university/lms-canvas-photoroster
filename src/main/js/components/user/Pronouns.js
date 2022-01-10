@@ -8,7 +8,8 @@ const Pronouns = (props) => {
 
     if (props.pronouns) {
         return (
-            <div className="rvt-ts-14 rvt-p-bottom-xxs">
+            <div className="rvt-ts-14 rvt-p-bottom-xxs">     
+                { !props.inModal && <span className="sr-only">Pronouns </span> }
                 {pronouns}
             </div>
         )

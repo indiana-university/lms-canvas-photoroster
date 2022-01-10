@@ -50,7 +50,10 @@ const Roles = (props) => {
 
     return (
         <div>
-            <span title={toolTip} className={`rvt-badge rvt-m-right-xxs rvt-m-bottom-xxs ${secondaryClass}`}>{props.roleName}</span>
+            <span title={toolTip} className={`roleContainer rvt-badge rvt-m-right-xxs rvt-m-bottom-xxs ${secondaryClass}`}>
+                <span className="sr-only">Role </span>
+                {props.roleName}
+            </span>
         </div>
       )
   }

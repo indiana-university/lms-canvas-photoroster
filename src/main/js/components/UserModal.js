@@ -24,9 +24,9 @@ const UserModal = (props) => {
                             <Ferpa ferpaRendered={props.modalUser.ferpaRestricted} modal={true} imageKey={imageKey} />
                         </div>
                         <div className="rvt-grid__item">
-                            <Name inModal={true} displayName={props.modalUser.user.name} recordingUrl={props.modalUser.recordingUrl} />
-                            <Pronouns pronouns={props.modalUser.preferredPronouns} inModal={true} />
-                            <div id="modal-email" className="rvt-ts-xs forceWrap rvt-p-bottom-xs"><a href={"mailto:" + props.modalUser.user.email}>{props.modalUser.user.email}</a></div>
+                            <Name inModal={true} displayName={props.modalUser.user.name} srName={props.modalUser.user.name} recordingUrl={props.modalUser.recordingUrl} />
+                            <Pronouns pronouns={props.modalUser.preferredPronouns} inModal={true} srName={props.modalUser.user.name} />
+                            <div id="modal-email" className="rvt-ts-xs forceWrap rvt-p-bottom-xs"><a href={"mailto:" + props.modalUser.user.email} title={`Send email to ${props.modalUser.user.name}`}>{props.modalUser.user.email} </a></div>
                             <Roles enrollmentData={props.modalEnrollments} allGroups={props.allGroups} />
                         </div>
                     </div>
