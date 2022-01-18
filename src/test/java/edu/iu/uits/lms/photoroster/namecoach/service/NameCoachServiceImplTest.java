@@ -42,13 +42,6 @@ public class NameCoachServiceImplTest {
       Participant participant = nameCoachService.getParticipant(USER3);
       log.debug("{}", participant);
       Assert.assertNotNull(participant);
-      Assert.assertEquals(PRONOUNS, participant.getCustomObjects().getGenderPronouns());
-
-      // test without pronouns
-      participant = nameCoachService.getParticipant(USER2);
-      log.debug("{}", participant);
-      Assert.assertNotNull(participant);
-      Assert.assertNull(participant.getCustomObjects().getGenderPronouns());
    }
 
    @Test
@@ -61,7 +54,6 @@ public class NameCoachServiceImplTest {
       Assert.assertFalse(participants.isEmpty());
       Assert.assertTrue(participants.size() > 1);
       Assert.assertEquals(34, participants.size());
-      Assert.assertEquals(PRONOUNS, participants.get(0).getCustomObjects().getGenderPronouns());
    }
 
    @Test
@@ -73,7 +65,6 @@ public class NameCoachServiceImplTest {
       Assert.assertNotNull(participants);
       Assert.assertFalse(participants.isEmpty());
       Assert.assertEquals(1, participants.size());
-      Assert.assertEquals(PRONOUNS, participants.get(0).getCustomObjects().getGenderPronouns());
    }
 
    @Test
@@ -86,14 +77,6 @@ public class NameCoachServiceImplTest {
       Assert.assertFalse(participants.isEmpty());
       Assert.assertTrue(participants.size() > 1);
       Assert.assertEquals(36, participants.size());
-
-      for (Participant participant : participants) {
-         if (USERS_WITH_PRONOUNS.contains(participant.getEmail())) {
-            Assert.assertEquals(PRONOUNS, participant.getCustomObjects().getGenderPronouns());
-         } else {
-            Assert.assertNull(participant.getCustomObjects().getGenderPronouns());
-         }
-      }
    }
 
    @Test
@@ -105,41 +88,35 @@ public class NameCoachServiceImplTest {
       Assert.assertNotNull(participants);
       Assert.assertFalse(participants.isEmpty());
       Assert.assertEquals(3, participants.size());
-      for (Participant participant : participants) {
-         if (USERS_WITH_PRONOUNS.contains(participant.getEmail())) {
-            Assert.assertEquals(PRONOUNS, participant.getCustomObjects().getGenderPronouns());
-         } else {
-            Assert.assertNull(participant.getCustomObjects().getGenderPronouns());
-         }
-      }
    }
 
 
-   @Test
-   public void testWithObject() throws Exception {
-      ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
-      Participant participant1 = new Participant("John", "Smith", "john@smith.com", "http://johnsmith.com/recording.mp3",
-            "http://johnsmith.com/badge.jpg", new Participant.CustomObjects());
-      Participant.CustomObjects customObjects = new Participant.CustomObjects();
-      customObjects.setGenderPronouns(PRONOUNS);
-      Participant participant2 = new Participant("Jane", "Doe", "jane@doe.com", "http://janedoe.com/recording.mp3",
-            "http://janedoe.com/badge.jpg", customObjects);
-      Meta meta = new Meta();
-      PagedParticipants inputObj = new PagedParticipants(Arrays.asList(participant1, participant2), meta);
-
-      String json = objectMapper.writeValueAsString(inputObj);
-      PagedParticipants stuff = objectMapper.readValue(json, PagedParticipants.class);
-
-      Assert.assertNotNull(stuff);
-
-      for (Participant participant : stuff.getParticipants()) {
-         if ("jane@doe.com".equals(participant.getEmail())) {
-            Assert.assertEquals(PRONOUNS, participant.getCustomObjects().getGenderPronouns());
-         } else {
-            Assert.assertNull(participant.getCustomObjects().getGenderPronouns());
-         }
-      }
-   }
+//   @Test
+   // don't think this one is relevant, unless we get custom objects back in the future
+//   public void testWithObject() throws Exception {
+//      ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
+//      Participant participant1 = new Participant("John", "Smith", "john@smith.com", "http://johnsmith.com/recording.mp3",
+//            "http://johnsmith.com/badge.jpg", new Participant.CustomObjects());
+//      Participant.CustomObjects customObjects = new Participant.CustomObjects();
+//      customObjects.setGenderPronouns(PRONOUNS);
+//      Participant participant2 = new Participant("Jane", "Doe", "jane@doe.com", "http://janedoe.com/recording.mp3",
+//            "http://janedoe.com/badge.jpg", customObjects);
+//      Meta meta = new Meta();
+//      PagedParticipants inputObj = new PagedParticipants(Arrays.asList(participant1, participant2), meta);
+//
+//      String json = objectMapper.writeValueAsString(inputObj);
+//      PagedParticipants stuff = objectMapper.readValue(json, PagedParticipants.class);
+//
+//      Assert.assertNotNull(stuff);
+//
+//      for (Participant participant : stuff.getParticipants()) {
+//         if ("jane@doe.com".equals(participant.getEmail())) {
+//            Assert.assertEquals(PRONOUNS, participant.getCustomObjects().getGenderPronouns());
+//         } else {
+//            Assert.assertNull(participant.getCustomObjects().getGenderPronouns());
+//         }
+//      }
+//   }
 
    @Test
    public void testWithJson() throws Exception {

@@ -250,9 +250,9 @@ public class PhotorosterService {
             errorMessages.add("The Namecoach service encountered some errors.  Some name recordings may be missing.");
         }
 
-        // Filter out records with no useful data. We are looking for either a recording or pronoun preference
+        // Filter out records with no useful data. We are looking for a recording
         List<Participant> filteredNCResults = nameCoachResults.stream()
-              .filter(nc -> nc.getRecordingLink() != null || (nc.getCustomObjects() != null && nc.getCustomObjects().getGenderPronouns() != null))
+              .filter(nc -> nc.getRecordingLink() != null)
               .collect(Collectors.toList());
 
         // convert the list to a map
@@ -318,10 +318,11 @@ public class PhotorosterService {
 
                     if (participant != null) {
                         pm.setRecordingUrl(participant.getRecordingLink());
-                        if (participant.getCustomObjects() != null) {
-                            pm.setPreferredPronouns(participant.getCustomObjects().getGenderPronouns());
-                        }
                     }
+                }
+
+                if (user.getPronouns() != null) {
+                    pm.setPreferredPronouns(user.getPronouns());
                 }
 
                 // Check to see if user is a member of any groups. If not, add them to the UNGROUPED group

@@ -40,7 +40,7 @@ class NameCoach extends React.Component {
                     <span id={`playback_${this.state.uuid}`} style={{}}>
                         <img className="logo-sign" src="https://www.name-coach.com/images/animate.gif" width="20" />
                     </span>
-                    <img id={`image_${this.state.uuid}`} role="button" tabIndex="0" alt="Pronounce name" src="https://www.name-coach.com/images/spkr2.jpg" width="20" />
+                    <img id={`image_${this.state.uuid}`} role="button" tabIndex="0" alt={`Recorded pronunciation of ${this.props.srName}`} src="https://www.name-coach.com/images/spkr2.jpg" width="20" />
                 </span>
             </span>
         )
