@@ -80,9 +80,9 @@ function GroupHeader(props) {
     if (props.dataKey) {
         const title = props.dataMap[props.dataKey]
         if (props.secondGrouping) {
-           return (<h3 className="rvt-ts-18">{title}</h3>)
+           return (<h4 className="rvt-ts-18">{title}</h4>)
         } else {
-           return (<h2 className="rvt-ts-26 rvt-m-top-sm">{title}</h2>)
+           return (<h3 className="rvt-ts-26 rvt-m-top-sm">{title}</h3>)
         }
     } else {
         return null;

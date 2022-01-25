@@ -37,12 +37,13 @@ const User = (props) => {
                     <div className="rvt-grid__item-3-lg">
                         <Image imageMap={userModel.imageMap} username={userModel.user.login_id} ferpaRendered={userModel.ferpaRestricted}
                             userId={userModel.user.id} openModalMethod={props.openModalMethod} groupingKey={props.groupingKey}
-                            image_mode={props.image_mode} image_size={props.image_size} displayName={userModel.user.sortable_name} />
+                            image_mode={props.image_mode} image_size={props.image_size} displayName={userModel.user.sortable_name}
+                            srName={userModel.user.name}/>
                     </div>
                     <div className="rvt-grid__item rvt-lg">
-                        <Name displayName={userModel.user.sortable_name} recordingUrl={userModel.recordingUrl} />
+                        <Name displayName={userModel.user.sortable_name} srName={userModel.user.name} recordingUrl={userModel.recordingUrl} />
                         <Pronouns pronouns={userModel.preferredPronouns} srName={userModel.user.name} />
-                        <EmailInfo email={userModel.user.email} />
+                        <EmailInfo email={userModel.user.email} srName={userModel.user.name} />
                         <Roles enrollmentData={enrollmentData} allGroups={props.allGroups} />
                     </div>
                 </div>

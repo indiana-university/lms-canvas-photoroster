@@ -173,6 +173,14 @@ class App extends React.Component {
 
     var mappedEnrollments = {}
 
+    // text for screenreader-only heading to announce current view
+    var viewHeadingText;
+    if (VIEW_MODES.signIn === this.state.view_mode) {
+        viewHeadingText = 'Roster sign-in sheet view';
+    } else {
+        viewHeadingText =  'Roster ' + this.state.view_mode + ' view';
+    }
+
     let userList;
     const common_props = {loading: this.state.loading, view_mode: this.state.view_mode,
         users: filteredUsers, openModalMethod: this.imageClickOpenModal.bind(this),
@@ -183,10 +191,12 @@ class App extends React.Component {
         mappedEnrollments = nest(filteredEnrollments, ["roleType"]);
         var orderedEnrMapKeys = Object.keys(mappedEnrollments);
         userList = <UsersGrouped {...common_props} group1DataMap={this.state.roles} orderedEnrMapKeys={orderedEnrMapKeys} enrollmentMap={mappedEnrollments} allGroups={this.state.groups}/>
+        viewHeadingText += ' grouped by role';
     } else if (GROUPING_BY.section == this.state.peopleGrouping) {
         mappedEnrollments = nest(filteredEnrollments, ["sectionId"]);
         var orderedEnrMapKeys = Object.keys(mappedEnrollments);
         userList = <UsersGrouped {...common_props} group1DataMap={this.state.sections} orderedEnrMapKeys={orderedEnrMapKeys} enrollmentMap={mappedEnrollments} allGroups={this.state.groups} />
+        viewHeadingText += ' grouped by section';
     } else if (GROUPING_BY.group == this.state.peopleGrouping) {
         let groupIdNameMap = []
         this.state.groups.forEach(function (courseGroup) {
@@ -231,6 +241,7 @@ class App extends React.Component {
                             image_mode={this.state.image_mode} image_size={this.state.image_size}
                             showSignInView={this.state.permissions.canSeeSigninView}
                             showPhotoOptions={this.state.permissions.canSeeOfficialPhotos}/>
+                        <h2 class="sr-only" aria-live="polite">{viewHeadingText}</h2>
                         <Loading loading={this.state.loading} />
                         {userList}
                     </div>
