@@ -11,17 +11,21 @@ const PhotoOptions = (props) => {
   const handleTypeOptionChange = (event) => {
     console.debug(event.target.value);
 
+    var sizeOption = null;
     if (event.target.value === IMAGE_MODES.iu) {
         //Enable size radios
         document.getElementById('radio-small').disabled = false
         document.getElementById('radio-medium').disabled = false;
     } else {
-        //Disable size radios
-        document.getElementById('radio-small').disabled = true
+        // Disable size radios and set selection back to small
+        var smallPics = document.getElementById('radio-small')
+        smallPics.checked = true;
+        smallPics.disabled = true;
+        sizeOption = IMAGE_MODES.small;
         document.getElementById('radio-medium').disabled = true;
     }
 
-    props.changePhotoOptions(event.target.value, null);
+    props.changePhotoOptions(event.target.value, sizeOption);
   };
 
   const handleSizeOptionChange = (event) => {
