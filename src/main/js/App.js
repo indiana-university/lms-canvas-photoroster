@@ -176,9 +176,9 @@ class App extends React.Component {
     // text for screenreader-only heading to announce current view
     var viewHeadingText;
     if (VIEW_MODES.signIn === this.state.view_mode) {
-        viewHeadingText = 'Roster sign-in sheet view';
+        viewHeadingText = 'Sign-in sheet view of roster ';
     } else {
-        viewHeadingText =  'Roster ' + this.state.view_mode + ' view';
+        viewHeadingText =  this.state.view_mode + ' view of roster ';
     }
 
     let userList;
@@ -221,6 +221,12 @@ class App extends React.Component {
     } else {
         // default to no grouping
         userList = <Users {...common_props} enrollmentData={filteredEnrollments} allGroups={this.state.groups} />
+    }
+
+    if (this.state.permissions.canSeeOfficialPhotos && this.state.view_mode !== VIEW_MODES.signIn) {
+        var friendlyMode = this.state.image_mode === IMAGE_MODES.canvas ? 'Canvas' : 'Official IU';
+        var friendlySize = this.state.image_size === IMAGE_MODES.small ? 'small' : 'medium';
+        viewHeadingText += " with " + friendlySize + " size " + friendlyMode + " photos";
     }
 
     return (

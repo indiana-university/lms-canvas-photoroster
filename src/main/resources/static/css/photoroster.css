@@ -179,3 +179,11 @@ a.svgObjectHelper:after {
     margin-top: 0 !important;
     padding-top: 0 !important;
 }
+.view-option {
+    border: none;
+    padding: 0.1em;
+}
+
+.keep-whitespace {
+    white-space: pre;
+}
