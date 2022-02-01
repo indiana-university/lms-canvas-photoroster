@@ -187,3 +187,7 @@ a.svgObjectHelper:after {
 .keep-whitespace {
     white-space: pre;
 }
+
+.photo-option {
+  white-space: nowrap;
+}

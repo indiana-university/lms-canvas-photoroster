@@ -20,7 +20,7 @@ const UsersGrouped = (props) => {
                         enrollmentData={props.enrollmentMap[key]}
                         users={userFilter(props.users, props.enrollmentMap[key])}
                         openModalMethod={props.openModalMethod}
-                        view_mode={props.view_mode} image_mode={props.image_mode} image_size={props.image_size}
+                        view_mode={props.view_mode} image_mode={props.image_mode}
                         allGroups={props.allGroups} />
           )
       ))
@@ -46,7 +46,7 @@ function GroupWrapper(props) {
                     enrollmentData={props.enrollmentData}
                     dataKey={props.dataKey}
                     openModalMethod={props.openModalMethod}
-                    view_mode={props.view_mode} image_mode={props.image_mode} image_size={props.image_size}
+                    view_mode={props.view_mode} image_mode={props.image_mode}
                     allGroups={props.allGroups} />
             </div>
         )
@@ -97,13 +97,13 @@ function GroupHeader(props) {
                 enrollmentMap={props.enrollmentData}
                 secondGrouping={true}
                 openModalMethod={props.openModalMethod}
-                view_mode={props.view_mode} image_mode={props.image_mode} image_size={props.image_size}
+                view_mode={props.view_mode} image_mode={props.image_mode}
                 allGroups={props.allGroups} groupingKey={props.dataKey} />
     } else {
         groupData = <Users users={props.users}
                 enrollmentData={props.enrollmentData}
                 openModalMethod={props.openModalMethod}
-                view_mode={props.view_mode} image_mode={props.image_mode} image_size={props.image_size}
+                view_mode={props.view_mode} image_mode={props.image_mode}
                 allGroups={props.allGroups}
                 groupingKey={props.dataKey} />
     }

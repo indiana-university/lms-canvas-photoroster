@@ -44,8 +44,7 @@ class App extends React.Component {
         peopleGrouping: GROUPING_BY.noGroup,
         loading: true,
         view_mode: VIEW_MODES.grid,
-        image_mode: IMAGE_MODES.iu,
-        image_size: IMAGE_MODES.small,
+        image_mode: IMAGE_MODES.iu_small,
         permissions: {
             canSeeExport: false,
             canSeeSigninView: false,
@@ -78,7 +77,7 @@ class App extends React.Component {
             //Defaults to canvas images
             var imageMode = IMAGE_MODES.canvas;
             if (permissions.canSeeOfficialPhotos) {
-                imageMode = IMAGE_MODES.iu
+                imageMode = IMAGE_MODES.iu_small
             }
 
             self.setState({
@@ -184,8 +183,7 @@ class App extends React.Component {
     let userList;
     const common_props = {loading: this.state.loading, view_mode: this.state.view_mode,
         users: filteredUsers, openModalMethod: this.imageClickOpenModal.bind(this),
-        image_mode: this.state.image_mode, image_size: this.state.image_size,
-        peopleGrouping: this.state.peopleGrouping};
+        image_mode: this.state.image_mode, peopleGrouping: this.state.peopleGrouping};
 
     if (GROUPING_BY.role == this.state.peopleGrouping) {
         mappedEnrollments = nest(filteredEnrollments, ["roleType"]);
@@ -224,9 +222,15 @@ class App extends React.Component {
     }
 
     if (this.state.permissions.canSeeOfficialPhotos && this.state.view_mode !== VIEW_MODES.signIn) {
-        var friendlyMode = this.state.image_mode === IMAGE_MODES.canvas ? 'Canvas' : 'Official IU';
-        var friendlySize = this.state.image_size === IMAGE_MODES.small ? 'small' : 'medium';
-        viewHeadingText += " with " + friendlySize + " size " + friendlyMode + " photos";
+        var photoInfo = "";
+         if (this.state.image_mode === IMAGE_MODES.canvas) {
+            photoInfo += "Canvas photos";
+         } else if (this.state.image_mode === IMAGE_MODES.iu_medium) {
+            photoInfo += "medium-sized official IU photos";
+         } else {
+            photoInfo += "small-sized official IU photos";
+         }
+        viewHeadingText += " with " + photoInfo;
     }
 
     return (
@@ -244,7 +248,7 @@ class App extends React.Component {
                         <ActionBar roles={this.state.roles} sections={this.state.sections} groups={this.state.groups} searchPeople={this.searchPeople.bind(this)}
                             changePhotoOptions={this.changePhotoOptions.bind(this)} peopleGrouping={this.state.peopleGrouping} groupPeople={this.groupPeople.bind(this)}
                             filterPeople={this.filterPeople.bind(this)} view_mode={this.state.view_mode} changeView={this.changeView.bind(this)}
-                            image_mode={this.state.image_mode} image_size={this.state.image_size}
+                            image_mode={this.state.image_mode}
                             showSignInView={this.state.permissions.canSeeSigninView}
                             showPhotoOptions={this.state.permissions.canSeeOfficialPhotos}/>
                         <h2 class="sr-only" aria-live="polite">{viewHeadingText}</h2>
@@ -254,7 +258,7 @@ class App extends React.Component {
                 </div>
             </div>
             <UserModal modalUser={this.state.modalUser} modalEnrollments={this.state.modalEnrollments}
-                image_mode={this.state.image_mode} image_size={this.state.image_size} allGroups={this.state.groups}/>
+                image_mode={this.state.image_mode} allGroups={this.state.groups}/>
             <ScrollUpButton />
         </div>
     );
@@ -418,13 +422,9 @@ applySearchAndFilter() {
   /**
    * Change the image mode/size
    */
-  changePhotoOptions(imageMode, imageSize) {
+  changePhotoOptions(imageMode) {
     if (imageMode) {
         this.setState({image_mode: imageMode});
-    }
-
-    if (imageSize) {
-        this.setState({image_size: imageSize});
     }
   }
 

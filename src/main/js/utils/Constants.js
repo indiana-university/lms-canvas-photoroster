@@ -5,9 +5,8 @@ export const VIEW_MODES = {
 }
 
 export const IMAGE_MODES = {
-    iu: "IU",
-    small: "S75x100",
-    medium: "S240x320",
+    iu_small: "S75x100",
+    iu_medium: "S240x320",
     canvas: "CanvasAvatar"
 }
 
