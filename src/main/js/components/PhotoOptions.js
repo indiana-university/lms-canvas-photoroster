@@ -11,22 +11,7 @@ const PhotoOptions = (props) => {
   const handleTypeOptionChange = (event) => {
     console.debug(event.target.value);
 
-    if (event.target.value === IMAGE_MODES.iu) {
-        //Enable size radios
-        document.getElementById('radio-small').disabled = false
-        document.getElementById('radio-medium').disabled = false;
-    } else {
-        //Disable size radios
-        document.getElementById('radio-small').disabled = true
-        document.getElementById('radio-medium').disabled = true;
-    }
-
-    props.changePhotoOptions(event.target.value, null);
-  };
-
-  const handleSizeOptionChange = (event) => {
-    console.debug(event.target.value);
-    props.changePhotoOptions(null, event.target.value);
+    props.changePhotoOptions(event.target.value);
   };
 
     return (
@@ -36,31 +21,19 @@ const PhotoOptions = (props) => {
                     <legend className="rvt-text-bold">Photo Type</legend>
                     <ul className="rvt-plain-list">
                         <li>
-                            <input type="radio" name="radio-photoType" id="radio-official" value={IMAGE_MODES.iu}
-                                checked={IMAGE_MODES.iu === props.image_mode} onChange={handleTypeOptionChange.bind(this)} />
-                            <label htmlFor="radio-official" className="rvt-m-right-sm">Official IU</label>
+                            <input type="radio" name="radio-photoType" id="radio-official-sm" value={IMAGE_MODES.iu_small}
+                                checked={IMAGE_MODES.iu_small === props.image_mode} onChange={handleTypeOptionChange.bind(this)} />
+                            <label htmlFor="radio-official-sm" className="rvt-m-right-sm photo-option">Official IU (small)</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="radio-photoType" id="radio-official-med" value={IMAGE_MODES.iu_medium}
+                                checked={IMAGE_MODES.iu_medium === props.image_mode} onChange={handleTypeOptionChange.bind(this)} />
+                            <label htmlFor="radio-official-med" className="rvt-m-right-sm photo-option">Official IU (medium)</label>
                         </li>
                         <li>
                             <input type="radio" name="radio-photoType" id="radio-canvas" value={IMAGE_MODES.canvas}
                                 checked={IMAGE_MODES.canvas === props.image_mode} onChange={handleTypeOptionChange.bind(this)} />
-                            <label htmlFor="radio-canvas" className="rvt-m-right-sm">Canvas</label>
-                        </li>
-                    </ul>
-                </fieldset>
-                <fieldset className="rvt-p-left-sm">
-                    <legend className="rvt-text-bold">Photo Size</legend>
-                    <ul className="rvt-plain-list">
-                        <li>
-                            <input type="radio" name="radio-photoSize" id="radio-small" value={IMAGE_MODES.small}
-                                checked={IMAGE_MODES.small === props.image_size} onChange={handleSizeOptionChange.bind(this)}
-                                disabled={IMAGE_MODES.canvas === props.image_mode}/>
-                            <label htmlFor="radio-small" className="rvt-m-right-sm">Small</label>
-                        </li>
-                        <li>
-                            <input type="radio" name="radio-photoSize" id="radio-medium" value={IMAGE_MODES.medium}
-                                checked={IMAGE_MODES.medium === props.image_size} onChange={handleSizeOptionChange.bind(this)}
-                                disabled={IMAGE_MODES.canvas === props.image_mode} />
-                            <label htmlFor="radio-medium" className="rvt-m-right-sm">Medium</label>
+                            <label htmlFor="radio-canvas" className="rvt-m-right-sm photo-option">Canvas</label>
                         </li>
                     </ul>
                 </fieldset>

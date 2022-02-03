@@ -12,7 +12,7 @@ const Users = (props) => {
         const users = props.users.map((userModel) => (
             <User key={userModel.user.id} userData={userModel} openModalMethod={props.openModalMethod}
                 enrollmentData={props.enrollmentData.filter((i) => i.userId === userModel.user.id)}
-                view_mode={props.view_mode} image_mode={props.image_mode} image_size={props.image_size}
+                view_mode={props.view_mode} image_mode={props.image_mode}
                 allGroups={props.allGroups} groupingKey={props.groupingKey} />
         ))
       if (props.view_mode == VIEW_MODES.signIn) {

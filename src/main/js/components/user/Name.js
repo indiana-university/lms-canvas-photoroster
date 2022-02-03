@@ -11,7 +11,7 @@ const Name = (props) => {
         additionalClasses += "textOverflow"
     }
 
-    const name1 = <span className={`${additionalClasses}`} title={`${props.displayName}`}>{props.displayName}</span>
+    const name1 = <span className={`${additionalClasses}`}>{props.displayName}</span>
 
 //    const name2 = <LinesEllipsis
 //                          component="span"

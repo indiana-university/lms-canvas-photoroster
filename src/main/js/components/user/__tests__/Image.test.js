@@ -13,8 +13,8 @@ describe("Image", () => {
     let imageMap = {};
 
     beforeEach(() => {
-        imageMap[IMAGE_MODES.small] = "SMALL";
-        imageMap[IMAGE_MODES.medium] = "MEDIUM";
+        imageMap[IMAGE_MODES.iu_small] = "SMALL";
+        imageMap[IMAGE_MODES.iu_medium] = "MEDIUM";
         imageMap[IMAGE_MODES.canvas] = "CANVAS";
     });
 
@@ -23,29 +23,27 @@ describe("Image", () => {
 
     const props = {
             ferpaRendered: true,
-            image_mode: IMAGE_MODES.iu,
-            image_size: IMAGE_MODES.small,
+            image_mode: IMAGE_MODES.iu_small,
             imageMap: imageMap
           };
         const wrapper = render(<Image {...props} />);
         const img = wrapper.find('img');
         expect(img.prop('src')).toEqual('SMALL');
-        expect(img.hasClass('image-' + IMAGE_MODES.small)).toBeTruthy();
+        expect(img.hasClass('image-' + IMAGE_MODES.iu_small)).toBeTruthy();
   });
 
     it("medium official image", () => {
 
       const props = {
               ferpaRendered: true,
-              image_mode: IMAGE_MODES.iu,
-              image_size: IMAGE_MODES.medium,
+              image_mode: IMAGE_MODES.iu_medium,
               imageMap: imageMap
             };
           const wrapper = render(<Image {...props} />);
           const img = wrapper.find('img');
 
           expect(img.prop('src')).toEqual('MEDIUM');
-          expect(img.hasClass('image-' + IMAGE_MODES.medium)).toBeTruthy();
+          expect(img.hasClass('image-' + IMAGE_MODES.iu_medium)).toBeTruthy();
     });
 
     it("canvas avatar image with small specified", () => {
@@ -53,7 +51,6 @@ describe("Image", () => {
       const props = {
               ferpaRendered: true,
               image_mode: IMAGE_MODES.canvas,
-              image_size: IMAGE_MODES.small,
               imageMap: imageMap
             };
           const wrapper = render(<Image {...props} />);
@@ -67,7 +64,6 @@ describe("Image", () => {
       const props = {
               ferpaRendered: true,
               image_mode: IMAGE_MODES.canvas,
-              image_size: IMAGE_MODES.medium,
               imageMap: imageMap
             };
           const wrapper = render(<Image {...props} />);

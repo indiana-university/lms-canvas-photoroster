@@ -13,8 +13,8 @@ describe("UserModal", () => {
 
     beforeEach(() => {
         let imageMap = {};
-        imageMap[IMAGE_MODES.small] = "SMALL";
-        imageMap[IMAGE_MODES.medium] = "MEDIUM";
+        imageMap[IMAGE_MODES.iu_small] = "SMALL";
+        imageMap[IMAGE_MODES.iu_medium] = "MEDIUM";
         imageMap[IMAGE_MODES.canvas] = "CANVAS";
 
         props = {
@@ -27,19 +27,17 @@ describe("UserModal", () => {
 
     it("medium official image", () => {
 
-      props.image_mode = IMAGE_MODES.iu;
-      props.image_size = IMAGE_MODES.medium
+      props.image_mode = IMAGE_MODES.iu_medium;
       const wrapper = render(<UserModal {...props} />);
       const img = wrapper.find('img');
 
       expect(img.prop('src')).toEqual('MEDIUM');
-      expect(img.hasClass('image-' + IMAGE_MODES.medium)).toBeTruthy();
+      expect(img.hasClass('image-' + IMAGE_MODES.iu_medium)).toBeTruthy();
     });
 
     it("canvas avatar with small", () => {
 
       props.image_mode = IMAGE_MODES.canvas;
-      props.image_size = IMAGE_MODES.small
       const wrapper = render(<UserModal {...props} />);
       const img = wrapper.find('img');
 
@@ -50,7 +48,6 @@ describe("UserModal", () => {
     it("canvas avatar with medium", () => {
 
       props.image_mode = IMAGE_MODES.canvas;
-      props.image_size = IMAGE_MODES.medium
       const wrapper = render(<UserModal {...props} />);
       const img = wrapper.find('img');
 

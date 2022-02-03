@@ -3,7 +3,6 @@ import Ferpa from './Ferpa'
 import { IMAGE_MODES } from '../../utils/Constants'
 
 const Image = (props) => {
-    const imageKey = props.image_mode == IMAGE_MODES.iu ? props.image_size : IMAGE_MODES.canvas
     // create a unique id for this user card. It must be more than the userid because they may
     // appear more than once
     let imageId = "img_" + props.userId;
@@ -15,7 +14,7 @@ const Image = (props) => {
             <div className="imageWrapper">
                 <button id={imageId} className="imageContainer imageInfo popupTrigger" data-modal-trigger="modal-card-popup"
                     onClick={gogogo.bind(this, props.userId, props.openModalMethod, imageId)}>
-                    <img src={props.imageMap[imageKey]} className={`image-${imageKey}`} alt={`User details for ${props.srName}`} />
+                    <img src={props.imageMap[props.image_mode]} className={`image-${props.image_mode}`} alt={`User details for ${props.srName}`} />
                     <Ferpa ferpaRendered={props.ferpaRendered} modal={false} />
                 </button>
             </div>

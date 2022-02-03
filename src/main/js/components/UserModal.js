@@ -9,7 +9,6 @@ import { IMAGE_MODES } from '../utils/Constants'
 
 const UserModal = (props) => {
     let modalContents;
-    const imageKey = props.image_mode == IMAGE_MODES.iu ? IMAGE_MODES.medium : IMAGE_MODES.canvas
 
     if (props.modalUser) {
         modalContents = (
@@ -20,8 +19,8 @@ const UserModal = (props) => {
                 <div id="modalBody" className="rvt-modal__body">
                     <div className="rvt-grid rvt-p-all-sm">
                         <div className="rvt-grid__item rvt-text-center" id="modal-image">
-                            <img src={props.modalUser.imageMap[imageKey]} className={`image-${imageKey}`} alt={`Photo of ${props.modalUser.user.name}`} />
-                            <Ferpa ferpaRendered={props.modalUser.ferpaRestricted} modal={true} imageKey={imageKey} />
+                            <img src={props.modalUser.imageMap[props.image_mode]} className={`image-${props.image_mode}`} alt={`Photo of ${props.modalUser.user.name}`} />
+                            <Ferpa ferpaRendered={props.modalUser.ferpaRestricted} modal={true} imageKey={props.image_mode} />
                         </div>
                         <div className="rvt-grid__item">
                             <Name inModal={true} displayName={props.modalUser.user.name} srName={props.modalUser.user.name} recordingUrl={props.modalUser.recordingUrl} />
