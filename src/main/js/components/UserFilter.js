@@ -39,8 +39,7 @@ class UserFilter extends React.Component {
                 <a href="#" id="remove-filters" onClick={this.handleRemoveFilterClick.bind(this)}>Remove Filters</a>
                 <div role="group" id="role-division">
                     <fieldset className="rvt-p-left-sm">
-                        <legend className="sr-only">Role filter options</legend>
-                        <div className="rvt-text-bold rvt-p-tb-xs">Role</div>
+                        <legend className="rvt-text-bold rvt-p-tb-xs">Role</legend>
                         <ul className="rvt-plain-list">
                             {roles}
                         </ul>
@@ -48,8 +47,7 @@ class UserFilter extends React.Component {
                 </div>
                 <div role="group">
                     <fieldset className="rvt-p-left-sm">
-                        <legend className="sr-only">Section filter options</legend>
-                        <div className="rvt-text-bold rvt-p-tb-xs">Sections</div>
+                        <legend className="rvt-text-bold rvt-p-tb-xs">Sections</legend>
                         <ul className="rvt-plain-list">
                             {sections}
                         </ul>

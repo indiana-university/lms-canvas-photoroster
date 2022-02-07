@@ -251,6 +251,7 @@ class App extends React.Component {
                             image_mode={this.state.image_mode}
                             showSignInView={this.state.permissions.canSeeSigninView}
                             showPhotoOptions={this.state.permissions.canSeeOfficialPhotos}/>
+                        <SearchResults resultsCount={filteredUsers.length} searchTerm={this.state.peopleFilter.searchTerms} />
                         <h2 class="sr-only" aria-live="polite">{viewHeadingText}</h2>
                         <Loading loading={this.state.loading} />
                         {userList}
@@ -626,6 +627,20 @@ applySearchAndFilter() {
         })
         .value();
     return flattened;
+  }
+
+  function SearchResults(props) {
+
+    if (props.searchTerm && props.resultsCount > 0) {
+        var resultText = props.resultsCount == 1 ? " result " : " results ";
+        let searchText = props.resultsCount + resultText + 'for search term "' + props.searchTerm + '"';
+        return (
+            <div className="rvt-ts-20 rvt-m-top-sm" aria-live="polite">{searchText}</div>
+        )
+    }
+
+    return null;
+
   }
 
 
