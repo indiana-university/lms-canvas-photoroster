@@ -1,6 +1,5 @@
 import React from 'react';
 import { IMAGE_MODES } from 'utils/Constants'
-import { Dropdown } from "rivet-react"
 
 const PhotoOptions = (props) => {
 
@@ -15,8 +14,17 @@ const PhotoOptions = (props) => {
   };
 
     return (
-        <div className="rvt-dropdown rvt-p-right-sm rvt-p-top-xs rvt-m-left-auto">
-            <Dropdown label="Photo Options" modifier="secondary" >
+        <div className="rvt-dropdown rvt-p-right-sm rvt-p-top-xs rvt-m-left-auto" role="region" aria-label="Controls for photo type and size">
+            <button
+                 type="button"
+                className="rvt-button rvt-button--secondary rvt-m-right-sm-md-up"
+                data-dropdown-toggle="dropdown-photo"
+                aria-haspopup="true"
+                aria-expanded="false">
+                <span className="dropdown__toggle-text">Photo Options</span>
+                <svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" d="M8,12.46a2,2,0,0,1-1.52-.7L1.24,5.65a1,1,0,1,1,1.52-1.3L8,10.46l5.24-6.11a1,1,0,0,1,1.52,1.3L9.52,11.76A2,2,0,0,1,8,12.46Z"></path></svg>
+            </button>
+            <div className="rvt-dropdown__menu" id="dropdown-photo" aria-hidden="true">
                 <fieldset className="rvt-p-left-sm">
                     <legend className="rvt-text-bold">Photo Type</legend>
                     <ul className="rvt-plain-list">
@@ -37,7 +45,7 @@ const PhotoOptions = (props) => {
                         </li>
                     </ul>
                 </fieldset>
-            </Dropdown>
+            </div>
         </div>
     );
 }

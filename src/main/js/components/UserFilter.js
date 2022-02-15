@@ -28,7 +28,7 @@ class UserFilter extends React.Component {
           ))
 
       return (
-        <div className="rvt-dropdown rvt-p-top-xs rvt-m-right-sm-md-up">
+        <div className="rvt-dropdown rvt-p-top-xs rvt-m-right-sm-md-up" role="region" aria-label="Filter roster">
             <button id="rosterFiltering" className="rvt-button rvt-button--secondary transparencyOverride" data-dropdown-toggle="filterDropdown" aria-haspopup="true" aria-expanded="false">
                 <span>Filter By <span id="filters-active"></span></span>
                 <svg aria-hidden="true" className="rvt-m-left-xs" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -36,7 +36,7 @@ class UserFilter extends React.Component {
                 </svg>
             </button>
             <div className="rvt-dropdown__menu overrideDropdownWidth" id="filterDropdown" aria-hidden="true" role="menu">
-                <a href="#" id="remove-filters" onClick={this.handleRemoveFilterClick.bind(this)}>Remove Filters</a>
+                <button id="remove-filters" onClick={this.handleRemoveFilterClick.bind(this)}>Remove Filters</button>
                 <div role="group" id="role-division">
                     <fieldset className="rvt-p-left-sm">
                         <legend className="rvt-text-bold rvt-p-tb-xs">Role</legend>

@@ -250,7 +250,7 @@ class App extends React.Component {
                             filterPeople={this.filterPeople.bind(this)} view_mode={this.state.view_mode} changeView={this.changeView.bind(this)}
                             image_mode={this.state.image_mode}
                             showSignInView={this.state.permissions.canSeeSigninView}
-                            showPhotoOptions={this.state.permissions.canSeeOfficialPhotos}/>
+                            showPhotoOptions={this.state.permissions.canSeeOfficialPhotos} />
                         <SearchResults resultsCount={filteredUsers.length} searchTerm={this.state.peopleFilter.searchTerms} />
                         <h2 class="sr-only" aria-live="polite">{viewHeadingText}</h2>
                         <Loading loading={this.state.loading} />
@@ -642,6 +642,7 @@ applySearchAndFilter() {
     return null;
 
   }
+
 
 
 export default App
