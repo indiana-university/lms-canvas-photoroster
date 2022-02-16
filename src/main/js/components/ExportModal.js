@@ -37,7 +37,7 @@ class ExportModal extends React.Component {
                         <h1 className="rvt-modal__title" id="export-options-modal-title">CSV Export</h1>
                     </header>
                     <div className="rvt-modal__body">
-                        <div id="csv-option-error" className="rvt-display-none rvt-alert rvt-alert--danger" role="alert" aria-labelledby="error-alert-title">
+                        <div id="csv-option-error" className="rvt-display-none rvt-alert rvt-alert--danger" role="alert" aria-labelledby="danger-alert-title">
                             <h1 className="rvt-alert__title" id="danger-alert-title">Export Error</h1>
                             <p className="rvt-alert__message">You must select at least one field.</p>
                         </div>

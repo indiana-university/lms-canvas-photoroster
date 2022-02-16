@@ -38,7 +38,7 @@ class NameCoach extends React.Component {
             <span className="namecoach">
                 <span id={`container_${this.state.uuid}`} style={{position: 'relative', height: '30px', width: '30px', opacity: 1}}>
                     <span id={`playback_${this.state.uuid}`} style={{}}>
-                        <img className="logo-sign" src="https://www.name-coach.com/images/animate.gif" width="20" />
+                        <img className="logo-sign" src="https://www.name-coach.com/images/animate.gif" width="20" alt="Name recording playing" />
                     </span>
                     <img id={`image_${this.state.uuid}`} role="button" tabIndex="0" alt={`Recorded pronunciation of ${this.props.srName}`} src="https://www.name-coach.com/images/spkr2.jpg" width="20" />
                 </span>

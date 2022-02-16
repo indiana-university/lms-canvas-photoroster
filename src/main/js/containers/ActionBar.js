@@ -13,7 +13,7 @@ const ActionBar = (props) => {
         <UserSearch searchPeople={props.searchPeople} />
         <div className="rvt-display-flex">
             <PhotoOptions changePhotoOptions={props.changePhotoOptions} image_mode={props.image_mode}
-                image_size={props.image_size} showPhotoOptions={props.showPhotoOptions}/>
+                showPhotoOptions={props.showPhotoOptions}/>
             <ViewActions view_mode={props.view_mode} changeView={props.changeView} showSignInView={props.showSignInView}/>
         </div>
     </div>

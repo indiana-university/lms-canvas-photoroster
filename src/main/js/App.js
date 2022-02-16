@@ -44,8 +44,7 @@ class App extends React.Component {
         peopleGrouping: GROUPING_BY.noGroup,
         loading: true,
         view_mode: VIEW_MODES.grid,
-        image_mode: IMAGE_MODES.iu,
-        image_size: IMAGE_MODES.small,
+        image_mode: IMAGE_MODES.iu_small,
         permissions: {
             canSeeExport: false,
             canSeeSigninView: false,
@@ -78,7 +77,7 @@ class App extends React.Component {
             //Defaults to canvas images
             var imageMode = IMAGE_MODES.canvas;
             if (permissions.canSeeOfficialPhotos) {
-                imageMode = IMAGE_MODES.iu
+                imageMode = IMAGE_MODES.iu_small
             }
 
             self.setState({
@@ -173,20 +172,29 @@ class App extends React.Component {
 
     var mappedEnrollments = {}
 
+    // text for screenreader-only heading to announce current view
+    var viewHeadingText;
+    if (VIEW_MODES.signIn === this.state.view_mode) {
+        viewHeadingText = 'Sign-in sheet view of roster ';
+    } else {
+        viewHeadingText =  this.state.view_mode + ' view of roster ';
+    }
+
     let userList;
     const common_props = {loading: this.state.loading, view_mode: this.state.view_mode,
         users: filteredUsers, openModalMethod: this.imageClickOpenModal.bind(this),
-        image_mode: this.state.image_mode, image_size: this.state.image_size,
-        peopleGrouping: this.state.peopleGrouping};
+        image_mode: this.state.image_mode, peopleGrouping: this.state.peopleGrouping};
 
     if (GROUPING_BY.role == this.state.peopleGrouping) {
         mappedEnrollments = nest(filteredEnrollments, ["roleType"]);
         var orderedEnrMapKeys = Object.keys(mappedEnrollments);
         userList = <UsersGrouped {...common_props} group1DataMap={this.state.roles} orderedEnrMapKeys={orderedEnrMapKeys} enrollmentMap={mappedEnrollments} allGroups={this.state.groups}/>
+        viewHeadingText += ' grouped by role';
     } else if (GROUPING_BY.section == this.state.peopleGrouping) {
         mappedEnrollments = nest(filteredEnrollments, ["sectionId"]);
         var orderedEnrMapKeys = Object.keys(mappedEnrollments);
         userList = <UsersGrouped {...common_props} group1DataMap={this.state.sections} orderedEnrMapKeys={orderedEnrMapKeys} enrollmentMap={mappedEnrollments} allGroups={this.state.groups} />
+        viewHeadingText += ' grouped by section';
     } else if (GROUPING_BY.group == this.state.peopleGrouping) {
         let groupIdNameMap = []
         this.state.groups.forEach(function (courseGroup) {
@@ -213,6 +221,18 @@ class App extends React.Component {
         userList = <Users {...common_props} enrollmentData={filteredEnrollments} allGroups={this.state.groups} />
     }
 
+    if (this.state.permissions.canSeeOfficialPhotos && this.state.view_mode !== VIEW_MODES.signIn) {
+        var photoInfo = "";
+         if (this.state.image_mode === IMAGE_MODES.canvas) {
+            photoInfo += "Canvas photos";
+         } else if (this.state.image_mode === IMAGE_MODES.iu_medium) {
+            photoInfo += "medium-sized official IU photos";
+         } else {
+            photoInfo += "small-sized official IU photos";
+         }
+        viewHeadingText += " with " + photoInfo;
+    }
+
     return (
         <div>
             <ToolHeader users={filteredUsers} enrollments={filteredEnrollments} showExport={this.state.permissions.canSeeExport}
@@ -228,16 +248,17 @@ class App extends React.Component {
                         <ActionBar roles={this.state.roles} sections={this.state.sections} groups={this.state.groups} searchPeople={this.searchPeople.bind(this)}
                             changePhotoOptions={this.changePhotoOptions.bind(this)} peopleGrouping={this.state.peopleGrouping} groupPeople={this.groupPeople.bind(this)}
                             filterPeople={this.filterPeople.bind(this)} view_mode={this.state.view_mode} changeView={this.changeView.bind(this)}
-                            image_mode={this.state.image_mode} image_size={this.state.image_size}
+                            image_mode={this.state.image_mode}
                             showSignInView={this.state.permissions.canSeeSigninView}
                             showPhotoOptions={this.state.permissions.canSeeOfficialPhotos}/>
+                        <h2 class="sr-only" aria-live="polite">{viewHeadingText}</h2>
                         <Loading loading={this.state.loading} />
                         {userList}
                     </div>
                 </div>
             </div>
             <UserModal modalUser={this.state.modalUser} modalEnrollments={this.state.modalEnrollments}
-                image_mode={this.state.image_mode} image_size={this.state.image_size} allGroups={this.state.groups}/>
+                image_mode={this.state.image_mode} allGroups={this.state.groups}/>
             <ScrollUpButton />
         </div>
     );
@@ -401,13 +422,9 @@ applySearchAndFilter() {
   /**
    * Change the image mode/size
    */
-  changePhotoOptions(imageMode, imageSize) {
+  changePhotoOptions(imageMode) {
     if (imageMode) {
         this.setState({image_mode: imageMode});
-    }
-
-    if (imageSize) {
-        this.setState({image_size: imageSize});
     }
   }
 
