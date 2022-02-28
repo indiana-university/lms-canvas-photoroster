@@ -215,7 +215,7 @@ class App extends React.Component {
         // groups that are in the mapped enrollments
         var orderedEnrMapKeys = this.state.groups.filter(g => Object.keys(mappedEnrollments).indexOf(g.id) != -1).map(g => g.id)
         userList = <UsersGrouped {...common_props} group1DataMap={groupIdNameMap} orderedEnrMapKeys={orderedEnrMapKeys} enrollmentMap={mappedEnrollments} allGroups={this.state.groups} />
-
+        viewHeadingText += ' grouped by course groups';
     } else {
         // default to no grouping
         userList = <Users {...common_props} enrollmentData={filteredEnrollments} allGroups={this.state.groups} />
@@ -250,9 +250,12 @@ class App extends React.Component {
                             filterPeople={this.filterPeople.bind(this)} view_mode={this.state.view_mode} changeView={this.changeView.bind(this)}
                             image_mode={this.state.image_mode}
                             showSignInView={this.state.permissions.canSeeSigninView}
-                            showPhotoOptions={this.state.permissions.canSeeOfficialPhotos} />
+                            showPhotoOptions={this.state.permissions.canSeeOfficialPhotos}
+                            radioDropdownNavigation={this.radioDropdownNavigation.bind(this)}
+                            radioDropdownOpening={this.radioDropdownOpening.bind(this)} />
                         <SearchResults resultsCount={filteredUsers.length} searchTerm={this.state.peopleFilter.searchTerms} />
-                        <h2 class="sr-only" aria-live="polite">{viewHeadingText}</h2>
+                        <h2 class="sr-only" aria-live="polite">{viewHeadingText} <span id="selectedFilterText" aria-live="polite"></span></h2>
+                        <h2 id="selectedFilterText" class="sr-only" aria-live="polite"></h2>
                         <Loading loading={this.state.loading} />
                         {userList}
                     </div>
@@ -595,6 +598,78 @@ applySearchAndFilter() {
 
     this.setState({exportData: processedData, exportHeadings: headings})
   }
+
+  radioDropdownNavigation(event, dropdownId, radioGroupName, isGroupMenu) {
+
+    // If it was a tab, we are moving out of the dropdown and need to close it
+    // This is due to a bug in rivet dropdown that assumes all inputs are tabbable. This is not
+    // the case for radio buttons which are navigated via arrow keys. If you are focused on the
+    // first or second radio button in the group, tabbing out of the menu will not close it.
+    if (event.keyCode == 9) {
+        Dropdown.close(dropdownId);
+    }
+
+    // Rivet added key handlers to force nav with up/down arrows. However, radio buttons already navigate with up/down
+    // natively, so Rivet's handler is causing non-standard behavior for radio button navigation. Let's
+    // just prevent Rivet from doing any up/down handling with radio buttons in Firefox. Chrome does not
+    // have this issue
+    if(navigator.userAgent.indexOf("Firefox") != -1 ) {
+
+        const UP = 38;
+        const DOWN = 40;
+
+        if (event.keyCode == UP || event.keyCode == DOWN) {
+            // stop rivet's keyboard handling from happening and we will just handle it ourselves
+            event.preventDefault();
+
+            // we need to select the correct radio button. If we are at the top we have to select the
+            // bottom and vice versa
+            var radioInputs = document.getElementsByName(radioGroupName);
+            var currSelection = event.target;
+            var newSelectedIndex;
+
+            for (var i=0; i < radioInputs.length; i++) {
+                if (currSelection.id === radioInputs[i].id) {
+                    if (event.keyCode == UP) {
+                        if (i == 0) {
+                            newSelectedIndex = radioInputs.length-1;
+                        } else {
+                            newSelectedIndex = i-1;
+                        }
+                    } else if (event.keyCode == DOWN) {
+                        if (i == radioInputs.length-1) {
+                            newSelectedIndex = 0;
+                        } else {
+                            newSelectedIndex = i+1;
+                        }
+                    }
+                    break;
+                }
+            }
+
+            radioInputs[newSelectedIndex].checked = true;
+            var selectedOption = radioInputs[newSelectedIndex].value
+
+            if (isGroupMenu) {
+                this.groupPeople(selectedOption);
+            } else {
+                this.changePhotoOptions(selectedOption);
+            }
+        }
+    }
+  }
+
+  radioDropdownOpening(event, radioGroupName, isGroupMenu) {
+      if(navigator.userAgent.indexOf("Firefox") != -1 && event.keyCode == 40) {
+          // when we use the down arrow to expand the menu, the focus should
+          // move to the selected radio button
+          event.preventDefault();
+
+         var radioSelector = "input[name='" + radioGroupName + "']:checked";
+         var selectedRadio = document.querySelector(radioSelector);
+         selectedRadio.focus();
+      }
+  }
 }
 
   function getUsers(backingData) {
@@ -630,7 +705,6 @@ applySearchAndFilter() {
   }
 
   function SearchResults(props) {
-
     if (props.searchTerm && props.resultsCount > 0) {
         var resultText = props.resultsCount == 1 ? " result " : " results ";
         let searchText = props.resultsCount + resultText + 'for search term "' + props.searchTerm + '"';
@@ -640,9 +714,6 @@ applySearchAndFilter() {
     }
 
     return null;
-
   }
-
-
 
 export default App
