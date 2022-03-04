@@ -233,6 +233,13 @@ class App extends React.Component {
         viewHeadingText += " with " + photoInfo;
     }
 
+    var totalUsersText = "";
+    if (this.state.users) {
+        const totalText = this.state.users.length == 1 ? ' participant ' : ' participants ';
+        totalUsersText = this.state.users.length + totalText + 'displayed';
+    }
+
+
     return (
         <div>
             <ToolHeader users={filteredUsers} enrollments={filteredEnrollments} showExport={this.state.permissions.canSeeExport}
@@ -254,8 +261,8 @@ class App extends React.Component {
                             radioDropdownNavigation={this.radioDropdownNavigation.bind(this)}
                             radioDropdownOpening={this.radioDropdownOpening.bind(this)} />
                         <SearchResults resultsCount={filteredUsers.length} searchTerm={this.state.peopleFilter.searchTerms} />
-                        <h2 class="sr-only" aria-live="polite">{viewHeadingText} <span id="selectedFilterText" aria-live="polite"></span></h2>
-                        <h2 id="selectedFilterText" class="sr-only" aria-live="polite"></h2>
+                        <h2 className="sr-only" aria-live="polite">{viewHeadingText}</h2>
+                        <div id="totalUsers" className="sr-only" aria-live="polite">{totalUsersText}</div>
                         <Loading loading={this.state.loading} />
                         {userList}
                     </div>

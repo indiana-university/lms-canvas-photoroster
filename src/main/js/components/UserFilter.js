@@ -29,6 +29,7 @@ class UserFilter extends React.Component {
 
       return (
         <div className="rvt-dropdown rvt-p-top-xs rvt-m-right-sm-md-up" role="region" aria-label="Controls for filtering participants in roster">
+            <div id="selectedFilterText" className="sr-only" aria-live="polite"></div>
             <button id="rosterFiltering" className="rvt-button rvt-button--secondary transparencyOverride" data-dropdown-toggle="filterDropdown" aria-haspopup="true" aria-expanded="false">
                 <span>Filter By <span id="filters-active"></span></span>
                 <svg aria-hidden="true" className="rvt-m-left-xs" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -85,13 +86,9 @@ class UserFilter extends React.Component {
 
         if (numberOfChecked == 0) {
             newContent = "";
-            $("#remove-filters").hide()
-            $("#role-division").addClass("hideRemoveAll");
             currentFilterInfo.html("No filters selected");
         } else {
             newContent = "(" + numberOfChecked + ")"
-            $("#remove-filters").show()
-            $("#role-division").removeClass("hideRemoveAll")
 
             let filterValues = [];
             checkedFilters.each(function( c ) {
