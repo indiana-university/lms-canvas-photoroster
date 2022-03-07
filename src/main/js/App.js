@@ -233,35 +233,40 @@ class App extends React.Component {
         viewHeadingText += " with " + photoInfo;
     }
 
-    return (
-        <div>
-            <ToolHeader users={filteredUsers} enrollments={filteredEnrollments} showExport={this.state.permissions.canSeeExport}
-                groups={this.state.groups} changeExportOptions={this.changeExportOptions.bind(this)}
-                exportOptions={this.state.exportOptions} exportData={this.state.exportData} exportHeadings={this.state.exportHeadings} />
-            <div id="printHeader" className="rvt-container">
-                <h1 className="rvt-ts-29">{this.state.courseTitle}</h1>
-            </div>
-            <ErrorMessages messages={this.state.error_messages} />
-            <div className="rvt-container" id="main-container" data-urlbase="@{|/photoroster/${course.id}/|}">
-                <div id="content-container" className="rvt-box overrideBoxColor">
-                    <div className="rvt-box__body">
-                        <ActionBar roles={this.state.roles} sections={this.state.sections} groups={this.state.groups} searchPeople={this.searchPeople.bind(this)}
-                            changePhotoOptions={this.changePhotoOptions.bind(this)} peopleGrouping={this.state.peopleGrouping} groupPeople={this.groupPeople.bind(this)}
-                            filterPeople={this.filterPeople.bind(this)} view_mode={this.state.view_mode} changeView={this.changeView.bind(this)}
-                            image_mode={this.state.image_mode}
-                            showSignInView={this.state.permissions.canSeeSigninView}
-                            showPhotoOptions={this.state.permissions.canSeeOfficialPhotos}/>
-                        <h2 class="sr-only" aria-live="polite">{viewHeadingText}</h2>
-                        <Loading loading={this.state.loading} />
-                        {userList}
+    if (this.state.loading) {
+        return (
+            <Loading loading={this.state.loading} />
+        )
+    } else {
+        return (
+            <div>
+                <ToolHeader users={filteredUsers} enrollments={filteredEnrollments} showExport={this.state.permissions.canSeeExport}
+                    groups={this.state.groups} changeExportOptions={this.changeExportOptions.bind(this)}
+                    exportOptions={this.state.exportOptions} exportData={this.state.exportData} exportHeadings={this.state.exportHeadings} />
+                <div id="printHeader" className="rvt-container">
+                    <h1 className="rvt-ts-29">{this.state.courseTitle}</h1>
+                </div>
+                <ErrorMessages messages={this.state.error_messages} />
+                <div className="rvt-container" id="main-container" data-urlbase="@{|/photoroster/${course.id}/|}">
+                    <div id="content-container" className="rvt-box overrideBoxColor">
+                        <div className="rvt-box__body">
+                            <ActionBar roles={this.state.roles} sections={this.state.sections} groups={this.state.groups} searchPeople={this.searchPeople.bind(this)}
+                                changePhotoOptions={this.changePhotoOptions.bind(this)} peopleGrouping={this.state.peopleGrouping} groupPeople={this.groupPeople.bind(this)}
+                                filterPeople={this.filterPeople.bind(this)} view_mode={this.state.view_mode} changeView={this.changeView.bind(this)}
+                                image_mode={this.state.image_mode}
+                                showSignInView={this.state.permissions.canSeeSigninView}
+                                showPhotoOptions={this.state.permissions.canSeeOfficialPhotos}/>
+                            <h2 class="sr-only" aria-live="polite">{viewHeadingText}</h2>
+                            {userList}
+                        </div>
                     </div>
                 </div>
+                <UserModal modalUser={this.state.modalUser} modalEnrollments={this.state.modalEnrollments}
+                    image_mode={this.state.image_mode} allGroups={this.state.groups}/>
+                <ScrollUpButton />
             </div>
-            <UserModal modalUser={this.state.modalUser} modalEnrollments={this.state.modalEnrollments}
-                image_mode={this.state.image_mode} allGroups={this.state.groups}/>
-            <ScrollUpButton />
-        </div>
-    );
+        );
+    }
   }
 
 
