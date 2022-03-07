@@ -33,7 +33,7 @@ function SignInWrapper(props) {
     return (
         <div className="rvt-m-top-sm rvt-box">
             <table className="rvt-table-cells">
-                <caption class="sr-only">Printable roster sign-in sheet with name and blank space for signature</caption>
+                <caption className="sr-only">Printable roster sign-in sheet with name and blank space for signature</caption>
                 <colgroup>
                     <col className="twentyfive-percent" />
                 </colgroup>
