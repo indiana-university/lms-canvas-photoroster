@@ -240,6 +240,7 @@ class App extends React.Component {
     } else {
         return (
             <div>
+                <span className="sr-only" aria-live="polite">Photo roster loaded</span>
                 <ToolHeader users={filteredUsers} enrollments={filteredEnrollments} showExport={this.state.permissions.canSeeExport}
                     groups={this.state.groups} changeExportOptions={this.changeExportOptions.bind(this)}
                     exportOptions={this.state.exportOptions} exportData={this.state.exportData} exportHeadings={this.state.exportHeadings} />
