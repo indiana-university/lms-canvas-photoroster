@@ -38,7 +38,7 @@ class UserSearch extends React.Component {
   render() {
 
     return (
-        <div className="rvt-p-top-xs rvt-m-right-sm-md-up">
+        <div role="search" className="rvt-p-top-xs rvt-m-right-sm-md-up">
             <label htmlFor="search" className="rvt-sr-only">Search</label>
             <div className="rvt-input-group clear-field">
                 <div className="rvt-clearable-input-group search-input">

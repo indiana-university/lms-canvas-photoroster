@@ -5,17 +5,16 @@ const UserFilterGroups = (props) => {
         const groupList = props.groups.map(group => (
             <li key={group.id}>
                 <input type="checkbox" id={"group_" + group.id} name="groupsCheckboxes" className="filter-input"
-                    value={`${group.id}`} onChange={props.handleGroupFiltering} />
+                    value={`${group.id}`} onChange={props.handleGroupFiltering} data-text={group.name} />
                 <label htmlFor={"group_" + group.id} className="rvt-m-right-sm rvt-text-nobr">{group.name}</label>
             </li>
         ))
 
         return (
             <React.Fragment>
-                <div role="group">
+                <div>
                     <fieldset className="rvt-p-left-sm">
-                        <legend className="sr-only">Group filter options</legend>
-                        <div className="rvt-text-bold rvt-p-tb-xs">Groups</div>
+                        <legend className="rvt-text-bold rvt-p-tb-xs">Groups</legend>
                         <ul className="rvt-plain-list">
                             {groupList}
                         </ul>
