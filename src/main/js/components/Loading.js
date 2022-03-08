@@ -17,8 +17,8 @@ const Loading = (props) => {
                             </line>
                         </svg>
                     </div>
-                    <div className="rvt-grid__item rvt-text-left" aria-live="polite">
-                        <span id="loading-text" className="rvt-ts-md ">Loading...</span>
+                    <div className="rvt-grid__item rvt-text-left">
+                        <span id="loading-text" aria-live="polite" className="rvt-ts-md ">Loading...</span>
                     </div>
                 </div>
             </div>
