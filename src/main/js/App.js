@@ -268,7 +268,6 @@ class App extends React.Component {
                             <SearchResults resultsCount={filteredUsers.length} searchTerm={this.state.peopleFilter.searchTerms} />
                             <h2 className="sr-only" aria-live="polite">{viewHeadingText}</h2>
                             <div id="totalUsers" className="sr-only" aria-live="polite">{totalUsersText}</div>
-                            <Loading loading={this.state.loading} />
                             {userList}
                         </div>
                     </div>
