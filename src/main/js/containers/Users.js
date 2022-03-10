@@ -19,6 +19,10 @@ const Users = (props) => {
         return (
             <SignInWrapper content={users} />
         );
+      } else if (props.view_mode == VIEW_MODES.list) {
+        return (
+            <ListWrapper content={users} />
+        );
       }  else {
           return (
             <DivWrapper content={users} />
@@ -56,6 +60,14 @@ function DivWrapper(props) {
         <div>
             {props.content}
         </div>
+    )
+}
+
+function ListWrapper(props) {
+    return (
+        <ul className="rvt-plain-list">
+            {props.content}
+        </ul>
     )
 }
 
