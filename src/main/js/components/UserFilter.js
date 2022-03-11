@@ -37,7 +37,7 @@ class UserFilter extends React.Component {
                 </svg>
             </button>
             <div className="rvt-dropdown__menu overrideDropdownWidth" id="filterDropdown" aria-hidden="true">
-                <button id="remove-filters" onClick={this.handleRemoveFilterClick.bind(this)}>Remove Filters</button>
+                <button id="remove-filters" aria-disabled="true" onClick={this.handleRemoveFilterClick.bind(this)}>Remove Filters</button>
                 <div id="role-division">
                     <fieldset className="rvt-p-left-sm">
                         <legend className="rvt-text-bold rvt-p-tb-xs">Role</legend>
@@ -87,6 +87,7 @@ class UserFilter extends React.Component {
         if (numberOfChecked == 0) {
             newContent = "";
             currentFilterInfo.html("No filters selected");
+            $("#remove-filters").attr("aria-disabled", true);
         } else {
             newContent = "(" + numberOfChecked + ")"
 
@@ -96,6 +97,8 @@ class UserFilter extends React.Component {
             });
 
             currentFilterInfo.html("Selected filters: " + filterValues.join());
+
+            $("#remove-filters").attr("aria-disabled", false);
         }
 
       	$("#filters-active").html(newContent)
