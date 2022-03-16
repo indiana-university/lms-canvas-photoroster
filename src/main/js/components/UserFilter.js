@@ -37,7 +37,8 @@ class UserFilter extends React.Component {
                 </svg>
             </button>
             <div className="rvt-dropdown__menu overrideDropdownWidth" id="filterDropdown" aria-hidden="true">
-                <button id="remove-filters" aria-disabled="true" onClick={this.handleRemoveFilterClick.bind(this)}>Remove Filters</button>
+                <button id="remove-filters" aria-describedby="filter-count" className="rvt-button rvt-button--secondary" onClick={this.handleRemoveFilterClick.bind(this)}>Remove Filters</button>
+                <span id="filter-count" className="sr-only">No filters currently selected</span>
                 <div id="role-division">
                     <fieldset className="rvt-p-left-sm">
                         <legend className="rvt-text-bold rvt-p-tb-xs">Role</legend>
@@ -81,13 +82,14 @@ class UserFilter extends React.Component {
         var checkedFilters = $(".filter-input:checked");
         var numberOfChecked = checkedFilters.length
         var newContent = ""
+        var filterCountText = ""
 
         var currentFilterInfo = $("#selectedFilterText");
 
         if (numberOfChecked == 0) {
             newContent = "";
             currentFilterInfo.html("No filters selected");
-            $("#remove-filters").attr("aria-disabled", true);
+            filterCountText = 'No filters currently selected'
         } else {
             newContent = "(" + numberOfChecked + ")"
 
@@ -98,10 +100,12 @@ class UserFilter extends React.Component {
 
             currentFilterInfo.html("Selected filters: " + filterValues.join());
 
-            $("#remove-filters").attr("aria-disabled", false);
+            let fv = numberOfChecked === 1 ? 'filter' : 'filters';
+            filterCountText = ', ' + numberOfChecked + ' ' + fv + ' currently selected';
         }
 
       	$("#filters-active").html(newContent)
+      	$("#filter-count").html(filterCountText)
     }
 
     handleRemoveFilterClick(event) {
