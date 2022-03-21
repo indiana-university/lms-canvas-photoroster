@@ -101,7 +101,7 @@ class UserFilter extends React.Component {
             currentFilterInfo.html("Selected filters: " + filterValues.join());
 
             let fv = numberOfChecked === 1 ? 'filter' : 'filters';
-            filterCountText = ', ' + numberOfChecked + ' ' + fv + ' currently selected';
+            filterCountText = numberOfChecked + ' ' + fv + ' currently selected';
         }
 
       	$("#filters-active").html(newContent)
