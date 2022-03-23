@@ -48,11 +48,13 @@ const Roles = (props) => {
     if(groupToolTip.length > 0)
         toolTip = toolTip.concat("\n" + groupToolTip);
 
+    let srRole = props.roleName + " Role"
+
     return (
         <div>
             <span title={toolTip} className={`roleContainer rvt-badge rvt-m-right-xxs rvt-m-bottom-xxs ${secondaryClass}`}>
-                <span className="sr-only">Role </span>
-                {props.roleName}
+                <span className="sr-only">{srRole}</span>
+                <span aria-hidden="true">{props.roleName}</span>
             </span>
         </div>
       )
