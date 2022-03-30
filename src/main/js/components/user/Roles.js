@@ -11,9 +11,9 @@ const Roles = (props) => {
         ))
 
         return (
-          <div className="rvt-ts-xs">
+          <ul className="rvt-plain-list">
               {roles}
-          </div>
+          </ul>
         )
     } else {
         return null;
@@ -48,15 +48,15 @@ const Roles = (props) => {
     if(groupToolTip.length > 0)
         toolTip = toolTip.concat("\n" + groupToolTip);
 
-    let srRole = props.roleName + " Role"
+    let srRole = "Role: " + props.roleName + " , " + toolTip;
 
     return (
-        <div>
-            <span title={toolTip} className={`roleContainer rvt-badge rvt-m-right-xxs rvt-m-bottom-xxs ${secondaryClass}`}>
-                <span className="sr-only">{srRole}</span>
-                <span aria-hidden="true">{props.roleName}</span>
+        <li className="user-role rvt-ts-xs">
+            <span title={toolTip} aria-hidden="true" className={`roleContainer rvt-badge rvt-m-right-xxs rvt-m-bottom-xxs ${secondaryClass}`}>
+                {props.roleName}
             </span>
-        </div>
+            <span className="sr-only">{srRole}</span>
+        </li>
       )
   }
 
