@@ -12,6 +12,7 @@ class UserGrouping extends React.Component {
         return (
             <div className="rvt-dropdown rvt-p-top-xs rvt-m-right-sm-md-up" role="region" aria-label="Controls for grouping course participants">
                 <button
+                    id="groupByDropdown"
                     type="button"
                     className="rvt-button rvt-button--secondary rvt-m-right-sm-md-up"
                     data-dropdown-toggle="dropdown-grouping"
