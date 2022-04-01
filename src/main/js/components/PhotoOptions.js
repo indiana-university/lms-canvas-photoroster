@@ -24,7 +24,8 @@ const PhotoOptions = (props) => {
     return (
         <div className="rvt-dropdown rvt-p-right-sm rvt-p-top-xs rvt-m-left-auto" role="region" aria-label="Controls for photo type and size">
             <button
-                 type="button"
+                type="button"
+                id="photoOptionsDropdown"
                 className="rvt-button rvt-button--secondary rvt-m-right-sm-md-up"
                 data-dropdown-toggle="dropdown-photo"
                 aria-haspopup="true"
