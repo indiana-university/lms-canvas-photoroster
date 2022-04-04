@@ -11,9 +11,9 @@ const Roles = (props) => {
         ))
 
         return (
-          <ul className="rvt-plain-list">
+          <div>
               {roles}
-          </ul>
+          </div>
         )
     } else {
         return null;
@@ -51,12 +51,12 @@ const Roles = (props) => {
     let srRole = "Role: " + props.roleName + " , " + toolTip;
 
     return (
-        <li className="user-role rvt-ts-xs">
+        <div className="rvt-ts-xs">
             <span title={toolTip} aria-hidden="true" className={`roleContainer rvt-badge rvt-m-right-xxs rvt-m-bottom-xxs ${secondaryClass}`}>
                 {props.roleName}
             </span>
             <span className="sr-only">{srRole}</span>
-        </li>
+        </div>
       )
   }
 
