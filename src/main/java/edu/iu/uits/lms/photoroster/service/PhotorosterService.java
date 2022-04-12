@@ -418,9 +418,10 @@ public class PhotorosterService {
                 String sisCourseId = course.getSisCourseId();
                 List<Account> parentAccounts = accountService.getParentAccounts(course.getAccountId());
                 List<String> parentAccountIds = parentAccounts.stream().map(Account::getId).collect(Collectors.toList());
-                if (sisCourseId != null && !sisCourseId.isEmpty()) {
+                if (sisCourseId != null && !sisCourseId.isEmpty() &&
+                      course.getTerm() != null && course.getTerm().getSisTermId() != null && !course.getTerm().getSisTermId().isEmpty()) {
                     // see if this a legit SIS course
-                    isSisSite = sudsService.isLegitSisCourse(course.getSisCourseId(), course.getTerm().getSisTermId());
+                    isSisSite = sudsService.isLegitSisCourse(sisCourseId, course.getTerm().getSisTermId());
 
                     // See if we want to override and show official photos anyway
                     override = featureAccessService.isFeatureEnabledForAccount(FEATURE_OVERRIDE_WITH_SISID, course.getAccountId(), parentAccountIds);

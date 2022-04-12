@@ -19,6 +19,10 @@ const Users = (props) => {
         return (
             <SignInWrapper content={users} />
         );
+      } else if (props.view_mode == VIEW_MODES.list) {
+        return (
+            <ListWrapper content={users} />
+        );
       }  else {
           return (
             <DivWrapper content={users} />
@@ -33,7 +37,7 @@ function SignInWrapper(props) {
     return (
         <div className="rvt-m-top-sm rvt-box">
             <table className="rvt-table-cells">
-                <caption class="sr-only">Printable roster sign-in sheet with name and blank space for signature</caption>
+                <caption className="sr-only">Printable roster sign-in sheet with name and blank space for signature</caption>
                 <colgroup>
                     <col className="twentyfive-percent" />
                 </colgroup>
@@ -56,6 +60,14 @@ function DivWrapper(props) {
         <div>
             {props.content}
         </div>
+    )
+}
+
+function ListWrapper(props) {
+    return (
+        <ul className="rvt-plain-list">
+            {props.content}
+        </ul>
     )
 }
 

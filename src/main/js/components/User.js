@@ -29,7 +29,7 @@ const User = (props) => {
       );
   } else if (props.view_mode == VIEW_MODES.list) {
       return (
-        <div className="photoListPanel rvt-box rvt-text-left rvt-m-top-sm rvt-m-right-xs">
+        <li className="photoListPanel rvt-box rvt-text-left rvt-m-top-sm rvt-m-right-xs">
             <div className="rvt-box__body">
                 <div className="rvt-grid">
                     <div className="rvt-grid__item-3-lg">
@@ -46,7 +46,7 @@ const User = (props) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </li>
       );
   } else if (props.view_mode == VIEW_MODES.signIn) {
       return (

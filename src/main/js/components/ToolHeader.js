@@ -30,7 +30,7 @@ class ToolHeader extends React.Component {
                     <h1 className="rvt-ts-36">IU Photo Roster</h1>
                 </div>
                 <div className="rvt-p-right-xs ie11CursorOverride" title="Print">
-                    <button className="view-option rvt-button rvt-button--secondary" id="printRosterOption" onClick={this.printRoster}>
+                    <button className="view-option rvt-button rvt-button--plain" id="printRosterOption" onClick={this.printRoster}>
                         <img alt="Print roster" src={imageBase + "print.svg"} width="24" height="24" className="pointerEventOverride"></img>
                     </button>
                 </div>
