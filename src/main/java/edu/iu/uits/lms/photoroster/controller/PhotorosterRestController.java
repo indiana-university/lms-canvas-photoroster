@@ -1,7 +1,7 @@
 package edu.iu.uits.lms.photoroster.controller;
 
-import canvas.client.generated.api.GroupsApi;
-import canvas.client.generated.model.CourseGroup;
+import edu.iu.uits.lms.canvas.model.groups.CourseGroup;
+import edu.iu.uits.lms.canvas.services.GroupService;
 import edu.iu.uits.lms.lti.LTIConstants;
 import edu.iu.uits.lms.lti.security.LtiAuthenticationToken;
 import edu.iu.uits.lms.photoroster.model.BackingModel;
@@ -29,7 +29,7 @@ public class PhotorosterRestController extends PhotorosterController {
    private PhotorosterService photorosterService = null;
 
    @Autowired
-   private GroupsApi groupsApi = null;
+   private GroupService groupService = null;
 
    @RequestMapping(value = "/people/{courseId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
    @Secured({LTIConstants.INSTRUCTOR_AUTHORITY, LTIConstants.TA_AUTHORITY, LTIConstants.STUDENT_AUTHORITY})
@@ -60,7 +60,7 @@ public class PhotorosterRestController extends PhotorosterController {
       log.debug("/groups/" + courseId);
       getValidatedToken(courseId);
 
-      List<CourseGroup> courseGroups = groupsApi.getGroupsForCourse(courseId);
+      List<CourseGroup> courseGroups = groupService.getGroupsForCourse(courseId);
 
       // Sort and add an "Ungrouped" group if groups exist in this course
       if (courseGroups != null && !courseGroups.isEmpty()) {

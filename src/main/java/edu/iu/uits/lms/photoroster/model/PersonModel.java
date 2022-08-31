@@ -1,6 +1,6 @@
 package edu.iu.uits.lms.photoroster.model;
 
-import canvas.client.generated.model.User;
+import edu.iu.uits.lms.canvas.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;

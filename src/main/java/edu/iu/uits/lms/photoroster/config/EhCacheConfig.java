@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.jcache.JCacheCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
 import javax.cache.Caching;
@@ -25,6 +26,7 @@ public class EhCacheConfig {
     String EHCACHE_PROVIDER_TYPE = "org.ehcache.jsr107.EhcacheCachingProvider";
 
     @Bean(name = "PhotorosterCacheManager")
+    @Primary
     public CacheManager photorosterCacheManager() {
         log.debug("photorosterCacheManager() init");
 

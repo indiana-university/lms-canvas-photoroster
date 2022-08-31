@@ -1,7 +1,6 @@
 package edu.iu.uits.lms.photoroster.crimsoncard.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +24,7 @@ public class DefaultImageUtil {
       byte[] bytes = new byte[0];
 
       try {
-         bytes = IOUtils.toByteArray(inputStream);
+         bytes = inputStream.readAllBytes();
       } catch (IOException e) {
          log.error("Unable to load default image for " + size.getValue(), e);
       }

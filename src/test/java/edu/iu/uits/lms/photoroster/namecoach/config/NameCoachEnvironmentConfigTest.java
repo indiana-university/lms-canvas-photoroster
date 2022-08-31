@@ -1,5 +1,7 @@
 package edu.iu.uits.lms.photoroster.namecoach.config;
 
+import edu.iu.uits.lms.canvas.config.CanvasClientTestConfig;
+import edu.iu.uits.lms.lti.config.LtiClientTestConfig;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
@@ -9,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
       "${app.fullFilePath}/lms.properties",
       "${app.fullFilePath}/protected.properties",
       "${app.fullFilePath}/security.properties"}, ignoreResourceNotFound = false)
-@Import(NameCoachEnvironmentConfig.class)
+@Import({NameCoachEnvironmentConfig.class, CanvasClientTestConfig.class, LtiClientTestConfig.class})
 public class NameCoachEnvironmentConfigTest {
 
 //   @Getter
