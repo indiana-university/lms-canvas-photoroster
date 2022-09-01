@@ -3,7 +3,6 @@ package edu.iu.uits.lms.photoroster.controller;
 import edu.iu.uits.lms.lti.LTIConstants;
 import edu.iu.uits.lms.lti.controller.LtiController;
 import edu.iu.uits.lms.lti.security.LtiAuthenticationProvider;
-import edu.iu.uits.lms.lti.security.LtiAuthenticationToken;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -56,7 +55,7 @@ public class PhotorosterLtiController extends LtiController {
         String systemId = launchParams.get(BasicLTIConstants.TOOL_CONSUMER_INSTANCE_GUID);
         String courseId = launchParams.get(CUSTOM_CANVAS_COURSE_ID);
 
-        LtiAuthenticationToken token = new LtiAuthenticationToken(launchParams.get(CUSTOM_CANVAS_USER_ID),
+        PhotorosterAuthenticationToken token = new PhotorosterAuthenticationToken(launchParams.get(CUSTOM_CANVAS_USER_ID),
                 courseId, systemId, AuthorityUtils.createAuthorityList(LtiAuthenticationProvider.LTI_USER_ROLE, authority), getToolContext());
         SecurityContextHolder.getContext().setAuthentication(token);
     }
