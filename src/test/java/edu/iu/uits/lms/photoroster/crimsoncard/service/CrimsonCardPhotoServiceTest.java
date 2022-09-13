@@ -5,9 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.iu.uits.lms.photoroster.crimsoncard.config.CrimsonCardServicesConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +15,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,7 +30,7 @@ import java.util.Map;
 import static edu.iu.uits.lms.photoroster.crimsoncard.service.CrimsonCardPhotoService.CCImageResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId;
+import static org.mockito.ArgumentMatchers.eq;
 
 @ContextConfiguration(classes={CrimsonCardPhotoService.class})
 @SpringBootTest
@@ -64,7 +60,6 @@ public class CrimsonCardPhotoServiceTest {
    WebClient.ResponseSpec responseSpec;
 
    @Test
-   @Disabled
    public void testImages() {
       //Mock the actual call's details
       List<String> ids = Collections.singletonList("mcortesb");
@@ -100,15 +95,14 @@ public class CrimsonCardPhotoServiceTest {
       Mockito.when(requestHeadersSpec.header(any(),any())).thenReturn(requestHeadersSpec);
 
       Mockito.when(requestBodySpec.accept(any())).thenReturn(requestBodySpec);
-      Mockito.when(requestBodySpec.body(any())).thenReturn(requestHeadersSpec);
+      Mockito.when(requestBodySpec.body(any(), eq(List.class))).thenReturn(requestHeadersSpec);
       Mockito.when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
-      Mockito.when(responseSpec.bodyToMono(ArgumentMatchers.<Class<String>>notNull()))
-              .thenReturn(Mono.just("resp"));
+//      Mockito.when(responseSpec.bodyToMono(ArgumentMatchers.<Class<String>>notNull()))
+//              .thenReturn(Mono.just("resp"));
 
 // Bonus stuff that did not work, either
 //      Mockito.when(responseSpec.toEntity((ParameterizedTypeReference<Object>) any())).thenReturn(ParameterizedTypeReference.class);
-//      Mockito.when(responseSpec.toEntity(Mockito.any(Class.class)))
-//              .thenReturn(Mono.just(new ResponseEntity<>(HttpStatus.OK)));
+      Mockito.when(responseSpec.toEntity(any(ParameterizedTypeReference.class))).thenReturn(Mono.just(r));
 
       Map<String, String> imageUrls = crimsonCardPhotoService.getImageUrls(ids, CrimsonCardPhotoService.CCAttributes.ID_TYPE.NETWORK_ID, CrimsonCardPhotoService.CCAttributes.SIZE.S75X100);
 

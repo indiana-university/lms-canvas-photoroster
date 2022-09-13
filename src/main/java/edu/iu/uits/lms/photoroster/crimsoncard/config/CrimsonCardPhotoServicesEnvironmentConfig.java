@@ -32,6 +32,7 @@ public class CrimsonCardPhotoServicesEnvironmentConfig {
     WebClient webClient(OAuth2AuthorizedClientManager authorizedClientManager) {
         ServletOAuth2AuthorizedClientExchangeFilterFunction oauth2Client =
                 new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
+        oauth2Client.setDefaultClientRegistrationId("crimsoncard");
         return WebClient.builder()
                 .apply(oauth2Client.oauth2Configuration())
                 .build();

@@ -29,8 +29,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction.clientRegistrationId;
-
 @Slf4j
 @Service
 public class CrimsonCardPhotoService {
@@ -120,7 +118,7 @@ public class CrimsonCardPhotoService {
         try {
             ResponseEntity<List<CCImageResponse>> entity = webClient.post().uri(url)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                    .attributes(clientRegistrationId("crimsoncard"))
+//                    .attributes(clientRegistrationId("crimsoncard"))
                     .body(Mono.just(ids), List.class)
                     .retrieve()
                     .toEntity(responseType)
