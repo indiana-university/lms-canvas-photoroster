@@ -274,13 +274,11 @@ public class PhotorosterService {
         List<String> roleGroupingList = Arrays.asList(roleGroupings);
 
         // retrieve the group memberships
-//        Map<String, List<User>> groupIdMembershipMap = new HashMap<>();
         Map<String, List<String>> userIdGroupMembershipMap = new HashMap<>();
         boolean courseHasGroups = courseGroupMap != null && !courseGroupMap.isEmpty();
         if (courseHasGroups) {
             for (String groupId : courseGroupMap.keySet()) {
                 List<User> groupMembers = groupService.getUsersInGroup(groupId, false);
-//                groupIdMembershipMap.put(groupId, groupMembers);
 
                 for (User user : groupMembers) {
                     List<String> groupMemberships = new ArrayList<>();
@@ -357,7 +355,6 @@ public class PhotorosterService {
                     }
 
                     //Get the index of the role so we can sort it in the UI
-//                sri.setRoleSortKey(roleGroupings.get(roleGroupKey).indexOf(enr.getRole()));
                     enrollmentModelList.add(sri);
                 }
             }
@@ -409,7 +406,6 @@ public class PhotorosterService {
         final String FEATURE_OVERRIDE_WITH_SISID = "photoroster.showOfficialPhoto.override.withSisId";
         PermissionsModel pm = new PermissionsModel();
 
-//        boolean isInstructor = true;
         boolean isInstructor = request.isUserInRole(LTIConstants.INSTRUCTOR_AUTHORITY);
         boolean isTa = request.isUserInRole(LTIConstants.TA_AUTHORITY);
 

@@ -37,16 +37,6 @@ public class CrimsonCardPhotoServicesEnvironmentConfig {
                 .build();
     }
 
-    // experiment
-//    WebClient webClient(OAuth2AuthorizedClientManager authorizedClientManager)
-//    {
-//        ServletOAuth2AuthorizedClientExchangeFilterFunction oauth2 =
-//                new ServletOAuth2AuthorizedClientExchangeFilterFunction(
-//                        authorizedClientManager);
-//        oauth2.setDefaultClientRegistrationId(config.getClientId());
-//        return WebClient.builder().apply(oauth2.oauth2Configuration()).build();
-//    }
-
     @Bean
     OAuth2AuthorizedClientManager authorizedClientManager(
             ClientRegistrationRepository clientRegistrationRepository,
@@ -70,25 +60,6 @@ public class CrimsonCardPhotoServicesEnvironmentConfig {
         return authorizedClientManager;
     }
 
-    // experiment
-//    @Bean
-//    OAuth2AuthorizedClientManager authorizedClientManager(
-//            ClientRegistrationRepository clientRegistrationRepository,
-//            OAuth2AuthorizedClientService clientService) {
-//
-//        OAuth2AuthorizedClientProvider authorizedClientProvider =
-//                OAuth2AuthorizedClientProviderBuilder.builder()
-//                        .clientCredentials()
-//                        .build();
-//
-//        AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientManager =
-//                new AuthorizedClientServiceOAuth2AuthorizedClientManager(
-//                        clientRegistrationRepository, clientService);
-//        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
-//
-//        return authorizedClientManager;
-//    }
-
     private Function<OAuth2AuthorizeRequest, Map<String, Object>> contextAttributesMapper() {
         return authorizeRequest -> {
             Map<String, Object> contextAttributes = Collections.emptyMap();
@@ -105,19 +76,4 @@ public class CrimsonCardPhotoServicesEnvironmentConfig {
             return contextAttributes;
         };
     }
-
-    // original code
-//    @Bean(name = "ccRestTemplate")
-//    public OAuth2RestTemplate uaaRestTemplate() {
-//        ClientCredentialsResourceDetails resourceDetails = new ClientCredentialsResourceDetails();
-//        resourceDetails.setAccessTokenUri(config.getAuthUrl());
-//        resourceDetails.setClientId(config.getClientId());
-//        resourceDetails.setClientSecret(config.getSecret());
-//
-//        AccessTokenRequest atr = new DefaultAccessTokenRequest();
-//        DefaultOAuth2ClientContext clientContext = new DefaultOAuth2ClientContext(atr);
-//
-//        OAuth2RestTemplate restTemplate = new OAuth2RestTemplate(resourceDetails, clientContext);
-//        return restTemplate;
-//    }
 }

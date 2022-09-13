@@ -21,8 +21,6 @@ import java.util.Date;
 
 @SpringBootApplication
 @EnableGlobalErrorHandler(accessDeniedViewName = "accessDenied")
-//@PropertySource(value = {"classpath:env.properties",
-//      "${app.fullFilePath}/security.properties"}, ignoreResourceNotFound = true)
 @Slf4j
 @EnableRedisConfiguration
 @EnableCookieFilter(ignoredRequestPatterns = {"/app/rest/**"})

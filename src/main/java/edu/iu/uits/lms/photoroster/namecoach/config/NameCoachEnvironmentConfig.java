@@ -19,8 +19,7 @@ public class NameCoachEnvironmentConfig {
         RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
 
         restTemplate.getInterceptors().add(new NameCoachTokenAuthorizationInterceptor(config.getToken()));
-//        restTemplate.getInterceptors().add(new LoggingRequestInterceptor());
-//        restTemplate.setErrorHandler(new CanvasErrorHandler());
+
         return restTemplate;
     }
 }

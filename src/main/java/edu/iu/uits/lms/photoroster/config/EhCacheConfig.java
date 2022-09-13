@@ -49,7 +49,6 @@ public class EhCacheConfig {
         // getCache() defined.  But setting them to generic Object.class seems to solve this.
         // There might be a way around this but that is work for a future ticket!
 
-//        int heapSize = 1000;
         final int ttl = 3600;
         final int courseServiceTtl = 300;
 

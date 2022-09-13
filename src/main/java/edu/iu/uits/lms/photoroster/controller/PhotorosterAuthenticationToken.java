@@ -13,6 +13,8 @@ public class PhotorosterAuthenticationToken extends LtiAuthenticationToken {
 
    @Override
    public String getName() {
+      // oauth2 with WebClient has a thing where it's expecting a principalName, even if it does not really use or care
+      // about it. So this exists just to have something for the name.
       return "foo";
    }
 }

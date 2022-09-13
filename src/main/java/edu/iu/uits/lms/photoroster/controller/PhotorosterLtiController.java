@@ -1,5 +1,6 @@
 package edu.iu.uits.lms.photoroster.controller;
 
+import edu.iu.uits.lms.canvas.helpers.CanvasConstants;
 import edu.iu.uits.lms.lti.LTIConstants;
 import edu.iu.uits.lms.lti.controller.LtiController;
 import edu.iu.uits.lms.lti.security.LtiAuthenticationProvider;
@@ -68,17 +69,17 @@ public class PhotorosterLtiController extends LtiController {
             }
         }
 
-//        if (userRoles.contains(CanvasConstants.TA_ROLE)) {
-//            return LTIConstants.TA_AUTHORITY;
-//        }
-//
-//        if (userRoles.contains(CanvasConstants.LEARNER_ROLE)) {
-//            return LTIConstants.STUDENT_AUTHORITY;
-//        }
-//
-//        if (userRoles.contains(CanvasConstants.OBSERVER_ROLE)) {
-//            return LTIConstants.OBSERVER_AUTHORITY;
-//        }
+        if (userRoles.contains(CanvasConstants.TA_ROLE)) {
+            return LTIConstants.TA_AUTHORITY;
+        }
+
+        if (userRoles.contains(CanvasConstants.LEARNER_ROLE)) {
+            return LTIConstants.STUDENT_AUTHORITY;
+        }
+
+        if (userRoles.contains(CanvasConstants.OBSERVER_ROLE)) {
+            return LTIConstants.OBSERVER_AUTHORITY;
+        }
 
         return LTIConstants.STUDENT_AUTHORITY;
     }

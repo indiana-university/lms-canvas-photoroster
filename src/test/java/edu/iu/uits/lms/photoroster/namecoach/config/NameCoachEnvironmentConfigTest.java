@@ -2,6 +2,9 @@ package edu.iu.uits.lms.photoroster.namecoach.config;
 
 import edu.iu.uits.lms.canvas.config.CanvasClientTestConfig;
 import edu.iu.uits.lms.lti.config.LtiClientTestConfig;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
@@ -14,20 +17,20 @@ import org.springframework.context.annotation.PropertySource;
 @Import({NameCoachEnvironmentConfig.class, CanvasClientTestConfig.class, LtiClientTestConfig.class})
 public class NameCoachEnvironmentConfigTest {
 
-//   @Getter
-//   @Value("${namecoach.url}")
-//   private String baseUrl;
-//
-//   @Getter
-//   @Value("${namecoach.token}")
-//   private String token;
-//
-//   @Bean
-//   public NameCoachServicesConfig nameCoachServicesConfig() {
-//      NameCoachServicesConfigImpl config = new NameCoachServicesConfigImpl();
-//      config.setBaseUrl(baseUrl);
-//      config.setToken(token);
-//      return config;
-//   }
+   @Getter
+   @Value("${namecoach.url}")
+   private String baseUrl;
+
+   @Getter
+   @Value("${namecoach.token}")
+   private String token;
+
+   @Bean
+   public NameCoachServicesConfig nameCoachServicesConfig() {
+      NameCoachServicesConfig config = new NameCoachServicesConfig();
+      config.setUrl(baseUrl);
+      config.setToken(token);
+      return config;
+   }
 
 }
