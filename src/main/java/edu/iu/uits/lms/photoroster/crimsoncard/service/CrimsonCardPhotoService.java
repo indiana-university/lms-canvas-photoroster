@@ -118,7 +118,6 @@ public class CrimsonCardPhotoService {
         try {
             ResponseEntity<List<CCImageResponse>> entity = webClient.post().uri(url)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-//                    .attributes(clientRegistrationId("crimsoncard"))
                     .body(Mono.just(ids), List.class)
                     .retrieve()
                     .toEntity(responseType)

@@ -73,35 +73,14 @@ public class CrimsonCardPhotoServiceTest {
       ResponseEntity<List<CCImageResponse>> r =
             new ResponseEntity<>(results, HttpStatus.OK);
 
-// original code pre-embedded services conversion
-//      Mockito.when(ccWebClient.exchange(anyString(), any(), any(), any(ParameterizedTypeReference.class)))
-//            .thenReturn(r);
-//      ResponseEntity<List<CCImageResponse>> entity = restTemplate.exchange(url, method, requestEntity, responseType);
-
-
-// first attempt at the conversion
-//      Mockito.when(ccWebClient.post().uri(anyString())
-//              .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-//              .attributes(clientRegistrationId("crimsoncard"))
-//              .body(Mono.just(results), List.class).retrieve()
-//              .toEntity(any(ParameterizedTypeReference.class)).block())
-//              .thenReturn(r);
-
-      // failed attempts to get this to work
+      // fancy code to mock WebClient and return an entity
       Mockito.when(ccWebClient.post()).thenReturn(requestBodyUriSpec);
       Mockito.when(requestBodyUriSpec.uri(anyString())).thenReturn(requestBodySpec);
       Mockito.when(requestBodySpec.header(any(),any())).thenReturn(requestBodySpec);
-
       Mockito.when(requestHeadersSpec.header(any(),any())).thenReturn(requestHeadersSpec);
-
       Mockito.when(requestBodySpec.accept(any())).thenReturn(requestBodySpec);
       Mockito.when(requestBodySpec.body(any(), eq(List.class))).thenReturn(requestHeadersSpec);
       Mockito.when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
-//      Mockito.when(responseSpec.bodyToMono(ArgumentMatchers.<Class<String>>notNull()))
-//              .thenReturn(Mono.just("resp"));
-
-// Bonus stuff that did not work, either
-//      Mockito.when(responseSpec.toEntity((ParameterizedTypeReference<Object>) any())).thenReturn(ParameterizedTypeReference.class);
       Mockito.when(responseSpec.toEntity(any(ParameterizedTypeReference.class))).thenReturn(Mono.just(r));
 
       Map<String, String> imageUrls = crimsonCardPhotoService.getImageUrls(ids, CrimsonCardPhotoService.CCAttributes.ID_TYPE.NETWORK_ID, CrimsonCardPhotoService.CCAttributes.SIZE.S75X100);
