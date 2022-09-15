@@ -3,7 +3,7 @@ spring:
     name: photoroster
   session:
     store-type: none
-  config.import: optional:${app.fullFilePath}/${app.overridesFileName}, optional:${app.fullFilePath}/security.properties, classpath:canvas.properties, optional:classpath:git.properties
+  config.import: optional:${app.fullFilePath}/${app.overridesFileName}, optional:${app.fullFilePath}/security.properties, classpath:canvas.properties, optional:classpath:git.properties, classpath:lti-registrations.properties
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
@@ -40,10 +40,8 @@ spring:
             client-id: ${crimsoncard.clientId}
             client-secret: ${crimsoncard.secret}
             authorization-grant-type: client_credentials
-#            scope: message.read,message.write
         provider:
           cc:
-#            authorization-uri: ${crimsoncard.authUrl}
             token-uri: ${crimsoncard.authUrl}
 photoroster:
   version: @app.version@
@@ -74,7 +72,7 @@ spring:
   config.activate.on-profile: redis-session
   session:
     store-type: redis
-    redis.namespace: photoroster-${app.version}:session
+    redis.namespace: photoroster-@app.version@:session
 management.health.redis.enabled: true
 
 ---

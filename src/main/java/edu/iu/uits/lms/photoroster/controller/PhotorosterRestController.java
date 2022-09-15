@@ -3,7 +3,7 @@ package edu.iu.uits.lms.photoroster.controller;
 import edu.iu.uits.lms.canvas.model.groups.CourseGroup;
 import edu.iu.uits.lms.canvas.services.GroupService;
 import edu.iu.uits.lms.lti.LTIConstants;
-import edu.iu.uits.lms.lti.security.LtiAuthenticationToken;
+import edu.iu.uits.lms.lti.service.OidcTokenUtils;
 import edu.iu.uits.lms.photoroster.model.BackingModel;
 import edu.iu.uits.lms.photoroster.service.PhotorosterService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import uk.ac.ox.ctl.lti13.security.oauth2.client.lti.authentication.OidcAuthenticationToken;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Comparator;
@@ -34,8 +35,10 @@ public class PhotorosterRestController extends PhotorosterController {
    @RequestMapping(value = "/people/{courseId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
    @Secured({LTIConstants.INSTRUCTOR_AUTHORITY, LTIConstants.TA_AUTHORITY, LTIConstants.STUDENT_AUTHORITY})
    public BackingModel getPeople(@PathVariable("courseId") String courseId, HttpServletRequest request) {
-      LtiAuthenticationToken token = getValidatedToken(courseId);
-      String canvasUserId = (String)token.getPrincipal();
+      OidcAuthenticationToken token = getValidatedToken(courseId);
+      OidcTokenUtils oidcTokenUtils = new OidcTokenUtils(token);
+
+      String canvasUserId = oidcTokenUtils.getUserId();
       log.debug("/people/" + courseId);
       return photorosterService.buildBackingModel(courseId, canvasUserId, request);
    }

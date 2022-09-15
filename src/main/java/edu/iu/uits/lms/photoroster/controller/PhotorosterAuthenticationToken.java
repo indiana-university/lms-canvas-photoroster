@@ -1,14 +1,16 @@
 package edu.iu.uits.lms.photoroster.controller;
 
-import edu.iu.uits.lms.lti.security.LtiAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import uk.ac.ox.ctl.lti13.security.oauth2.client.lti.authentication.OidcAuthenticationToken;
 
 import java.util.Collection;
 
-public class PhotorosterAuthenticationToken extends LtiAuthenticationToken {
+// TODO may not need this file at all
+public class PhotorosterAuthenticationToken extends OidcAuthenticationToken {
 
    public PhotorosterAuthenticationToken(Object principal, String context, String systemId, Collection<? extends GrantedAuthority> authorities, String toolId) {
-      super(principal, context, systemId, authorities, toolId);
+      super((OAuth2User) principal, authorities, toolId, systemId);
    }
 
    @Override
