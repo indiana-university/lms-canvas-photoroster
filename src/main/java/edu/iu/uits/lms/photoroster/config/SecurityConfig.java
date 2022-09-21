@@ -29,9 +29,10 @@ public class SecurityConfig {
         protected void configure(HttpSecurity http) throws Exception {
             http
                     .requestMatchers()
-                    .antMatchers(WELL_KNOWN_ALL, "/error", "/app/**")
+                    .antMatchers(WELL_KNOWN_ALL, "/error", "/app/**", "/api/**")
                     .and()
                     .authorizeRequests()
+                    .antMatchers("/api/**").permitAll()
                     .antMatchers(WELL_KNOWN_ALL, "/error").permitAll()
                     .antMatchers("/**").hasRole(BASE_USER_ROLE);
 
@@ -54,43 +55,9 @@ public class SecurityConfig {
         public void configure(WebSecurity web) throws Exception {
             // ignore everything except paths specified
             web.ignoring().antMatchers("/app/jsrivet/**", "/app/webjars/**", "/actuator/**", "/app/css/**",
-                    "/app/js/**", "/app/font/**", "/app/images/**", "/favicon.ico");
+                    "/app/js/**", "/app/font/**", "/app/images/**", "/favicon.ico", "/app/jsreact/**", "/error");
         }
-
     }
-
-// TODO - old code, not deleting yet
-//    @Configuration
-//    @Order(SecurityProperties.BASIC_AUTH_ORDER - 4)
-//    public static class AppWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
-//
-//        @Override
-//        protected void configure(HttpSecurity http) throws Exception {
-//            http.authenticationProvider(new LtiAuthenticationProvider());
-//            http
-//                  .requestMatchers().antMatchers("/lti", "/app/**")
-//                  .and()
-//                  .authorizeRequests()
-//                  .antMatchers("/lti").permitAll()
-//                  .antMatchers("/app/**").hasRole(LtiAuthenticationProvider.LTI_USER);
-//
-//            //Need to disable csrf so that we can use POST via REST
-//            http.csrf().disable();
-//
-//            //Need to disable the frame options so we can embed this in another tool
-//            http.headers().frameOptions().disable();
-//
-//            http.exceptionHandling().accessDeniedPage("/app/accessDenied");
-//        }
-//
-//        @Override
-//        public void configure(WebSecurity web) throws Exception {
-//            // ignore everything except paths specified
-//            web.ignoring().antMatchers("/app/jsrivet/**", "/app/webjars/**", "/actuator/**", "/app/css/**",
-//                  "/app/js/**", "/app/images/**", "/app/jsreact/**", "/error");
-//        }
-//
-//    }
 
     @Configuration
     @Order(SecurityProperties.BASIC_AUTH_ORDER - 2)

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -20,6 +21,7 @@ import java.util.List;
 
 @ContextConfiguration(classes = {NameCoachEnvironmentConfigTest.class})
 @Slf4j
+@Profile("namecoach")
 @Disabled
 public class NameCoachServiceImplTest {
 
