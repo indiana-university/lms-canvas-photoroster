@@ -8,12 +8,15 @@
       "domain": "localhost",
       "platform": "canvas.instructure.com",
       "privacy_level": "public",
+      "not_selectable": true,
       "settings": {
         "placements": [
           {
             "enabled": true,
             "placement": "course_navigation",
-            "message_type": "LtiResourceLinkRequest"
+            "message_type": "LtiResourceLinkRequest",
+            "default": "disabled",
+            "visibility": "members"
           }
         ]
       }
@@ -23,6 +26,7 @@
   "custom_fields": {
     "canvas_membership_roles": "$Canvas.membership.roles",
     "canvas_course_id": "$Canvas.course.id",
-    "canvas_user_login_id": "$Canvas.user.loginId"
+    "canvas_user_login_id": "$Canvas.user.loginId",
+    "canvas_user_id": "$Canvas.user.id"
   }
 }

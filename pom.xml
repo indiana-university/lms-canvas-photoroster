@@ -397,7 +397,6 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
         <resources>
             <resource>
@@ -415,114 +414,6 @@
             </resource>
         </resources>
     </build>
-<!--    <build>-->
-<!--        <finalName>photoroster</finalName>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--            </plugin>-->
-<!--            <plugin>-->
-<!--                <groupId>com.github.eirslett</groupId>-->
-<!--                <artifactId>frontend-maven-plugin</artifactId>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>js-install-node-and-npm</id>-->
-<!--                        <goals>-->
-<!--                            <goal>install-node-and-npm</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>generate-resources</phase>-->
-<!--                    </execution>-->
-<!--                    <execution>-->
-<!--                        <id>js-process</id>-->
-<!--                        <phase>generate-resources</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>npm</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                        <execution>-->
-<!--                            <id>js-test</id>-->
-<!--                            <phase>test</phase>-->
-<!--                            <goals>-->
-<!--                                <goal>npm</goal>-->
-<!--                            </goals>-->
-<!--                            <configuration>-->
-<!--                                <arguments>test</arguments>-->
-<!--                            </configuration>-->
-<!--                        </execution>-->
-<!--                    <execution>-->
-<!--                        <id>js-package</id>-->
-<!--                        <phase>generate-resources</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>webpack</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-<!--            <plugin>-->
-<!--                <groupId>io.github.git-commit-id</groupId>-->
-<!--                <artifactId>git-commit-id-maven-plugin</artifactId>-->
-<!--                <version>${git-commit-id-maven-plugin.version}</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>get-the-git-infos</id>-->
-<!--                        <goals>-->
-<!--                            <goal>revision</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>initialize</phase>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--                <configuration>-->
-<!--                    <generateGitPropertiesFile>true</generateGitPropertiesFile>-->
-<!--                    <generateGitPropertiesFilename>${project.build.outputDirectory}/git.properties</generateGitPropertiesFilename>-->
-<!--                    <includeOnlyProperties>-->
-<!--                        <includeOnlyProperty>^git.branch$</includeOnlyProperty>-->
-<!--                        <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>-->
-<!--                        <includeOnlyProperty>^git.commit.id.(abbrev|full)$</includeOnlyProperty>-->
-<!--                    </includeOnlyProperties>-->
-<!--                    <commitIdGenerationMode>full</commitIdGenerationMode>-->
-<!--                    <verbose>true</verbose>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--            <plugin>-->
-<!--                <groupId>de.jpdigital</groupId>-->
-<!--                <artifactId>hibernate54-ddl-maven-plugin</artifactId>-->
-<!--                <version>${hibernate5-ddl-maven-plugin.version}</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <goals>-->
-<!--                            <goal>gen-ddl</goal>-->
-<!--                        </goals>-->
-<!--                        <phase>process-classes</phase>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--                <configuration>-->
-<!--                    <dialects>-->
-<!--                        <param>h2</param>-->
-<!--                        <param>postgresql9</param>-->
-<!--                    </dialects>-->
-<!--                    <packages>-->
-<!--                        <param>edu.iu.uits.lms.lti</param>-->
-<!--                    </packages>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--        <resources>-->
-<!--            <resource>-->
-<!--                <directory>src/main/resources</directory>-->
-<!--                <filtering>true</filtering>-->
-<!--            </resource>-->
-<!--            <resource>-->
-<!--                <directory>src/main/java</directory>-->
-<!--                <includes>-->
-<!--                    <include>**</include>-->
-<!--                </includes>-->
-<!--                <excludes>-->
-<!--                    <exclude>**/*.java</exclude>-->
-<!--                </excludes>-->
-<!--            </resource>-->
-<!--        </resources>-->
-<!--    </build>-->
 
     <profiles>
         <profile>

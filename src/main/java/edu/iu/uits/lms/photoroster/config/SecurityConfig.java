@@ -1,6 +1,6 @@
 package edu.iu.uits.lms.photoroster.config;
 
-import edu.iu.uits.lms.lti.service.LmsDefaultGrantedAuthoritiesMapper;
+import edu.iu.uits.lms.lti.repository.DefaultInstructorRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ public class SecurityConfig {
     public static class AppWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
         @Autowired
-        private LmsDefaultGrantedAuthoritiesMapper lmsDefaultGrantedAuthoritiesMapper;
+        private DefaultInstructorRoleRepository defaultInstructorRoleRepository;
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
@@ -38,7 +38,7 @@ public class SecurityConfig {
 
             //Setup the LTI handshake
             Lti13Configurer lti13Configurer = new Lti13Configurer()
-                    .grantedAuthoritiesMapper(lmsDefaultGrantedAuthoritiesMapper);
+                    .grantedAuthoritiesMapper(new CustomRoleMapper(defaultInstructorRoleRepository));
 
             http.apply(lti13Configurer);
 
