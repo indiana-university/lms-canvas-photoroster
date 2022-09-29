@@ -42,7 +42,7 @@ class UserSearch extends React.Component {
             <label htmlFor="search" className="rvt-sr-only">Search</label>
             <div className="rvt-input-group clear-field">
                 <div className="rvt-clearable-input-group search-input">
-                    <input className="rvt-input-group__input transparencyOverride rvt-clearable-input search-input"
+                    <input className="rvt-text-input rvt-input-group__input transparencyOverride rvt-clearable-input search-input"
                         type="text" id="search" placeholder="Enter name or username" onKeyPress={this.handleKeyPress.bind(this)} />
                 </div>
                 <div className="rvt-input-group__append">

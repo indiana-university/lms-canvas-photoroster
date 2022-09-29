@@ -49,7 +49,7 @@ const ViewActions = (props) => {
     }
 
     return (
-        <div className="rvt-display-flex rvt-p-top-xs rvt-vertical-center">
+        <div className="rvt-flex rvt-p-top-xs rvt-vertical-center">
             <div>
                 <button id="gridViewOption" className="view-option rvt-button rvt-button--secondary" onClick={handleViewChange.bind(this, VIEW_MODES.grid)} title={gridTitle} >
                     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px" viewBox="3 3 10 10" enableBackground="new 0 0 16 16" width="24" height="24" className={gridClass}>

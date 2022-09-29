@@ -15,7 +15,7 @@ const UserFilterGroups = (props) => {
                 <div>
                     <fieldset className="rvt-p-left-sm">
                         <legend className="rvt-text-bold rvt-p-tb-xs">Groups</legend>
-                        <ul className="rvt-plain-list">
+                        <ul className="rvt-list-plain">
                             {groupList}
                         </ul>
                     </fieldset>

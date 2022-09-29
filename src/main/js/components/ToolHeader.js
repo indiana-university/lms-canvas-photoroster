@@ -16,7 +16,7 @@ class ToolHeader extends React.Component {
     if (this.props.showExport) {
         exportMarkup = (
             <div className="rvt-p-right-xs ie11CursorOverride" title="Download">
-                <button id="downloadRosterOption" className="view-option rvt-button rvt-button--secondary" data-modal-trigger="export-options-modal">
+                <button id="downloadRosterOption" className="view-option rvt-button rvt-button--secondary" data-rvt-dialog-trigger="export-options-modal">
                    <img alt="Download roster as csv" src={imageBase + "download.svg"} width="24" height="24" className="pointerEventOverride"></img>
                 </button>
             </div>
@@ -24,8 +24,8 @@ class ToolHeader extends React.Component {
     }
 
     return (
-        <div id="toolHeader" className="rvt-container">
-            <div className="rvt-display-flex rvt-vertical-center rvt-p-top-sm">
+        <div id="toolHeader" className="rvt-container-xl">
+            <div className="rvt-flex rvt-items-center rvt-p-top-sm">
                 <div className="rvt-p-right-sm">
                     <h1 className="rvt-ts-36">IU Photo Roster</h1>
                 </div>

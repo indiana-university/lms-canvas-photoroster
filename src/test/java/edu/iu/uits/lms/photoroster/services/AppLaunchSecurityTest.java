@@ -3,7 +3,7 @@ package edu.iu.uits.lms.photoroster.services;
 import edu.iu.uits.lms.canvas.config.CanvasClientTestConfig;
 import edu.iu.uits.lms.lti.LTIConstants;
 import edu.iu.uits.lms.lti.config.LtiClientTestConfig;
-import edu.iu.uits.lms.lti.service.TestUtils;
+import edu.iu.uits.lms.lti.config.TestUtils;
 import edu.iu.uits.lms.photoroster.config.ToolConfig;
 import edu.iu.uits.lms.photoroster.controller.PhotorosterController;
 import edu.iu.uits.lms.photoroster.service.PhotorosterService;

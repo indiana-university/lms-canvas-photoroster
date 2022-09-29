@@ -12,7 +12,7 @@ const ActionBar = (props) => {
         <UserGrouping groups={props.groups} peopleGrouping={props.peopleGrouping} groupPeople={props.groupPeople} radioDropdownNavigation={props.radioDropdownNavigation}
             radioDropdownOpening={props.radioDropdownOpening} />
         <UserSearch searchPeople={props.searchPeople} />
-        <div className="rvt-display-flex">
+        <div className="rvt-flex">
             <PhotoOptions changePhotoOptions={props.changePhotoOptions} image_mode={props.image_mode}
                 showPhotoOptions={props.showPhotoOptions} radioDropdownNavigation={props.radioDropdownNavigation}
                  radioDropdownOpening={props.radioDropdownOpening} />

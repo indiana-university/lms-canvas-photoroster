@@ -35,9 +35,9 @@ const Users = (props) => {
 
 function SignInWrapper(props) {
     return (
-        <div className="rvt-m-top-sm rvt-box">
+        <div className="rvt-m-top-sm rvt-border-all rvt-border-radius transparencyOverride">
             <table className="rvt-table-cells">
-                <caption className="sr-only">Printable roster sign-in sheet with name and blank space for signature</caption>
+                <caption className="rvt-sr-only">Printable roster sign-in sheet with name and blank space for signature</caption>
                 <colgroup>
                     <col className="twentyfive-percent" />
                 </colgroup>
@@ -65,7 +65,7 @@ function DivWrapper(props) {
 
 function ListWrapper(props) {
     return (
-        <ul className="rvt-plain-list">
+        <ul className="rvt-list-plain">
             {props.content}
         </ul>
     )

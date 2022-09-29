@@ -55,7 +55,7 @@ const Roles = (props) => {
             <span title={toolTip} aria-hidden="true" className={`roleContainer rvt-badge rvt-m-right-xxs rvt-m-bottom-xxs ${secondaryClass}`}>
                 {props.roleName}
             </span>
-            <span className="sr-only">{srRole}</span>
+            <span className="rvt-sr-only">{srRole}</span>
         </div>
       )
   }
