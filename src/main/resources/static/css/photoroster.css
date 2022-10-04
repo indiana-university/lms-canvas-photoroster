@@ -149,7 +149,7 @@ div.ferpa-CanvasAvatar, img.image-CanvasAvatar {
     }
 }
 
-.ie11CursorOverride {
+.pointerOverride {
     cursor: pointer;
 }
 

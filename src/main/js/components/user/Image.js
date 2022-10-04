@@ -12,7 +12,7 @@ const Image = (props) => {
 
         return (
             <div className="imageWrapper">
-                <button id={imageId} className="imageContainer imageInfo popupTrigger" data-rvt-dialog-trigger="modal-card-popup"
+                <button id={imageId} className="imageContainer imageInfo popupTrigger pointerOverride" data-rvt-dialog-trigger="modal-card-popup"
                     onClick={gogogo.bind(this, props.userId, props.openModalMethod, imageId)}>
                     <img src={props.imageMap[props.image_mode]} className={`image-${props.image_mode}`} alt={`User details for ${props.srName}`} />
                     <Ferpa ferpaRendered={props.ferpaRendered} modal={false} />
