@@ -14,8 +14,8 @@ const User = (props) => {
 
   if (props.view_mode == VIEW_MODES.grid) {
       return (
-        <div className={`photoGridPanel rvt-border-all rvt-border-radius rvt-p-all-sm cardPanelPaddingOverride rvt-text-center rvt-m-top-sm rvt-m-right-sm card-${props.image_mode}`}>
-            <div className="rvt-p-all-sm">
+        <div className={`photoGridPanel rvt-border-all rvt-border-radius rvt-p-all-sm rvt-text-center rvt-m-top-sm rvt-m-right-sm card-${props.image_mode}`}>
+            <div className="rvt-p-tb-sm">
                 <Image imageMap={userModel.imageMap} username={userModel.user.login_id} ferpaRendered={userModel.ferpaRestricted}
                     userId={userModel.user.id} openModalMethod={props.openModalMethod} groupingKey={props.groupingKey}
                     image_mode={props.image_mode} displayName={userModel.user.sortable_name}
