@@ -33,9 +33,9 @@ const UserModal = (props) => {
                     </div>
                 </div>
                 <div className="rvt-dialog__controls">
-                    <button className="rvt-button rvt-button--secondary" data-rvt-dialog-close="close">Close</button>
+                    <button className="rvt-button rvt-button--secondary" data-rvt-dialog-close="modal-card-popup">Close</button>
                 </div>
-                <button className="rvt-button rvt-dialog__close" data-rvt-dialog-close="close">
+                <button className="rvt-button rvt-dialog__close" data-rvt-dialog-close="modal-card-popup">
                     <span className="rvt-sr-only">Close</span>
                     <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
                         <path fill="currentColor" d="M9.41,8l5.29-5.29a1,1,0,0,0-1.41-1.41L8,6.59,2.71,1.29A1,1,0,0,0,1.29,2.71L6.59,8,1.29,13.29a1,1,0,1,0,1.41,1.41L8,9.41l5.29,5.29a1,1,0,0,0,1.41-1.41Z"/>
@@ -50,7 +50,6 @@ const UserModal = (props) => {
              id="modal-card-popup"
              role="dialog"
              aria-labelledby="modal-title"
-             aria-hidden="true"
              tabIndex="-1"
              data-rvt-dialog="modal-card-popup"
              data-rvt-dialog-darken-page
