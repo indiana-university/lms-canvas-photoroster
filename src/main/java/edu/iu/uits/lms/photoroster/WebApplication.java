@@ -57,7 +57,7 @@ import java.util.Date;
 @EnableGlobalErrorHandler(accessDeniedViewName = "accessDenied")
 @Slf4j
 @EnableCookieFilter
-@EnableCookieValve
+//@EnableCookieValve
 @EnableRedisConfiguration
 @EnableLtiClient(toolKeys = {"lms_photoroster"})
 @EnableCanvasClient
