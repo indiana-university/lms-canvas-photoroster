@@ -1,5 +1,38 @@
 package edu.iu.uits.lms.photoroster.crimsoncard.service;
 
+/*-
+ * #%L
+ * photoroster
+ * %%
+ * Copyright (C) 2015 - 2022 Indiana University
+ * %%
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 
+ * 3. Neither the name of the Indiana University nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software without
+ *    specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ * #L%
+ */
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,14 +48,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,8 +67,8 @@ import java.util.stream.Collectors;
 public class CrimsonCardPhotoService {
 
     @Autowired
-    @Qualifier("ccRestTemplate")
-    private OAuth2RestTemplate ccRestTemplate;
+    @Qualifier("ccWebClient")
+    private WebClient ccWebClient;
 
     @Autowired
     private CrimsonCardServicesConfig config;
@@ -88,7 +120,6 @@ public class CrimsonCardPhotoService {
             UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url)
                     .queryParam("Hostname", config.getLmsHost())
                     .queryParam("PhotoSize", size.getValue())
-//                    .queryParam("page", 1)
                     .queryParam("per_page", 100)
                     .queryParam("IDType", idType.getValue());
             String uriBuilder = builder.buildAndExpand(config.getBaseUrl()).toUriString();
@@ -98,7 +129,7 @@ public class CrimsonCardPhotoService {
             ParameterizedTypeReference<List<CCImageResponse>> listOfThings = new ParameterizedTypeReference<List<CCImageResponse>>() {
             };
 
-            List<CCImageResponse> imageList = pagedExchange(ccRestTemplate, uriBuilder, HttpMethod.POST, requestEntity, listOfThings);
+            List<CCImageResponse> imageList = pagedExchange(ccWebClient, uriBuilder, listOfThings, ids);
 
             //CrimsonCard was returning multiple results for a single user, so we want to filter them out by adding "distinct()"
             imageMap = imageList.stream().distinct().collect(Collectors.toMap(
@@ -107,38 +138,23 @@ public class CrimsonCardPhotoService {
         return imageMap;
     }
 
-    public byte[] getImage(String userId, CCAttributes.SIZE size) {
-        byte[] image = null;
-
-        try {
-            image = ccRestTemplate.getForObject("{base_url}/api/v1/patron/image/{userId}/{size}",
-                  byte[].class,
-                  config.getBaseUrl(), userId, size.name());
-            log.debug("{}", image);
-        } catch (HttpStatusCodeException e) {
-            log.warn("Unable to lookup user image for " + userId);
-        }
-
-        if (image == null) {
-            image = DefaultImageUtil.getDefaultImage(size);
-        }
-
-        return image;
-    }
-
     /**
      * Do a POST request, paginating through the entire dataset
-     * @param restTemplate
+     * @param webClient
      * @param url
-     * @param method
-     * @param requestEntity
      * @param responseType
+     * @param ids
      * @return
      */
-    private List<CCImageResponse> pagedExchange(RestTemplate restTemplate, String url, HttpMethod method, HttpEntity requestEntity, ParameterizedTypeReference<List<CCImageResponse>> responseType) {
+    private List<CCImageResponse> pagedExchange(WebClient webClient, String url, ParameterizedTypeReference<List<CCImageResponse>> responseType, List<CCId> ids) {
         List<CCImageResponse> resultList = new ArrayList<>();
         try {
-            ResponseEntity<List<CCImageResponse>> entity = restTemplate.exchange(url, method, requestEntity, responseType);
+            ResponseEntity<List<CCImageResponse>> entity = webClient.post().uri(url)
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .body(Mono.just(ids), List.class)
+                    .retrieve()
+                    .toEntity(responseType)
+                    .block();
 
             LinkHeaderParser lhp = new LinkHeaderParser(entity.getHeaders());
             resultList.addAll(entity.getBody());
@@ -146,7 +162,7 @@ public class CrimsonCardPhotoService {
                 String nextLink = lhp.getNext();
                 if (nextLink != null) {
                     log.debug(lhp.debug(url) + " - " + resultList.size());
-                    resultList.addAll(pagedExchange(restTemplate, nextLink, method, requestEntity, responseType));
+                    resultList.addAll(pagedExchange(webClient, nextLink, responseType, ids));
                 }
             }
         } catch (HttpStatusCodeException e) {

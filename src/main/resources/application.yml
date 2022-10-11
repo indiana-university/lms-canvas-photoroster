@@ -1,18 +1,48 @@
 spring:
   application:
     name: photoroster
-  profiles:
-    active: redis-session
   session:
     store-type: none
-#  output:
-#    ansi:
-#      enabled: ALWAYS
+  config.import: optional:${app.fullFilePath}/${app.overridesFileName}, optional:${app.fullFilePath}/security.properties, classpath:canvas.properties, optional:classpath:git.properties, classpath:lti-registrations.properties
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        temp:
+          use_jdbc_metadata_defaults: false
+      jadira:
+        usertype:
+          autoRegisterUserTypes: true
+  datasource:
+    url: ${lms.db.url}
+    username: ${lms.db.user}
+    password: ${lms.db.password}
+    type: ${lms.db.poolType}
+  cloud.vault.enabled: false
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
   security:
     oauth2:
       resourceserver:
         jwt:
           jwk-set-uri: ${oauth.tokenprovider.url}/.well-known/jwks.json
+      client:
+        registration:
+          crimsoncard:
+            provider: cc
+            client-id: ${crimsoncard.clientId}
+            client-secret: ${crimsoncard.secret}
+            authorization-grant-type: client_credentials
+        provider:
+          cc:
+            token-uri: ${crimsoncard.authUrl}
 photoroster:
   version: @app.version@
   env: ${app.env}
@@ -26,10 +56,61 @@ server:
     session:
       timeout: 30m
 
+app:
+  env: dev
+  fullFilePath: file:/usr/src/app/config
+  overridesFileName: overrides.properties
+
+management:
+  endpoint.info.enabled: true
+  endpoints.web.exposure.include: health,info
+  health.redis.enabled: false
+
 ---
 
 spring:
-  profiles: redis-session
+  config.activate.on-profile: redis-session
   session:
     store-type: redis
-    redis.namespace: photoroster-${app.version}:session
+    redis.namespace: photoroster-@app.version@:session
+management.health.redis.enabled: true
+
+---
+
+spring:
+  config:
+    activate.on-profile: vault
+    import: vault://
+  cloud.vault:
+    enabled: true
+    config:
+      lifecycle.lease-endpoints: sysleases
+    generic:
+      enabled: false
+    kv:
+      enabled: true
+      backend: ua-vpit/enterprise-systems/lms/kv
+      application-name: photoroster
+
+---
+
+spring:
+  config:
+    activate.on-profile: swagger
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api/v3/api-docs
+  cache.disabled: true
+  packagesToScan: edu.iu.uits.lms.photoroster.controller.rest
+  swagger-ui:
+    enabled: false
+    disable-swagger-default-url: true
+    path: /api/swagger-ui.html
+    # Setting supportedSubmitMethods to an empty list is what turns off the "try it out" button
+    #    supportedSubmitMethods:
+    oauth:
+      clientId: ${oauth.tokenprovider.clientId}
+  oAuthFlow:
+    authorizationUrl: ${oauth.tokenprovider.url}/oauth/authorize
+    tokenUrl: ${oauth.tokenprovider.accessTokenUri}

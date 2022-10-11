@@ -1,9 +1,42 @@
 package edu.iu.uits.lms.photoroster.controller;
 
-import canvas.client.generated.api.GroupsApi;
-import canvas.client.generated.model.CourseGroup;
+/*-
+ * #%L
+ * photoroster
+ * %%
+ * Copyright (C) 2015 - 2022 Indiana University
+ * %%
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 
+ * 3. Neither the name of the Indiana University nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software without
+ *    specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ * #L%
+ */
+
+import edu.iu.uits.lms.canvas.model.groups.CourseGroup;
+import edu.iu.uits.lms.canvas.services.GroupService;
 import edu.iu.uits.lms.lti.LTIConstants;
-import edu.iu.uits.lms.lti.security.LtiAuthenticationToken;
+import edu.iu.uits.lms.lti.service.OidcTokenUtils;
 import edu.iu.uits.lms.photoroster.model.BackingModel;
 import edu.iu.uits.lms.photoroster.service.PhotorosterService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +47,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import uk.ac.ox.ctl.lti13.security.oauth2.client.lti.authentication.OidcAuthenticationToken;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Comparator;
@@ -29,13 +63,15 @@ public class PhotorosterRestController extends PhotorosterController {
    private PhotorosterService photorosterService = null;
 
    @Autowired
-   private GroupsApi groupsApi = null;
+   private GroupService groupService = null;
 
    @RequestMapping(value = "/people/{courseId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
    @Secured({LTIConstants.INSTRUCTOR_AUTHORITY, LTIConstants.TA_AUTHORITY, LTIConstants.STUDENT_AUTHORITY})
    public BackingModel getPeople(@PathVariable("courseId") String courseId, HttpServletRequest request) {
-      LtiAuthenticationToken token = getValidatedToken(courseId);
-      String canvasUserId = (String)token.getPrincipal();
+      OidcAuthenticationToken token = getValidatedToken(courseId);
+      OidcTokenUtils oidcTokenUtils = new OidcTokenUtils(token);
+
+      String canvasUserId = oidcTokenUtils.getUserId();
       log.debug("/people/" + courseId);
       return photorosterService.buildBackingModel(courseId, canvasUserId, request);
    }
@@ -60,7 +96,7 @@ public class PhotorosterRestController extends PhotorosterController {
       log.debug("/groups/" + courseId);
       getValidatedToken(courseId);
 
-      List<CourseGroup> courseGroups = groupsApi.getGroupsForCourse(courseId);
+      List<CourseGroup> courseGroups = groupService.getGroupsForCourse(courseId);
 
       // Sort and add an "Ungrouped" group if groups exist in this course
       if (courseGroups != null && !courseGroups.isEmpty()) {

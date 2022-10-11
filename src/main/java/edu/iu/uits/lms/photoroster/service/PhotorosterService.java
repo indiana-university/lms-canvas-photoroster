@@ -1,16 +1,53 @@
 package edu.iu.uits.lms.photoroster.service;
 
-import canvas.client.generated.api.AccountsApi;
-import canvas.client.generated.api.CoursesApi;
-import canvas.client.generated.api.GroupsApi;
-import canvas.client.generated.model.Account;
-import canvas.client.generated.model.CanvasRole;
-import canvas.client.generated.model.Course;
-import canvas.client.generated.model.CourseGroup;
-import canvas.client.generated.model.Enrollment;
-import canvas.client.generated.model.Section;
-import canvas.client.generated.model.User;
-import canvas.helpers.EnrollmentHelper;
+/*-
+ * #%L
+ * photoroster
+ * %%
+ * Copyright (C) 2015 - 2022 Indiana University
+ * %%
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice, this
+ *    list of conditions and the following disclaimer.
+ * 
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 
+ * 3. Neither the name of the Indiana University nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software without
+ *    specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ * #L%
+ */
+
+import edu.iu.uits.lms.canvas.helpers.EnrollmentHelper;
+import edu.iu.uits.lms.canvas.model.Account;
+import edu.iu.uits.lms.canvas.model.CanvasRole;
+import edu.iu.uits.lms.canvas.model.Course;
+import edu.iu.uits.lms.canvas.model.Enrollment;
+import edu.iu.uits.lms.canvas.model.Section;
+import edu.iu.uits.lms.canvas.model.User;
+import edu.iu.uits.lms.canvas.model.groups.CourseGroup;
+import edu.iu.uits.lms.canvas.services.AccountService;
+import edu.iu.uits.lms.canvas.services.CourseService;
+import edu.iu.uits.lms.canvas.services.GroupService;
+import edu.iu.uits.lms.iuonly.model.ListWrapper;
+import edu.iu.uits.lms.iuonly.model.SudsFerpaEntry;
+import edu.iu.uits.lms.iuonly.services.FeatureAccessServiceImpl;
+import edu.iu.uits.lms.iuonly.services.SudsServiceImpl;
 import edu.iu.uits.lms.lti.LTIConstants;
 import edu.iu.uits.lms.photoroster.PhotorosterConstants;
 import edu.iu.uits.lms.photoroster.config.ToolConfig;
@@ -23,10 +60,6 @@ import edu.iu.uits.lms.photoroster.model.PersonModel;
 import edu.iu.uits.lms.photoroster.namecoach.model.Participant;
 import edu.iu.uits.lms.photoroster.namecoach.model.Participants;
 import edu.iu.uits.lms.photoroster.namecoach.service.NameCoachService;
-import iuonly.client.generated.api.FeatureAccessApi;
-import iuonly.client.generated.api.SudsApi;
-import iuonly.client.generated.model.ListWrapper;
-import iuonly.client.generated.model.SudsFerpaEntry;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +81,7 @@ import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import static canvas.helpers.EnrollmentHelper.TYPE_TEACHER;
+import static edu.iu.uits.lms.canvas.helpers.EnrollmentHelper.TYPE_TEACHER;
 import static edu.iu.uits.lms.photoroster.crimsoncard.service.CrimsonCardPhotoService.CCAttributes.SIZE.S240X320;
 import static edu.iu.uits.lms.photoroster.crimsoncard.service.CrimsonCardPhotoService.CCAttributes.SIZE.S75X100;
 
@@ -62,13 +95,13 @@ public class PhotorosterService {
     private ToolConfig toolConfig = null;
 
     @Autowired
-    private CoursesApi courseService = null;
+    private CourseService courseService = null;
 
     @Autowired
-    private SudsApi sudsService = null;
+    private SudsServiceImpl sudsService = null;
 
     @Autowired
-    private AccountsApi accountService = null;
+    private AccountService accountService = null;
 
     @Autowired
     private CrimsonCardPhotoService crimsonCardPhotoService = null;
@@ -77,10 +110,10 @@ public class PhotorosterService {
     private NameCoachService nameCoachService = null;
 
     @Autowired
-    private FeatureAccessApi featureAccessService = null;
+    private FeatureAccessServiceImpl featureAccessService = null;
 
     @Autowired
-    private GroupsApi groupService = null;
+    private GroupService groupService = null;
 
     @Autowired
     @Qualifier("PhotorosterCacheManager")
@@ -103,9 +136,12 @@ public class PhotorosterService {
 
         List<SudsFerpaEntry> sudsFerpaEntries = new ArrayList<>();
 
+        ListWrapper listWrapper = new ListWrapper();
+        listWrapper.setListItems(ids);
+
         // No need to make a database call if there's no users for an enrollment lookup!
         if (!ids.isEmpty()) {
-            sudsFerpaEntries = sudsService.getFerpaEntriesByListOfSisUserIds(new ListWrapper().listItems(ids), true);
+            sudsFerpaEntries = sudsService.getFerpaEntriesByListOfSisUserIds(listWrapper, true);
         }
         log.debug("Ferpa Entries: " + sudsFerpaEntries.size());
 
@@ -271,13 +307,11 @@ public class PhotorosterService {
         List<String> roleGroupingList = Arrays.asList(roleGroupings);
 
         // retrieve the group memberships
-//        Map<String, List<User>> groupIdMembershipMap = new HashMap<>();
         Map<String, List<String>> userIdGroupMembershipMap = new HashMap<>();
         boolean courseHasGroups = courseGroupMap != null && !courseGroupMap.isEmpty();
         if (courseHasGroups) {
             for (String groupId : courseGroupMap.keySet()) {
                 List<User> groupMembers = groupService.getUsersInGroup(groupId, false);
-//                groupIdMembershipMap.put(groupId, groupMembers);
 
                 for (User user : groupMembers) {
                     List<String> groupMemberships = new ArrayList<>();
@@ -354,7 +388,6 @@ public class PhotorosterService {
                     }
 
                     //Get the index of the role so we can sort it in the UI
-//                sri.setRoleSortKey(roleGroupings.get(roleGroupKey).indexOf(enr.getRole()));
                     enrollmentModelList.add(sri);
                 }
             }
