@@ -35,7 +35,6 @@ package edu.iu.uits.lms.photoroster;
 
 import edu.iu.uits.lms.canvas.config.EnableCanvasClient;
 import edu.iu.uits.lms.common.samesite.EnableCookieFilter;
-import edu.iu.uits.lms.common.samesite.EnableCookieValve;
 import edu.iu.uits.lms.common.server.GitRepositoryState;
 import edu.iu.uits.lms.common.server.ServerInfo;
 import edu.iu.uits.lms.common.server.ServerUtils;
@@ -57,7 +56,6 @@ import java.util.Date;
 @EnableGlobalErrorHandler(accessDeniedViewName = "accessDenied")
 @Slf4j
 @EnableCookieFilter
-//@EnableCookieValve
 @EnableRedisConfiguration
 @EnableLtiClient(toolKeys = {"lms_photoroster"})
 @EnableCanvasClient
