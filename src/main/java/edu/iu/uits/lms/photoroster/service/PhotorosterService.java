@@ -45,9 +45,9 @@ import edu.iu.uits.lms.canvas.services.AccountService;
 import edu.iu.uits.lms.canvas.services.CourseService;
 import edu.iu.uits.lms.canvas.services.GroupService;
 import edu.iu.uits.lms.iuonly.model.ListWrapper;
-import edu.iu.uits.lms.iuonly.model.SudsFerpaEntry;
+import edu.iu.uits.lms.iuonly.model.SisFerpaEntry;
 import edu.iu.uits.lms.iuonly.services.FeatureAccessServiceImpl;
-import edu.iu.uits.lms.iuonly.services.SudsServiceImpl;
+import edu.iu.uits.lms.iuonly.services.SisServiceImpl;
 import edu.iu.uits.lms.lti.LTIConstants;
 import edu.iu.uits.lms.photoroster.PhotorosterConstants;
 import edu.iu.uits.lms.photoroster.config.ToolConfig;
@@ -98,7 +98,7 @@ public class PhotorosterService {
     private CourseService courseService = null;
 
     @Autowired
-    private SudsServiceImpl sudsService = null;
+    private SisServiceImpl sisService = null;
 
     @Autowired
     private AccountService accountService = null;
@@ -134,20 +134,20 @@ public class PhotorosterService {
                 .map(User::getLoginId)
                 .collect(Collectors.toList());
 
-        List<SudsFerpaEntry> sudsFerpaEntries = new ArrayList<>();
+        List<SisFerpaEntry> sisFerpaEntries = new ArrayList<>();
 
         ListWrapper listWrapper = new ListWrapper();
         listWrapper.setListItems(ids);
 
         // No need to make a database call if there's no users for an enrollment lookup!
         if (!ids.isEmpty()) {
-            sudsFerpaEntries = sudsService.getFerpaEntriesByListOfSisUserIds(listWrapper, true);
+            sisFerpaEntries = sisService.getFerpaEntriesByListOfSisUserIds(listWrapper, true);
         }
-        log.debug("Ferpa Entries: " + sudsFerpaEntries.size());
+        log.debug("Ferpa Entries: " + sisFerpaEntries.size());
 
         // convert the list to a map
-        return sudsFerpaEntries.stream().collect(
-                Collectors.toMap(SudsFerpaEntry::getIuImsUsername, SudsFerpaEntry::getFerpa));
+        return sisFerpaEntries.stream().collect(
+                Collectors.toMap(SisFerpaEntry::getIuImsUsername, SisFerpaEntry::getFerpa));
     }
 
     @Cacheable(value = PhotorosterConstants.ROLES_CACHE)
@@ -454,7 +454,7 @@ public class PhotorosterService {
                 if (sisCourseId != null && !sisCourseId.isEmpty() &&
                       course.getTerm() != null && course.getTerm().getSisTermId() != null && !course.getTerm().getSisTermId().isEmpty()) {
                     // see if this a legit SIS course
-                    isSisSite = sudsService.isLegitSisCourse(sisCourseId, course.getTerm().getSisTermId());
+                    isSisSite = sisService.isLegitSisCourse(sisCourseId);
 
                     // See if we want to override and show official photos anyway
                     override = featureAccessService.isFeatureEnabledForAccount(FEATURE_OVERRIDE_WITH_SISID, course.getAccountId(), parentAccountIds);

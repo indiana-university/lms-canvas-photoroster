@@ -33,15 +33,20 @@ package edu.iu.uits.lms.photoroster.services.swagger;
  * #L%
  */
 
+import edu.iu.uits.lms.iuonly.services.SisServiceImpl;
 import edu.iu.uits.lms.lti.swagger.AbstractSwaggerDisabledTest;
 import edu.iu.uits.lms.photoroster.WebApplication;
 import edu.iu.uits.lms.photoroster.config.SecurityConfig;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 
 @SpringBootTest(classes = {WebApplication.class, SecurityConfig.class, SwaggerTestConfig.class})
 public class SwaggerDisabledTest extends AbstractSwaggerDisabledTest {
+
+   @MockBean
+   private SisServiceImpl sisService;
 
    @Override
    protected List<String> getEmbeddedSwaggerToolPaths() {
