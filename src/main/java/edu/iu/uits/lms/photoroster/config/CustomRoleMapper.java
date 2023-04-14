@@ -33,7 +33,6 @@ package edu.iu.uits.lms.photoroster.config;
  * #L%
  */
 
-import edu.iu.uits.lms.canvas.helpers.EnrollmentHelper;
 import edu.iu.uits.lms.lti.LTIConstants;
 import edu.iu.uits.lms.lti.repository.DefaultInstructorRoleRepository;
 import edu.iu.uits.lms.lti.service.LmsDefaultGrantedAuthoritiesMapper;
@@ -60,12 +59,12 @@ public class CustomRoleMapper extends LmsDefaultGrantedAuthoritiesMapper {
       }
 
       // let TAs use the tool. Compared to students, they should see the sign-in view
-      if (userRoleList.contains(EnrollmentHelper.TYPE_TA)) {
+      if (userRoleList.contains(LTIConstants.CANVAS_TA_ROLE)) {
          return LTIConstants.TA_AUTHORITY;
       }
 
       // The code will ultimately not let observers see anything if they figure out how to access the tool
-      if (userRoleList.contains(EnrollmentHelper.TYPE_OBSERVER)) {
+      if (userRoleList.contains(LTIConstants.CANVAS_OBSERVER_ROLE)) {
          return LTIConstants.OBSERVER_AUTHORITY;
       }
 

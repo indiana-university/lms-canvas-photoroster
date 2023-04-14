@@ -34,6 +34,7 @@ package edu.iu.uits.lms.photoroster.services;
  */
 
 import edu.iu.uits.lms.canvas.config.CanvasClientTestConfig;
+import edu.iu.uits.lms.iuonly.services.SisServiceImpl;
 import edu.iu.uits.lms.lti.LTIConstants;
 import edu.iu.uits.lms.lti.config.LtiClientTestConfig;
 import edu.iu.uits.lms.lti.config.TestUtils;
@@ -65,6 +66,9 @@ public class AppLaunchSecurityTest {
 
    @MockBean
    private PhotorosterService photorosterService;
+
+   @MockBean
+   private SisServiceImpl sisService;
 
    @Test
    public void appNoAuthnLaunch() throws Exception {
