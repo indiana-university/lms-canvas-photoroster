@@ -40,7 +40,6 @@ spring:
             client-id: ${crimsoncard.clientId}
             client-secret: ${crimsoncard.secret}
             authorization-grant-type: client_credentials
-            client-authentication-method: post
         provider:
           cc:
             token-uri: ${crimsoncard.authUrl}
