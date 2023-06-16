@@ -13,7 +13,7 @@
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
 
-    <version>5.0.1-SNAPSHOT</version>
+    <version>5.0.1</version>
     <description>The IU Photo Roster is a tool in Canvas that you can access via the Canvas People tool. The roster displays the name, email address, role, photo, and NameCoach recording (if available) for each member of the course.</description>
     <url>https://github.com/indiana-university/lms-canvas-photoroster/</url>
     <inceptionYear>2015</inceptionYear>
@@ -62,7 +62,7 @@
         <connection>scm:git:https://github.com/indiana-university/lms-canvas-photoroster.git</connection>
         <developerConnection>scm:git:https://github.com/indiana-university/lms-canvas-photoroster.git</developerConnection>
         <url>https://github.com/indiana-university/lms-canvas-photoroster</url>
-        <tag>HEAD</tag>
+        <tag>photoroster-5.0.1</tag>
     </scm>
 
     <properties>
