@@ -76,7 +76,7 @@ public class SecurityConfig {
                     .contentSecurityPolicy("style-src 'self' 'unsafe-inline'; form-action 'self'; frame-ancestors 'self' https://*.instructure.com")
                     .and()
                     .referrerPolicy(referrer -> referrer
-                            .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.SAME_ORIGIN));
+                            .policy(ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN));
 
             //Setup the LTI handshake
             Lti13Configurer lti13Configurer = new Lti13Configurer()
