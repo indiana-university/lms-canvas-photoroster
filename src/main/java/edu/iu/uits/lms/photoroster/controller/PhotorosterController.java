@@ -54,11 +54,6 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class PhotorosterController extends OidcTokenAwareController {
 
-   @RequestMapping(value = "/accessDenied")
-   public String accessDenied() {
-      return "accessDenied";
-   }
-
    @GetMapping("/launch")
    public String launch(Model model, SecurityContextHolderAwareRequestWrapper request) {
       OidcAuthenticationToken token = getTokenWithoutContext();

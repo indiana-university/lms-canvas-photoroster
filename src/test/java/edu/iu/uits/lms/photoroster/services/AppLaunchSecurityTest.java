@@ -92,7 +92,7 @@ public class AppLaunchSecurityTest {
               .contentType(MediaType.APPLICATION_JSON));
 
       mockMvcAction.andExpect(status().isInternalServerError());
-      mockMvcAction.andExpect(MockMvcResultMatchers.view().name ("accessDenied"));
+      mockMvcAction.andExpect(MockMvcResultMatchers.view().name ("globalAccessDenied"));
    }
 
    @Test

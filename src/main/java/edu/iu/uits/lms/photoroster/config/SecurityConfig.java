@@ -84,8 +84,6 @@ public class SecurityConfig {
 
             http.apply(lti13Configurer);
 
-            http.exceptionHandling().accessDeniedPage("/app/accessDenied");
-
             //Fallback for everything else
             http.requestMatchers().antMatchers("/**")
                     .and()
