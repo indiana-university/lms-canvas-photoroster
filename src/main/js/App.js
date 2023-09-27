@@ -140,24 +140,25 @@ class App extends React.Component {
         });
 
     // clear the image on modal close
-    document.addEventListener('modalClose', event => {
-        if (event.detail.name() === 'modal-card-popup') {
+    document.addEventListener('rvtDialogClosed', event => {
+        if (event.srcElement.getAttribute("id") === 'modal-card-popup') {
             this.setState({modalUser: this.state.emptyUser, modalEnrollments: []})
 
             // There is only one modal, but rivet expects a unique modal for each
             // user card. To return focus to the correct user card when the modal
-            // is closed, we need to set the card's data-modal-trigger attribute
+            // is closed, we need to set the card's data-rvt-dialog-trigger attribute
             // to a unique value and manually focus the modal. We will re-set to the
             // generic data-modal-trigger the next time a card is clicked
-            var trigger = document.getElementById(this.state.modalTrigger)
-            trigger.setAttribute("data-modal-trigger", "modal-card-popup-temp")
+            var trigger = document.getElementById(this.state.modalTrigger);
+            trigger.setAttribute("data-rvt-dialog-trigger", "modal-card-popup-temp");
+            // Modal.focusTrigger is wrong and needs to be changed
             Modal.focusTrigger("modal-card-popup-temp")
         }
     }, false);
 
     // clear the export options on modal close
-    document.addEventListener('modalClose', event => {
-        if (event.detail.name() === 'export-options-modal') {
+    document.addEventListener('rvtDialogClosed', event => {
+        if (event.srcElement.getAttribute("id") === 'export-options-modal') {
             this.setState({exportOptions: []});
             $("#csv-option-error").addClass("rvt-display-none")
         }
@@ -282,26 +283,24 @@ class App extends React.Component {
                 <ToolHeader users={filteredUsers} enrollments={filteredEnrollments} showExport={this.state.permissions.canSeeExport}
                     groups={this.state.groups} changeExportOptions={this.changeExportOptions.bind(this)}
                     exportOptions={this.state.exportOptions} exportData={this.state.exportData} exportHeadings={this.state.exportHeadings} />
-                <div id="printHeader" className="rvt-container">
+                <div id="printHeader" className="rvt-container-xl">
                     <h1 className="rvt-ts-29">{this.state.courseTitle}</h1>
                 </div>
                 <ErrorMessages messages={this.state.error_messages} />
-                <div className="rvt-container" id="main-container" data-urlbase="@{|/photoroster/${course.id}/|}">
-                    <div id="content-container" className="rvt-box overrideBoxColor">
-                        <div className="rvt-box__body">
-                            <ActionBar roles={this.state.roles} sections={this.state.sections} groups={this.state.groups} searchPeople={this.searchPeople.bind(this)}
-                                changePhotoOptions={this.changePhotoOptions.bind(this)} peopleGrouping={this.state.peopleGrouping} groupPeople={this.groupPeople.bind(this)}
-                                filterPeople={this.filterPeople.bind(this)} view_mode={this.state.view_mode} changeView={this.changeView.bind(this)}
-                                image_mode={this.state.image_mode}
-                                showSignInView={this.state.permissions.canSeeSigninView}
-                                showPhotoOptions={this.state.permissions.canSeeOfficialPhotos}
-                                radioDropdownNavigation={this.radioDropdownNavigation.bind(this)}
-                                radioDropdownOpening={this.radioDropdownOpening.bind(this)} />
-                            <SearchResults resultsCount={filteredUsers.length} searchTerm={this.state.peopleFilter.searchTerms} />
-                            <h2 className="sr-only" aria-live="polite">{viewHeadingText}</h2>
-                            <div id="totalUsers" className="sr-only" aria-live="polite">{totalUsersText}</div>
-                            {userList}
-                        </div>
+                <div className="rvt-container-xl" id="main-container" data-urlbase="@{|/photoroster/${course.id}/|}">
+                    <div id="content-container" className="rvt-border-all rvt-border-radius rvt-p-all-sm overrideBoxColor">
+                        <ActionBar roles={this.state.roles} sections={this.state.sections} groups={this.state.groups} searchPeople={this.searchPeople.bind(this)}
+                            changePhotoOptions={this.changePhotoOptions.bind(this)} peopleGrouping={this.state.peopleGrouping} groupPeople={this.groupPeople.bind(this)}
+                            filterPeople={this.filterPeople.bind(this)} view_mode={this.state.view_mode} changeView={this.changeView.bind(this)}
+                            image_mode={this.state.image_mode}
+                            showSignInView={this.state.permissions.canSeeSigninView}
+                            showPhotoOptions={this.state.permissions.canSeeOfficialPhotos}
+                            radioDropdownNavigation={this.radioDropdownNavigation.bind(this)}
+                            radioDropdownOpening={this.radioDropdownOpening.bind(this)} />
+                        <SearchResults resultsCount={filteredUsers.length} searchTerm={this.state.peopleFilter.searchTerms} />
+                        <h2 className="rvt-sr-only" aria-live="polite">{viewHeadingText}</h2>
+                        <div id="totalUsers" className="rvt-sr-only" aria-live="polite">{totalUsersText}</div>
+                        {userList}
                     </div>
                 </div>
                 <UserModal modalUser={this.state.modalUser} modalEnrollments={this.state.modalEnrollments}

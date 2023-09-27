@@ -30,7 +30,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  * #L%
  */
-button.transparencyOverride, input[type=text].transparencyOverride {
+button.transparencyOverride, input[type=text].transparencyOverride, div.transparencyOverride, li.transparencyOverride {
     background-color: #FFFFFF;
 }
 
@@ -82,8 +82,6 @@ button.transparencyOverride, input[type=text].transparencyOverride {
     width: 240px;
     line-height: 1.1;
     justify-content: center;
-    left: 50%;
-    transform: translate(-50%, 0);
 }
 
 .overrideDropdownWidth {
@@ -169,7 +167,6 @@ div.ferpa-CanvasAvatar, img.image-CanvasAvatar {
 }
 
 .namecoach {
-    width: 0;
     display: inline-block;
     vertical-align: top;
     cursor: pointer;
