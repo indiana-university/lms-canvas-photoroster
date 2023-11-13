@@ -35,7 +35,6 @@
     "react-dom": "18.2.0",
     "react-lines-ellipsis": "^0.15.3",
     "react-native-uuid": "^2.0.1",
-    "react-scroll-up-button": "1.6.4",
     "regenerator-runtime": "0.13.11",
     "rest": "^2.0.0",
     "rivet-clearable-input": "maurercw/rivet-clearable-input#v0.2.0",

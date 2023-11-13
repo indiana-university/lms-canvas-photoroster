@@ -41,7 +41,6 @@ import ToolHeader from 'components/ToolHeader'
 import UserModal from 'components/UserModal'
 import Loading from 'components/Loading'
 import ErrorMessages from 'components/ErrorMessages'
-import {CircleArrow as ScrollUpButton} from 'react-scroll-up-button';
 
 import { mapValues, groupBy, chain, join, uniq, sortBy } from 'lodash';
 
@@ -305,7 +304,7 @@ class App extends React.Component {
                 </div>
                 <UserModal modalUser={this.state.modalUser} modalEnrollments={this.state.modalEnrollments}
                     image_mode={this.state.image_mode} allGroups={this.state.groups}/>
-                <ScrollUpButton />
+                <scroll-to-top focusid="main-header"></scroll-to-top>
             </div>
         );
     }

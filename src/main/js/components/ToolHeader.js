@@ -59,7 +59,7 @@ class ToolHeader extends React.Component {
         <div id="toolHeader" className="rvt-container-xl">
             <div className="rvt-flex rvt-items-center rvt-p-top-sm">
                 <div className="rvt-p-right-sm">
-                    <h1 className="rvt-ts-36">IU Photo Roster</h1>
+                    <h1 id="main-header" className="rvt-ts-36">IU Photo Roster</h1>
                 </div>
                 <div className="rvt-p-right-xs ie11CursorOverride" title="Print">
                     <button className="view-option rvt-button rvt-button--plain" id="printRosterOption" onClick={this.printRoster}>
