@@ -142,16 +142,6 @@ class App extends React.Component {
     document.addEventListener('rvtDialogClosed', event => {
         if (event.srcElement.getAttribute("id") === 'modal-card-popup') {
             this.setState({modalUser: this.state.emptyUser, modalEnrollments: []})
-
-            // There is only one modal, but rivet expects a unique modal for each
-            // user card. To return focus to the correct user card when the modal
-            // is closed, we need to set the card's data-rvt-dialog-trigger attribute
-            // to a unique value and manually focus the modal. We will re-set to the
-            // generic data-modal-trigger the next time a card is clicked
-            var trigger = document.getElementById(this.state.modalTrigger);
-            trigger.setAttribute("data-rvt-dialog-trigger", "modal-card-popup-temp");
-            // Modal.focusTrigger is wrong and needs to be changed
-            Modal.focusTrigger("modal-card-popup-temp")
         }
     }, false);
 
@@ -456,6 +446,19 @@ applySearchAndFilter() {
     });
 
     this.setState({modalUser: theUser, modalEnrollments: filteredEnrollments, modalTrigger: triggerId})
+
+    // Rivet assumes one modal per trigger, but we have multiple triggers for one modal
+    // So we remove all of the trigger attributes on the buttons and re-add it to the one that
+    // is the real trigger so Rivet sets focus to the correct one when the modal closes
+    var triggerButtons = $('button[data-rvt-dialog-trigger="modal-card-popup"]');
+    triggerButtons.removeAttr("data-rvt-dialog-trigger");
+
+    // add it back to the trigger
+    $("#" + triggerId).attr('data-rvt-dialog-trigger', 'modal-card-popup');;
+
+    // manually open the modal since we do so many view changes that might not be mounted with the modal properly
+    const userModal = document.querySelector('[data-rvt-dialog="modal-card-popup"]');
+    userModal.open();
   }
 
   /**
@@ -641,14 +644,18 @@ applySearchAndFilter() {
     this.setState({exportData: processedData, exportHeadings: headings})
   }
 
-  radioDropdownNavigation(event, dropdownId, radioGroupName, isGroupMenu) {
+  radioDropdownNavigation(event, dropdownComponentId, radioGroupName, isGroupMenu) {
 
     // If it was a tab, we are moving out of the dropdown and need to close it
     // This is due to a bug in rivet dropdown that assumes all inputs are tabbable. This is not
     // the case for radio buttons which are navigated via arrow keys. If you are focused on the
     // first or second radio button in the group, tabbing out of the menu will not close it.
     if (event.keyCode == 9) {
-        Dropdown.close(dropdownId);
+        const query = "[data-rvt-dropdown='" + dropdownComponentId + "']";
+        const disclosure = document.querySelector(query);
+        if (disclosure) {
+            disclosure.close();
+        }
     }
 
     // Rivet added key handlers to force nav with up/down arrows. However, radio buttons already navigate with up/down

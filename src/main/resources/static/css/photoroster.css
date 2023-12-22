@@ -64,6 +64,7 @@ button.transparencyOverride, input[type=text].transparencyOverride, div.transpar
     border: none;
     background-color: transparent;
     padding: 0;
+    height: inherit;
 }
 
 .imageWrapper {

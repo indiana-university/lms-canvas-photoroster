@@ -44,7 +44,7 @@ const Image = (props) => {
 
         return (
             <div className="imageWrapper">
-                <button id={imageId} className="imageContainer imageInfo popupTrigger" data-rvt-dialog-trigger="modal-card-popup"
+                <button id={imageId} className="rvt-button rvt-button--plain imageContainer imageInfo popupTrigger"data-rvt-dialog-trigger="modal-card-popup"
                     onClick={gogogo.bind(this, props.userId, props.openModalMethod, imageId)}>
                     <img src={props.imageMap[props.image_mode]} className={`image-${props.image_mode}`} alt={`User details for ${props.srName}`} />
                     <Ferpa ferpaRendered={props.ferpaRendered} modal={false} />
@@ -54,9 +54,6 @@ const Image = (props) => {
 }
 
 function gogogo(userId, openModalMethod, triggerId, event) {
-    // Change all of the triggers back to the default modal name
-    // We change it temporarily on modal close to refocus on the correct user card
-    $(".popupTrigger").attr("data-rvt-dialog-trigger", "modal-card-popup");
     openModalMethod(userId, triggerId)
 }
 
