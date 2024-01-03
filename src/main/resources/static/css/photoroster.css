@@ -216,3 +216,9 @@ a.svgObjectHelper:after {
 .photo-option {
   white-space: nowrap;
 }
+
+/* overriding clearable input to match rivet 2 color */
+.rvt-clearable-input {
+    border: 1px solid #75838f !important;
+}
+

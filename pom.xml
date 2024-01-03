@@ -133,11 +133,11 @@
             <artifactId>lms-canvas-redis-config</artifactId>
             <version>${lms-embedded-services.version}</version>
         </dependency>
-        <dependency>
-            <groupId>edu.iu.uits.lms</groupId>
-            <artifactId>lms-canvas-rivet</artifactId>
-            <version>${lms-canvas-rivet.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>edu.iu.uits.lms</groupId>-->
+<!--            <artifactId>lms-canvas-rivet</artifactId>-->
+<!--            <version>${lms-canvas-rivet.version}</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>edu.iu.uits.lms</groupId>
             <artifactId>lms-canvas-services</artifactId>

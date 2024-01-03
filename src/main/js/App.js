@@ -122,6 +122,7 @@ class App extends React.Component {
                 roles: getRolesFromEnrollments(enrollmentData),
                 loading: false,
                 emptyUser: backing.data.emptyUser,
+                modalUser: backing.data.emptyUser,
                 courseTitle: backing.data.courseTitle,
                 permissions: permissions,
                 image_mode: imageMode,
@@ -454,7 +455,7 @@ applySearchAndFilter() {
     triggerButtons.removeAttr("data-rvt-dialog-trigger");
 
     // add it back to the trigger
-    $("#" + triggerId).attr('data-rvt-dialog-trigger', 'modal-card-popup');;
+    $("#" + triggerId).attr('data-rvt-dialog-trigger', 'modal-card-popup');
 
     // manually open the modal since we do so many view changes that might not be mounted with the modal properly
     const userModal = document.querySelector('[data-rvt-dialog="modal-card-popup"]');

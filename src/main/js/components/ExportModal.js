@@ -189,8 +189,8 @@ class ExportModal extends React.Component {
             return;
         }
 
-        // this bit needs to be changed
-        Modal.close('export-options-modal');
+        const exportModal = document.querySelector('[data-rvt-dialog="export-options-modal"]')
+        exportModal.close();
     }
 
 }

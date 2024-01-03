@@ -40,13 +40,13 @@
     <title>IU Photo Roster</title>
     <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
     <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/app/jsrivet/rivet.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/app/css/rivet.min.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/app/css/photoroster.css}"/>
     <link rel="stylesheet" type="text/css" media="print" th:href="@{/app/css/print.css}"/>
 </head>
 <body>
 
-<div id="root"></div>
+<div id="root" data-rvt-dialog-mount></div>
 
 <footer class="rvt-ts-12 rvt-container-xl rvt-m-top-lg">
     <div id="footer" th:text="${@serverInfo}"></div>
@@ -63,7 +63,7 @@
 </script>
 
 <script th:src="@{/app/jsreact/lms-lti-photoroster/lms-lti-photoroster.js}"></script>
-<script type="text/javascript" th:src="@{/app/jsrivet/rivet.min.js}"></script>
+<script type="text/javascript" th:src="@{/app/js/rivet.min.js}"></script>
 <script type="text/javascript" defer th:src="@{/app/jsrivet/scrolltotop/scrolltotop.js}"></script>
 <script type="text/javascript" th:src="@{/app/webjars/jquery/jquery.min.js}"></script>
 <script>
