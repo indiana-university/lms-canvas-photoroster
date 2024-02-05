@@ -64,7 +64,7 @@ class UserFilter extends React.Component {
           ))
 
       return (
-          <div className="rvt-dropdown rvt-p-top-xs rvt-m-right-sm-md-up" role="region" aria-label="Controls for filtering participants in roster" data-rvt-dropdown="filter-dropdown">
+          <div className="rvt-dropdown rvt-p-top-xs rvt-m-right-sm-md-up" role="region" aria-label="Controls for filtering participants in roster" data-rvt-dropdown="dropdown-filter">
               <div id="selectedFilterText" className="rvt-sr-only" aria-live="polite"></div>
               <button id="rosterFiltering" type="button" class="rvt-button rvt-button--secondary transparencyOverride" data-rvt-dropdown-toggle="filter-options">
                   <span class="rvt-dropdown__toggle-text">Filter By <span id="filters-active"></span></span>

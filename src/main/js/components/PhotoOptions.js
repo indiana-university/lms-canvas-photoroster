@@ -54,7 +54,7 @@ const PhotoOptions = (props) => {
   };
 
     return (
-        <div className="rvt-dropdown rvt-p-right-lg rvt-p-top-xs rvt-m-left-auto" role="region" aria-label="Controls for photo type and size" data-rvt-dropdown="photo-dropdown">
+        <div className="rvt-dropdown rvt-p-right-lg rvt-p-top-xs rvt-m-left-auto" role="region" aria-label="Controls for photo type and size" data-rvt-dropdown="dropdown-photo">
             <button
                 type="button"
                 id="photoOptionsDropdown"
