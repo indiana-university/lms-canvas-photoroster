@@ -43,12 +43,19 @@ class ToolHeader extends React.Component {
     window.print();
   }
 
+  exportFocus() {
+    var firstInput = document.querySelector('#export-options-modal input');
+    if (firstInput) {
+        firstInput.focus();
+    }
+  }
+
   render() {
     var exportMarkup = "";
     if (this.props.showExport) {
         exportMarkup = (
             <div className="rvt-p-right-xs ie11CursorOverride" title="Download">
-                <button id="downloadRosterOption" className="view-option rvt-button rvt-button--secondary" data-rvt-dialog-trigger="export-options-modal">
+                <button id="downloadRosterOption" className="view-option rvt-button rvt-button--secondary" data-rvt-dialog-trigger="export-options-modal" onClick={this.exportFocus}>
                    <img alt="Download roster as csv" src={imageBase + "download.svg"} width="24" height="24" className="pointerEventOverride"></img>
                 </button>
             </div>

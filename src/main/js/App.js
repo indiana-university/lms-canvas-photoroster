@@ -460,6 +460,12 @@ applySearchAndFilter() {
     // manually open the modal since we do so many view changes that might not be mounted with the modal properly
     const userModal = document.querySelector('[data-rvt-dialog="modal-card-popup"]');
     userModal.open();
+
+    // Move focus to the heading of the user modal
+    var focusId = document.getElementById("modal-card-popup-title");
+    if (focusId) {
+        focusId.focus();
+    }
   }
 
   /**

@@ -46,7 +46,7 @@ const UserModal = (props) => {
         modalContents = (
             <div>
                 <header className="rvt-dialog__header">
-                    <h1 className="rvt-dialog__title" id="modal-card-popup-title">{props.modalUser.user.name}</h1>
+                    <h1 tabIndex="-1" className="rvt-dialog__title" id="modal-card-popup-title">{props.modalUser.user.name}</h1>
                 </header>
                 <div id="modalBody" className="rvt-dialog__body">
                     <div className="rvt-p-all-sm">
@@ -81,7 +81,7 @@ const UserModal = (props) => {
         <div className="rvt-dialog"
              id="modal-card-popup"
              role="dialog"
-             tabIndex="-1"
+             aria-modal="true"
              aria-labelledby="modal-card-popup-title"
              data-rvt-dialog="modal-card-popup"
              data-rvt-dialog-modal
