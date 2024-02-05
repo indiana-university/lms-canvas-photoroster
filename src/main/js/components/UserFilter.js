@@ -64,13 +64,13 @@ class UserFilter extends React.Component {
           ))
 
       return (
-          <div className="rvt-dropdown rvt-p-top-xs rvt-m-right-sm-md-up" role="region" aria-label="Controls for filtering participants in roster" data-rvt-dropdown="filterDropdown">
+          <div className="rvt-dropdown rvt-p-top-xs rvt-m-right-sm-md-up" role="region" aria-label="Controls for filtering participants in roster" data-rvt-dropdown="filter-dropdown">
               <div id="selectedFilterText" className="rvt-sr-only" aria-live="polite"></div>
-              <button id="rosterFiltering" type="button" class="rvt-button rvt-button--secondary transparencyOverride" data-rvt-dropdown-toggle>
+              <button id="rosterFiltering" type="button" class="rvt-button rvt-button--secondary transparencyOverride" data-rvt-dropdown-toggle="filter-options">
                   <span class="rvt-dropdown__toggle-text">Filter By <span id="filters-active"></span></span>
                   <svg aria-hidden="true" fill="currentColor" width="16" height="16" viewBox="0 0 16 16"><path d="m15.146 6.263-1.292-1.526L8 9.69 2.146 4.737.854 6.263 8 12.31l7.146-6.047Z"></path></svg>
               </button>
-              <div id="filterDropdown" className="rvt-dropdown__menu" data-rvt-dropdown-menu hidden>
+              <div id="filterDropdown" className="rvt-dropdown__menu" data-rvt-dropdown-menu="filter-options" hidden>
                   <button id="remove-filters" aria-describedby="filter-count" className="rvt-button rvt-button--secondary" onClick={this.handleRemoveFilterClick.bind(this)}>Remove Filters</button>
                   <span id="filter-count" className="rvt-sr-only">No filters currently selected</span>
                   <div id="role-division">
