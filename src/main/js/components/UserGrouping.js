@@ -47,12 +47,12 @@ class UserGrouping extends React.Component {
                     id="groupByDropdown"
                     type="button"
                     className="rvt-button rvt-button--secondary transparencyOverride"
-                    data-rvt-dropdown-toggle
+                    data-rvt-dropdown-toggle="grouping-options"
                     onKeyDown={this.handleOpening.bind(this)}>
                         <span className="rvt-dropdown__toggle-text">Group By</span>
                         <svg aria-hidden="true" fill="currentColor" width="16" height="16" viewBox="0 0 16 16"><path d="m15.146 6.263-1.292-1.526L8 9.69 2.146 4.737.854 6.263 8 12.31l7.146-6.047Z"></path></svg>
                 </button>
-                <div id="dropdown-grouping" className="rvt-dropdown__menu" data-rvt-dropdown-menu hidden>
+                <div id="dropdown-grouping" className="rvt-dropdown__menu" data-rvt-dropdown-menu="grouping-options" hidden>
                     <fieldset className="rvt-fieldset rvt-p-left-sm">
                         <legend className="rvt-sr-only">Group By Options</legend>
                         <ul className="rvt-list-plain">

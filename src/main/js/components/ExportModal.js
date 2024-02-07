@@ -40,40 +40,7 @@ class ExportModal extends React.Component {
 
     constructor(props) {
         super(props);
-//        this.props = props;
-//        this.exportCsv.bind(this);
-//        this.handleExportOption.bind(this);
     }
-
-//    componentDidMount() {
-//        /* Rivet2 and react don't play well together in modals, so trying to do this stuff here */
-//
-//        // submit button making sure something is checked and prevent csv download if not
-//        const submitButton = document.getElementById('csv-submit-button');
-//        submitButton.addEventListener('click', this.exportCsv);
-//
-//        // checkboxes for monitoring change and updating columns to pass for the csv
-//        // this one is conditional
-//        if (this.props.groups && this.props.groups.length > 0) {
-//            const checkboxGroup = document.getElementById('csv-group');
-//            checkboxGroup.addEventListener('change', this.handleExportOption);
-//        }
-//
-//        const checkboxSortName = document.getElementById('csv-sort-name');
-//        checkboxSortName.addEventListener('change', this.handleExportOption);
-//
-//        const checkboxEmail = document.getElementById('csv-email');
-//        checkboxEmail.addEventListener('change', this.handleExportOption);
-//
-//        const checkboxUsername = document.getElementById('csv-username');
-//        checkboxUsername.addEventListener('change', this.handleExportOption);
-//
-//        const checkboxRole = document.getElementById('csv-role');
-//        checkboxRole.addEventListener('change', this.handleExportOption);
-//
-//        const checkboxSection = document.getElementById('csv-section');
-//        checkboxSection.addEventListener('change', this.handleExportOption);
-//    }
 
     render() {
         var date = dateformat(new Date(), "yyyy-mm-dd");
@@ -96,7 +63,7 @@ class ExportModal extends React.Component {
             <div className="rvt-dialog"
                  id="export-options-modal"
                  role="dialog"
-                 tabIndex="-1"
+                 aria-modal="true"
                  aria-labelledby="export-options-modal-title"
                  data-rvt-dialog="export-options-modal"
                  data-rvt-dialog-modal
@@ -189,8 +156,8 @@ class ExportModal extends React.Component {
             return;
         }
 
-        // this bit needs to be changed
-        Modal.close('export-options-modal');
+        const exportModal = document.querySelector('[data-rvt-dialog="export-options-modal"]')
+        exportModal.close();
     }
 
 }
