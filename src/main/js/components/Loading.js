@@ -48,7 +48,8 @@ const Loading = (props) => {
                                 <animateTransform attributeName="transform" dur="15s" type="rotate" from="0 50 50" to="360 50 50" repeatCount="indefinite"></animateTransform>
                             </line>
                         </svg>
-                    </div><span id="loading-text" aria-live="polite" className="rvt-ts-md rvt-m-left-sm">Loading...</span>
+                    </div>
+                    <span id="loading-text" className="rvt-ts-md rvt-m-left-sm">Loading...</span>
                 </div>
             </div>
         )
