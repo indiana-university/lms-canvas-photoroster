@@ -61,19 +61,19 @@ const User = (props) => {
       return (
         <li className="rvt-border-all rvt-border-radius photoListPanel rvt-text-left rvt-m-top-sm rvt-m-right-xs transparencyOverride">
             <div className="rvt-row rvt-p-all-sm">
-                <div className="rvt-cols-3-lg">
-                        <Image imageMap={userModel.imageMap} username={userModel.user.login_id} ferpaRendered={userModel.ferpaRestricted}
-                            userId={userModel.user.id} openModalMethod={props.openModalMethod} groupingKey={props.groupingKey}
-                            image_mode={props.image_mode} displayName={userModel.user.sortable_name}
-                            srName={userModel.user.name}/>
-                    </div>
-                    <div className="rvt-cols">
-                        <Name displayName={userModel.user.sortable_name} srName={userModel.user.name} recordingUrl={userModel.recordingUrl} />
-                        <Pronouns pronouns={userModel.preferredPronouns} srName={userModel.user.name} />
-                        <EmailInfo email={userModel.user.email} srName={userModel.user.name} />
-                        <Roles enrollmentData={enrollmentData} allGroups={props.allGroups} />
-                    </div>
+                <div>
+                    <Image imageMap={userModel.imageMap} username={userModel.user.login_id} ferpaRendered={userModel.ferpaRestricted}
+                        userId={userModel.user.id} openModalMethod={props.openModalMethod} groupingKey={props.groupingKey}
+                        image_mode={props.image_mode} displayName={userModel.user.sortable_name}
+                        srName={userModel.user.name}/>
                 </div>
+                <div className="rvt-cols">
+                    <Name displayName={userModel.user.sortable_name} srName={userModel.user.name} recordingUrl={userModel.recordingUrl} />
+                    <Pronouns pronouns={userModel.preferredPronouns} srName={userModel.user.name} />
+                    <EmailInfo email={userModel.user.email} srName={userModel.user.name} />
+                    <Roles enrollmentData={enrollmentData} allGroups={props.allGroups} />
+                </div>
+            </div>
         </li>
       );
   } else if (props.view_mode == VIEW_MODES.signIn) {
