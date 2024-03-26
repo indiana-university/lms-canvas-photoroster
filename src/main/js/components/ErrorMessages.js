@@ -49,7 +49,7 @@ const ErrorMessages = (props) => {
                 ))
 
         return (
-            <ul className="rvt-alert-list hidePrint rvt-container rvt-m-bottom-sm">
+            <ul className="rvt-alert-list hidePrint rvt-container-xl rvt-m-bottom-sm">
                 {errorMessages}
             </ul>
         )

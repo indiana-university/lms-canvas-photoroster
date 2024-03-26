@@ -41,7 +41,6 @@ import ToolHeader from 'components/ToolHeader'
 import UserModal from 'components/UserModal'
 import Loading from 'components/Loading'
 import ErrorMessages from 'components/ErrorMessages'
-import {CircleArrow as ScrollUpButton} from 'react-scroll-up-button';
 
 import { mapValues, groupBy, chain, join, uniq, sortBy } from 'lodash';
 
@@ -123,6 +122,7 @@ class App extends React.Component {
                 roles: getRolesFromEnrollments(enrollmentData),
                 loading: false,
                 emptyUser: backing.data.emptyUser,
+                modalUser: backing.data.emptyUser,
                 courseTitle: backing.data.courseTitle,
                 permissions: permissions,
                 image_mode: imageMode,
@@ -140,24 +140,15 @@ class App extends React.Component {
         });
 
     // clear the image on modal close
-    document.addEventListener('modalClose', event => {
-        if (event.detail.name() === 'modal-card-popup') {
+    document.addEventListener('rvtDialogClosed', event => {
+        if (event.srcElement.getAttribute("id") === 'modal-card-popup') {
             this.setState({modalUser: this.state.emptyUser, modalEnrollments: []})
-
-            // There is only one modal, but rivet expects a unique modal for each
-            // user card. To return focus to the correct user card when the modal
-            // is closed, we need to set the card's data-modal-trigger attribute
-            // to a unique value and manually focus the modal. We will re-set to the
-            // generic data-modal-trigger the next time a card is clicked
-            var trigger = document.getElementById(this.state.modalTrigger)
-            trigger.setAttribute("data-modal-trigger", "modal-card-popup-temp")
-            Modal.focusTrigger("modal-card-popup-temp")
         }
     }, false);
 
     // clear the export options on modal close
-    document.addEventListener('modalClose', event => {
-        if (event.detail.name() === 'export-options-modal') {
+    document.addEventListener('rvtDialogClosed', event => {
+        if (event.srcElement.getAttribute("id") === 'export-options-modal') {
             this.setState({exportOptions: []});
             $("#csv-option-error").addClass("rvt-display-none")
         }
@@ -282,31 +273,29 @@ class App extends React.Component {
                 <ToolHeader users={filteredUsers} enrollments={filteredEnrollments} showExport={this.state.permissions.canSeeExport}
                     groups={this.state.groups} changeExportOptions={this.changeExportOptions.bind(this)}
                     exportOptions={this.state.exportOptions} exportData={this.state.exportData} exportHeadings={this.state.exportHeadings} />
-                <div id="printHeader" className="rvt-container">
+                <div id="printHeader" className="rvt-container-xl">
                     <h1 className="rvt-ts-29">{this.state.courseTitle}</h1>
                 </div>
                 <ErrorMessages messages={this.state.error_messages} />
-                <div className="rvt-container" id="main-container" data-urlbase="@{|/photoroster/${course.id}/|}">
-                    <div id="content-container" className="rvt-box overrideBoxColor">
-                        <div className="rvt-box__body">
-                            <ActionBar roles={this.state.roles} sections={this.state.sections} groups={this.state.groups} searchPeople={this.searchPeople.bind(this)}
-                                changePhotoOptions={this.changePhotoOptions.bind(this)} peopleGrouping={this.state.peopleGrouping} groupPeople={this.groupPeople.bind(this)}
-                                filterPeople={this.filterPeople.bind(this)} view_mode={this.state.view_mode} changeView={this.changeView.bind(this)}
-                                image_mode={this.state.image_mode}
-                                showSignInView={this.state.permissions.canSeeSigninView}
-                                showPhotoOptions={this.state.permissions.canSeeOfficialPhotos}
-                                radioDropdownNavigation={this.radioDropdownNavigation.bind(this)}
-                                radioDropdownOpening={this.radioDropdownOpening.bind(this)} />
-                            <SearchResults resultsCount={filteredUsers.length} searchTerm={this.state.peopleFilter.searchTerms} />
-                            <h2 className="sr-only" aria-live="polite">{viewHeadingText}</h2>
-                            <div id="totalUsers" className="sr-only" aria-live="polite">{totalUsersText}</div>
-                            {userList}
-                        </div>
+                <div className="rvt-container-xl" id="main-container" data-urlbase="@{|/photoroster/${course.id}/|}">
+                    <div id="content-container" className="rvt-border-all rvt-border-radius rvt-p-all-sm overrideBoxColor">
+                        <ActionBar roles={this.state.roles} sections={this.state.sections} groups={this.state.groups} searchPeople={this.searchPeople.bind(this)}
+                            changePhotoOptions={this.changePhotoOptions.bind(this)} peopleGrouping={this.state.peopleGrouping} groupPeople={this.groupPeople.bind(this)}
+                            filterPeople={this.filterPeople.bind(this)} view_mode={this.state.view_mode} changeView={this.changeView.bind(this)}
+                            image_mode={this.state.image_mode}
+                            showSignInView={this.state.permissions.canSeeSigninView}
+                            showPhotoOptions={this.state.permissions.canSeeOfficialPhotos}
+                            radioDropdownNavigation={this.radioDropdownNavigation.bind(this)}
+                            radioDropdownOpening={this.radioDropdownOpening.bind(this)} />
+                        <SearchResults resultsCount={filteredUsers.length} searchTerm={this.state.peopleFilter.searchTerms} />
+                        <h2 className="rvt-sr-only" aria-live="polite">{viewHeadingText}</h2>
+                        <div id="totalUsers" className="rvt-sr-only" aria-live="polite">{totalUsersText}</div>
+                        {userList}
                     </div>
                 </div>
                 <UserModal modalUser={this.state.modalUser} modalEnrollments={this.state.modalEnrollments}
                     image_mode={this.state.image_mode} allGroups={this.state.groups}/>
-                <ScrollUpButton />
+                <scroll-to-top focusid="main-header"></scroll-to-top>
             </div>
         );
     }
@@ -458,6 +447,25 @@ applySearchAndFilter() {
     });
 
     this.setState({modalUser: theUser, modalEnrollments: filteredEnrollments, modalTrigger: triggerId})
+
+    // Rivet assumes one modal per trigger, but we have multiple triggers for one modal
+    // So we remove all of the trigger attributes on the buttons and re-add it to the one that
+    // is the real trigger so Rivet sets focus to the correct one when the modal closes
+    var triggerButtons = $('button[data-rvt-dialog-trigger="modal-card-popup"]');
+    triggerButtons.removeAttr("data-rvt-dialog-trigger");
+
+    // add it back to the trigger
+    $("#" + triggerId).attr('data-rvt-dialog-trigger', 'modal-card-popup');
+
+    // manually open the modal since we do so many view changes that might not be mounted with the modal properly
+    const userModal = document.querySelector('[data-rvt-dialog="modal-card-popup"]');
+    userModal.open();
+
+    // Move focus to the heading of the user modal
+    var focusId = document.getElementById("modal-card-popup-title");
+    if (focusId) {
+        focusId.focus();
+    }
   }
 
   /**
@@ -643,14 +651,18 @@ applySearchAndFilter() {
     this.setState({exportData: processedData, exportHeadings: headings})
   }
 
-  radioDropdownNavigation(event, dropdownId, radioGroupName, isGroupMenu) {
+  radioDropdownNavigation(event, dropdownComponentId, radioGroupName, isGroupMenu) {
 
     // If it was a tab, we are moving out of the dropdown and need to close it
     // This is due to a bug in rivet dropdown that assumes all inputs are tabbable. This is not
     // the case for radio buttons which are navigated via arrow keys. If you are focused on the
     // first or second radio button in the group, tabbing out of the menu will not close it.
     if (event.keyCode == 9) {
-        Dropdown.close(dropdownId);
+        const query = "[data-rvt-dropdown='" + dropdownComponentId + "']";
+        const disclosure = document.querySelector(query);
+        if (disclosure) {
+            disclosure.close();
+        }
     }
 
     // Rivet added key handlers to force nav with up/down arrows. However, radio buttons already navigate with up/down

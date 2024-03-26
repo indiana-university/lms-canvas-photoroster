@@ -53,7 +53,7 @@ const Name = (props) => {
 //                          basedOn='letters'
 //                          maxLine={2} />
 
-//    return (<div className="rvt-container hover-over">
+//    return (<div className="rvt-container-xl hover-over">
 //        <div className="rvt-grid">
 //            <div className="rvt-grid__item-2-md-up">&nbsp;</div>
 //            <div className="rvt-grid__item-8-md-up">

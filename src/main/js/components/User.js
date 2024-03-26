@@ -46,8 +46,7 @@ const User = (props) => {
 
   if (props.view_mode == VIEW_MODES.grid) {
       return (
-        <div className={`photoGridPanel rvt-box cardPanelPaddingOverride rvt-text-center rvt-m-top-sm rvt-m-right-sm card-${props.image_mode}`}>
-            <div className="rvt-box__body">
+        <div className={`rvt-border-all rvt-border-radius transparencyOverride photoGridPanel cardPanelPaddingOverride rvt-text-center rvt-m-top-sm rvt-m-right-sm card-${props.image_mode}`}>
                 <Image imageMap={userModel.imageMap} username={userModel.user.login_id} ferpaRendered={userModel.ferpaRestricted}
                     userId={userModel.user.id} openModalMethod={props.openModalMethod} groupingKey={props.groupingKey}
                     image_mode={props.image_mode} displayName={userModel.user.sortable_name}
@@ -56,26 +55,23 @@ const User = (props) => {
                 <Pronouns pronouns={userModel.preferredPronouns} srName={userModel.user.name} />
                 <EmailInfo email={userModel.user.email} srName={userModel.user.name} />
                 <Roles enrollmentData={enrollmentData} allGroups={props.allGroups} />
-            </div>
         </div>
       );
   } else if (props.view_mode == VIEW_MODES.list) {
       return (
-        <li className="photoListPanel rvt-box rvt-text-left rvt-m-top-sm rvt-m-right-xs">
-            <div className="rvt-box__body">
-                <div className="rvt-grid">
-                    <div className="rvt-grid__item-3-lg">
-                        <Image imageMap={userModel.imageMap} username={userModel.user.login_id} ferpaRendered={userModel.ferpaRestricted}
-                            userId={userModel.user.id} openModalMethod={props.openModalMethod} groupingKey={props.groupingKey}
-                            image_mode={props.image_mode} displayName={userModel.user.sortable_name}
-                            srName={userModel.user.name}/>
-                    </div>
-                    <div className="rvt-grid__item rvt-lg">
-                        <Name displayName={userModel.user.sortable_name} srName={userModel.user.name} recordingUrl={userModel.recordingUrl} />
-                        <Pronouns pronouns={userModel.preferredPronouns} srName={userModel.user.name} />
-                        <EmailInfo email={userModel.user.email} srName={userModel.user.name} />
-                        <Roles enrollmentData={enrollmentData} allGroups={props.allGroups} />
-                    </div>
+        <li className="rvt-border-all rvt-border-radius photoListPanel rvt-text-left rvt-m-top-sm rvt-m-right-xs transparencyOverride">
+            <div className="rvt-row rvt-p-all-sm">
+                <div>
+                    <Image imageMap={userModel.imageMap} username={userModel.user.login_id} ferpaRendered={userModel.ferpaRestricted}
+                        userId={userModel.user.id} openModalMethod={props.openModalMethod} groupingKey={props.groupingKey}
+                        image_mode={props.image_mode} displayName={userModel.user.sortable_name}
+                        srName={userModel.user.name}/>
+                </div>
+                <div className="rvt-cols">
+                    <Name displayName={userModel.user.sortable_name} srName={userModel.user.name} recordingUrl={userModel.recordingUrl} />
+                    <Pronouns pronouns={userModel.preferredPronouns} srName={userModel.user.name} />
+                    <EmailInfo email={userModel.user.email} srName={userModel.user.name} />
+                    <Roles enrollmentData={enrollmentData} allGroups={props.allGroups} />
                 </div>
             </div>
         </li>
