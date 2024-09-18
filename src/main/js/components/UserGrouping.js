@@ -108,10 +108,12 @@ function GroupOption(props) {
     if (props.groups && props.groups.length > 0) {
         return (
             <li>
-                <input type="radio" name="radio-groupType" id="radio-group" onChange={props.handleGrouping}
-                    value={GROUPING_BY.group} checked={GROUPING_BY.group === props.peopleGrouping}
-                    onKeyDown={props.handleRadios} />
-                <label htmlFor="radio-group">Group</label>
+                <div className="rvt-radio">
+                    <input type="radio" name="radio-groupType" id="radio-group" onChange={props.handleGrouping}
+                        value={GROUPING_BY.group} checked={GROUPING_BY.group === props.peopleGrouping}
+                        onKeyDown={props.handleRadios} />
+                    <label htmlFor="radio-group">Group</label>
+                </div>
             </li>
         )
     } else {

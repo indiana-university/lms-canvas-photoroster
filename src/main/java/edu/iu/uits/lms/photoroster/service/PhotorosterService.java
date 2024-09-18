@@ -60,6 +60,7 @@ import edu.iu.uits.lms.photoroster.model.PersonModel;
 import edu.iu.uits.lms.photoroster.namecoach.model.Participant;
 import edu.iu.uits.lms.photoroster.namecoach.model.Participants;
 import edu.iu.uits.lms.photoroster.namecoach.service.NameCoachService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,6 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

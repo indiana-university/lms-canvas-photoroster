@@ -40,9 +40,9 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.Assert;
-import org.springframework.util.Base64Utils;
 
 import java.io.IOException;
+import java.util.Base64;
 
 @Slf4j
 public class CrimsonCardTokenAccessRequestAuthorizationInterceptor implements ClientHttpRequestInterceptor {
@@ -67,7 +67,7 @@ public class CrimsonCardTokenAccessRequestAuthorizationInterceptor implements Cl
     public ClientHttpResponse intercept(HttpRequest request, byte[] body,
                                         ClientHttpRequestExecution execution) throws IOException {
         String combined = clientId + ":" + secret;
-        String encoded = Base64Utils.encodeToString(combined.getBytes());
+        String encoded = Base64.getEncoder().encodeToString(combined.getBytes());
         request.getHeaders().add(HttpHeaders.AUTHORIZATION, "Basic " + encoded);
         return execution.execute(request, body);
     }
