@@ -58,7 +58,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(value = PhotorosterController.class, properties = {"oauth.tokenprovider.url=http://foo"})
-//@Import({ToolConfig.class, CanvasClientTestConfig.class, LtiClientTestConfig.class})
 @ContextConfiguration(classes = {PhotorosterController.class, SecurityConfig.class})
 public class AppLaunchSecurityTest {
 
@@ -82,22 +81,6 @@ public class AppLaunchSecurityTest {
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isForbidden());
    }
-
-//   @Test
-//   public void appAuthnWrongContextLaunch() throws Exception {
-//      OidcAuthenticationToken token = TestUtils.buildToken("userId",
-//              "asdf", LTIConstants.BASE_USER_ROLE);
-//
-//      SecurityContextHolder.getContext().setAuthentication(token);
-//
-//      //This is a secured endpoint and should not allow access without authn
-//      ResultActions mockMvcAction = mvc.perform(get("/app/1234")
-//              .header(HttpHeaders.USER_AGENT, TestUtils.defaultUseragent())
-//              .contentType(MediaType.APPLICATION_JSON));
-//
-//      mockMvcAction.andExpect(status().isInternalServerError());
-//      mockMvcAction.andExpect(MockMvcResultMatchers.view().name ("globalAccessDenied"));
-//   }
 
    @Test
    public void appAuthnWrongContextLaunch() throws Exception {
