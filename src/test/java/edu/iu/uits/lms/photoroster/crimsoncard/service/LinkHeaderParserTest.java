@@ -33,6 +33,7 @@ package edu.iu.uits.lms.photoroster.crimsoncard.service;
  * #L%
  */
 
+import jakarta.ws.rs.core.Link;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Assertions;
@@ -41,7 +42,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.ContextConfiguration;
 
-import javax.ws.rs.core.Link;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;

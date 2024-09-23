@@ -42,7 +42,6 @@ import edu.iu.uits.lms.iuonly.config.EnableIuOnlyClient;
 import edu.iu.uits.lms.lti.config.EnableGlobalErrorHandler;
 import edu.iu.uits.lms.lti.config.EnableLtiClient;
 import edu.iu.uits.lms.photoroster.config.ToolConfig;
-import edu.iu.uits.lms.redis.config.EnableRedisConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -57,7 +56,6 @@ import java.util.Date;
 @EnableGlobalErrorHandler
 @Slf4j
 @EnableCookieFilter
-@EnableRedisConfiguration
 @EnableLtiClient(toolKeys = {"lms_photoroster"})
 @EnableCanvasClient
 @EnableIuOnlyClient

@@ -33,12 +33,12 @@ package edu.iu.uits.lms.photoroster.crimsoncard.service;
  * #L%
  */
 
+import jakarta.ws.rs.core.Link;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.hc.core5.http.NameValuePair;
+import org.apache.hc.core5.net.URLEncodedUtils;
 import org.springframework.http.HttpHeaders;
 
-import javax.ws.rs.core.Link;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashMap;
