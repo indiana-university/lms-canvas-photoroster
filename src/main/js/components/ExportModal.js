@@ -121,7 +121,7 @@ class ExportModal extends React.Component {
                         </fieldset>
                     </div>
                     <div className="rvt-dialog__controls">
-                        <CSVLink id="csv-submit-button" onClick={this.exportCsv.bind(this)} data={this.props.exportData} headers={this.props.exportHeaders} filename={filename} target="_blank"
+                        <CSVLink id="csv-submit-button" onClick={this.exportCsv.bind(this)} data={this.props.exportData} headers={this.props.exportHeaders} filename={filename} target="_blank" rel="noopener noreferrer"
                             role="button" className="rvt-button">
                           Submit
                         </CSVLink>

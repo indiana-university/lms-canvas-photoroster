@@ -72,7 +72,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 /**
- * API documentation available <a href="https://name-coach.com/connect" target="_blank">here</a>
+ * API documentation available <a href="https://name-coach.com/connect" target="_blank" rel="noopener noreferrer">here</a>
  */
 public class NameCoachService {
     private static final String BASE_URI = "{url}";
