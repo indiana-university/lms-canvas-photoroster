@@ -53,7 +53,7 @@ const Roles = (props) => {
   }
 
   function Role(props) {
-    const secondaryClass = (props.enrollments[0].badgeble ? '': 'rvt-badge--secondary student-badge')
+    const secondaryClass = (props.enrollments[0].badgeble ? '': 'rvt-badge--secondary')
     var sections = []
     props.enrollments.map((sri, index) => (
         sections.push(sri.sectionName)
@@ -84,7 +84,7 @@ const Roles = (props) => {
 
     return (
         <div className="rvt-ts-xs">
-            <span title={toolTip} aria-hidden="true" className={`roleContainer rvt-badge rvt-m-right-xxs rvt-m-bottom-xxs ${secondaryClass}`}>
+            <span title={toolTip} aria-hidden="true" className={`roleContainer rvt-badge rvt-m-right-xxs rvt-m-bottom-xxs badge-wrap-override ${secondaryClass}`}>
                 {props.roleName}
             </span>
             <span className="rvt-sr-only">{srRole}</span>
