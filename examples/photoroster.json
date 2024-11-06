@@ -1,6 +1,6 @@
 {
   "title": "IU Photo Roster",
-  "description": "The IU Photo Roster is a tool in Canvas that you can access via the Canvas People tool. The roster displays the name, email address, role, photo, and NameCoach recording (if available) for each member of the course.",
+  "description": "The IU Photo Roster is a tool in Canvas that you can access via the Canvas People tool. The roster displays the name, email address, role, and photo for each member of the course.",
   "oidc_initiation_url": "http://localhost:8080/lti/login_initiation/lms_photoroster",
   "target_link_uri": "http://localhost:8080/app/launch",
   "extensions": [

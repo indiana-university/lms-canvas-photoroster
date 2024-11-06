@@ -163,12 +163,6 @@ div.ferpa-CanvasAvatar, img.image-CanvasAvatar {
     padding-right: 5px;
 }
 
-.namecoach {
-    display: inline-block;
-    vertical-align: top;
-    cursor: pointer;
-}
-
 #printHeader {
     display: none;
 }

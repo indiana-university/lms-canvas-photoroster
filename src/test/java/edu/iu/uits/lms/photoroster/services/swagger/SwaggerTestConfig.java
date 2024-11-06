@@ -40,7 +40,6 @@ import edu.iu.uits.lms.lti.repository.DefaultInstructorRoleRepository;
 import edu.iu.uits.lms.lti.swagger.SwaggerTestingBean;
 import edu.iu.uits.lms.photoroster.config.SecurityConfig;
 import edu.iu.uits.lms.photoroster.config.SwaggerConfig;
-import edu.iu.uits.lms.photoroster.namecoach.service.NameCoachService;
 import edu.iu.uits.lms.photoroster.service.PhotorosterService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.metrics.buffering.BufferingApplicationStartup;
@@ -72,9 +71,6 @@ public class SwaggerTestConfig {
 
    @MockBean
    private PhotorosterService photorosterService;
-
-   @MockBean
-   private NameCoachService nameCoachService;
 
    @Qualifier("ncRestTemplate")
    @MockBean

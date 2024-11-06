@@ -57,9 +57,6 @@ import edu.iu.uits.lms.photoroster.model.BackingModel;
 import edu.iu.uits.lms.photoroster.model.EnrollmentModel;
 import edu.iu.uits.lms.photoroster.model.PermissionsModel;
 import edu.iu.uits.lms.photoroster.model.PersonModel;
-import edu.iu.uits.lms.photoroster.namecoach.model.Participant;
-import edu.iu.uits.lms.photoroster.namecoach.model.Participants;
-import edu.iu.uits.lms.photoroster.namecoach.service.NameCoachService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
@@ -105,9 +102,6 @@ public class PhotorosterService {
 
     @Autowired
     private CrimsonCardPhotoService crimsonCardPhotoService = null;
-
-    @Autowired
-    private NameCoachService nameCoachService = null;
 
     @Autowired
     private FeatureAccessServiceImpl featureAccessService = null;
@@ -275,30 +269,6 @@ public class PhotorosterService {
             mediumUserImageMap = loadUserImageMap(users, course.getAccountId(), S240X320);
         }
 
-        List<String> emails = users.stream()
-              .map(User::getEmail)
-              .filter(Objects::nonNull)
-              .collect(Collectors.toList());
-
-        Participants participants = nameCoachService.getParticipants(emails, true);
-        List<Participant> nameCoachResults = participants.getParticipants();
-        if (participants.hasErrors()) {
-            errorMessages.add("The Namecoach service encountered some errors.  Some name recordings may be missing.");
-        }
-
-        // Filter out records with no useful data. We are looking for a recording
-        List<Participant> filteredNCResults = nameCoachResults.stream()
-              .filter(nc -> nc.getRecordingLink() != null)
-              .collect(Collectors.toList());
-
-        // convert the list to a map
-        Map<String, Participant> nameCoachMap = new HashMap<>();
-        if (!filteredNCResults.isEmpty()) {
-            nameCoachMap = filteredNCResults.stream().collect(
-                  Collectors.toMap(Participant::getEmail, participant -> participant, (a, b) -> b));
-        }
-
-
         Map<String, String> roleMap = getCanvasRoleMap(course.getAccountId());
         Map<String, String> sectionMap = getSectionMap(courseId);
         Map<String, String> ferpaMap = getFerpaMap(users);
@@ -346,14 +316,6 @@ public class PhotorosterService {
                 pm.getImageMap().put(S75X100.getValue(), smallImageData);
                 pm.getImageMap().put(S240X320.getValue(), mediumImageData);
                 pm.getImageMap().put("CanvasAvatar", canvasAvatarImageData);
-
-                if (user.getEmail() != null) {
-                    Participant participant = nameCoachMap.get(user.getEmail());
-
-                    if (participant != null) {
-                        pm.setRecordingUrl(participant.getRecordingLink());
-                    }
-                }
 
                 if (user.getPronouns() != null) {
                     pm.setPreferredPronouns(user.getPronouns());
