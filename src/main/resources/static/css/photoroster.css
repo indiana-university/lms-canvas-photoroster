@@ -110,10 +110,6 @@ button.transparencyOverride, input[type=text].transparencyOverride, div.transpar
     max-width: 217px;
 }
 
-.rvt-badge--secondary.student-badge {
-    border-color: transparent;
-}
-
 img.image-S75x100 {
     height: 100px;
 }
@@ -167,12 +163,6 @@ div.ferpa-CanvasAvatar, img.image-CanvasAvatar {
     padding-right: 5px;
 }
 
-.namecoach {
-    display: inline-block;
-    vertical-align: top;
-    cursor: pointer;
-}
-
 #printHeader {
     display: none;
 }
@@ -222,3 +212,6 @@ a.svgObjectHelper:after {
     border: 1px solid #75838f !important;
 }
 
+.badge-wrap-override {
+    white-space: unset !important;
+}
