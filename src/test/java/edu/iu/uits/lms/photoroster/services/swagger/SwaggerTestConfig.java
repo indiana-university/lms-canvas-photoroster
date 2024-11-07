@@ -41,14 +41,12 @@ import edu.iu.uits.lms.lti.swagger.SwaggerTestingBean;
 import edu.iu.uits.lms.photoroster.config.SecurityConfig;
 import edu.iu.uits.lms.photoroster.config.SwaggerConfig;
 import edu.iu.uits.lms.photoroster.service.PhotorosterService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.metrics.buffering.BufferingApplicationStartup;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,10 +69,6 @@ public class SwaggerTestConfig {
 
    @MockBean
    private PhotorosterService photorosterService;
-
-   @Qualifier("ncRestTemplate")
-   @MockBean
-   public RestTemplate ncRestTemplate;
 
    @MockBean
    private DefaultInstructorRoleRepository defaultInstructorRoleRepository;
