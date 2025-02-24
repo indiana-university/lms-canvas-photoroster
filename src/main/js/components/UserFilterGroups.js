@@ -37,7 +37,7 @@ const UserFilterGroups = (props) => {
         const groupList = props.groups.map(group => (
                 <div class="rvt-checkbox rvt-display-block rvt-m-tb-xs" key={group.id}>
                     <input type="checkbox" id={"group_" + group.id} name="groupsCheckboxes" className="filter-input"
-                        value={`${group.id}`} onChange={props.handleGroupFiltering} data-text={group.name} />
+                        value={`${group.id}`} onChange={props.handleGroupFiltering} data-text={group.name} role="menuitemcheckbox"/>
                     <label htmlFor={"group_" + group.id} className="rvt-m-right-sm rvt-text-nobr">{group.name}</label>
                 </div>
         ))
