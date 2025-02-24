@@ -44,23 +44,19 @@ class UserFilter extends React.Component {
 
     render() {
         const roles = Object.entries(this.props.roles).map(([key,value]) => (
-            <li key={key}>
-                <div class="rvt-checkbox">
+                <div class="rvt-checkbox rvt-display-block rvt-m-tb-xs" key={key}>
                     <input type="checkbox" id={"role_" + key} name="rolesCheckboxes" className="filter-input"
-                        value={`${key}`} onChange={this.handleRoleFiltering.bind(this)} data-text={value} />
+                        value={`${key}`} onChange={this.handleRoleFiltering.bind(this)} data-text={value} role="menuitemcheckbox" />
                     <label htmlFor={"role_" + key} className="rvt-m-right-sm rvt-text-nobr">{value}</label>
                 </div>
-            </li>
           ))
 
         const sections = Object.entries(this.props.sections).map(([key,value]) => (
-            <li key={key}>
-                <div class="rvt-checkbox">
+                <div class="rvt-checkbox rvt-display-block rvt-m-tb-xs " key={key}>
                     <input type="checkbox" id={"section_" + key} name="sectionsCheckboxes" className="filter-input"
-                        value={`${key}`} onChange={this.handleSectionFiltering.bind(this)} data-text={value} />
+                        value={`${key}`} onChange={this.handleSectionFiltering.bind(this)} data-text={value} role="menuitemcheckbox" />
                     <label htmlFor={"section_" + key} className="rvt-m-right-sm rvt-text-nobr">{value}</label>
                 </div>
-            </li>
           ))
 
       return (
@@ -71,25 +67,17 @@ class UserFilter extends React.Component {
                   <svg aria-hidden="true" fill="currentColor" width="16" height="16" viewBox="0 0 16 16"><path d="m15.146 6.263-1.292-1.526L8 9.69 2.146 4.737.854 6.263 8 12.31l7.146-6.047Z"></path></svg>
               </button>
               <div id="filterDropdown" className="rvt-dropdown__menu" data-rvt-dropdown-menu="filter-options" hidden>
-                  <button id="remove-filters" aria-describedby="filter-count" className="rvt-button rvt-button--secondary" onClick={this.handleRemoveFilterClick.bind(this)}>Remove Filters</button>
+                  <button id="remove-filters" aria-describedby="filter-count" className="rvt-button rvt-button--secondary"
+                    onClick={this.handleRemoveFilterClick.bind(this)} role="menuitem">Remove Filters</button>
                   <span id="filter-count" className="rvt-sr-only">No filters currently selected</span>
-                  <div id="role-division">
-                      <fieldset className="rvt-fieldset rvt-p-left-sm">
-                          <legend className="rvt-text-bold rvt-p-tb-xs">Role</legend>
-                          <ul className="rvt-list-plain">
-                              {roles}
-                          </ul>
-                      </fieldset>
-                  </div>
-                  <div>
-                      <fieldset className="rvt-fieldset rvt-p-left-sm">
-                          <legend className="rvt-text-bold rvt-p-tb-xs">Sections</legend>
-                          <ul className="rvt-list-plain">
-                              {sections}
-                          </ul>
-                      </fieldset>
-                  </div>
-
+                  <fieldset className="rvt-fieldset rvt-p-left-sm">
+                      <legend className="rvt-text-bold rvt-p-tb-xs">Role</legend>
+                      {roles}
+                  </fieldset>
+                  <fieldset className="rvt-fieldset rvt-p-left-sm">
+                      <legend className="rvt-text-bold rvt-p-tb-xs">Sections</legend>
+                      {sections}
+                  </fieldset>
                   <UserFilterGroups groups={this.props.groups} handleGroupFiltering={this.handleGroupFiltering.bind(this)} />
               </div>
           </div>

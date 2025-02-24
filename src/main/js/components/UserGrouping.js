@@ -55,34 +55,29 @@ class UserGrouping extends React.Component {
                 <div id="dropdown-grouping" className="rvt-dropdown__menu" data-rvt-dropdown-menu="grouping-options" hidden>
                     <fieldset className="rvt-fieldset rvt-p-left-sm">
                         <legend className="rvt-sr-only">Group By Options</legend>
-                        <ul className="rvt-list-plain">
-                            <li>
-                                <div className="rvt-radio">
-                                    <input type="radio" name="radio-groupType" id="radio-nogroup" onChange={this.handleGrouping.bind(this)}
-                                        value={GROUPING_BY.noGroup} checked={GROUPING_BY.noGroup === this.props.peopleGrouping}
-                                        onKeyDown={this.handleRadios.bind(this)} />
-                                    <label htmlFor="radio-nogroup" className="rvt-m-right-sm">No Grouping</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div className="rvt-radio">
-                                    <input type="radio" name="radio-groupType" id="radio-role" onChange={this.handleGrouping.bind(this)}
-                                        value={GROUPING_BY.role} checked={GROUPING_BY.role === this.props.peopleGrouping}
-                                        onKeyDown={this.handleRadios.bind(this)} />
-                                    <label htmlFor="radio-role">Role</label>
-                                </div>
-                            </li>
-                            <li>
-                                <div className="rvt-radio">
-                                    <input type="radio" name="radio-groupType" id="radio-section" onChange={this.handleGrouping.bind(this)}
-                                        value={GROUPING_BY.section} checked={GROUPING_BY.section === this.props.peopleGrouping}
-                                        onKeyDown={this.handleRadios.bind(this)} />
-                                    <label htmlFor="radio-section">Section</label>
-                                </div>
-                            </li>
-                            <GroupOption groups={this.props.groups} peopleGrouping={this.props.peopleGrouping} handleGrouping={this.handleGrouping.bind(this)}
-                                handleRadios={this.handleRadios.bind(this)}/>
-                        </ul>
+                        <div className="rvt-radio rvt-display-block rvt-m-tb-xs">
+                            <input type="radio" name="radio-groupType" id="radio-nogroup" onChange={this.handleGrouping.bind(this)}
+                                value={GROUPING_BY.noGroup} checked={GROUPING_BY.noGroup === this.props.peopleGrouping}
+                                onKeyDown={this.handleRadios.bind(this)} role="menuitemradio"/>
+                            <label htmlFor="radio-nogroup" className="rvt-m-right-sm">No Grouping</label>
+                        </div>
+
+                        <div className="rvt-radio rvt-display-block rvt-m-tb-xs">
+                            <input type="radio" name="radio-groupType" id="radio-role" onChange={this.handleGrouping.bind(this)}
+                                value={GROUPING_BY.role} checked={GROUPING_BY.role === this.props.peopleGrouping}
+                                onKeyDown={this.handleRadios.bind(this)} role="menuitemradio" />
+                            <label htmlFor="radio-role">Role</label>
+                        </div>
+
+                        <div className="rvt-radio rvt-display-block rvt-m-tb-xs">
+                            <input type="radio" name="radio-groupType" id="radio-section" onChange={this.handleGrouping.bind(this)}
+                                value={GROUPING_BY.section} checked={GROUPING_BY.section === this.props.peopleGrouping}
+                                onKeyDown={this.handleRadios.bind(this)} role="menuitemradio" />
+                            <label htmlFor="radio-section">Section</label>
+                        </div>
+
+                        <GroupOption groups={this.props.groups} peopleGrouping={this.props.peopleGrouping} handleGrouping={this.handleGrouping.bind(this)}
+                            handleRadios={this.handleRadios.bind(this)}/>
                     </fieldset>
                 </div>
             </div>
@@ -107,14 +102,12 @@ class UserGrouping extends React.Component {
 function GroupOption(props) {
     if (props.groups && props.groups.length > 0) {
         return (
-            <li>
-                <div className="rvt-radio">
-                    <input type="radio" name="radio-groupType" id="radio-group" onChange={props.handleGrouping}
-                        value={GROUPING_BY.group} checked={GROUPING_BY.group === props.peopleGrouping}
-                        onKeyDown={props.handleRadios} />
-                    <label htmlFor="radio-group">Group</label>
-                </div>
-            </li>
+            <div className="rvt-radio rvt-m-tb-xs rvt-display-block">
+                <input type="radio" name="radio-groupType" id="radio-group" onChange={props.handleGrouping}
+                    value={GROUPING_BY.group} checked={GROUPING_BY.group === props.peopleGrouping}
+                    onKeyDown={props.handleRadios} role="menuitemradio" />
+                <label htmlFor="radio-group">Group</label>
+            </div>
         )
     } else {
         return null;

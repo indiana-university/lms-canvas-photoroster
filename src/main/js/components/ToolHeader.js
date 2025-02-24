@@ -63,7 +63,7 @@ class ToolHeader extends React.Component {
     }
 
     return (
-        <div id="toolHeader" className="rvt-container-xl" role="main" aria-labelledby="main-header">
+        <div id="toolHeader" className="rvt-container-xl">
             <div className="rvt-flex rvt-items-center rvt-p-top-sm">
                 <div className="rvt-p-right-sm">
                     <h1 id="main-header" className="rvt-ts-36">IU Photo Roster</h1>
