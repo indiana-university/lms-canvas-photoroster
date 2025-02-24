@@ -68,19 +68,19 @@ const PhotoOptions = (props) => {
                 <fieldset className="rvt-fieldset rvt-p-left-sm">
                     <legend className="rvt-text-bold rvt-p-tb-xs">Photo Type</legend>
                     <div className="rvt-radio rvt-display-block rvt-m-tb-xs">
-                        <input type="radio" name="radio-photoType" id="radio-official-sm" value={IMAGE_MODES.iu_small}
+                        <input tabindex="-1" type="radio" name="radio-photoType" id="radio-official-sm" value={IMAGE_MODES.iu_small}
                             checked={IMAGE_MODES.iu_small === props.image_mode} onChange={handleTypeOptionChange.bind(this)}
                             onKeyDown={handleRadios.bind(this)} role="menuitemradio" />
                         <label htmlFor="radio-official-sm" className="rvt-m-right-sm photo-option">Official IU (small)</label>
                     </div>
                     <div className="rvt-radio rvt-display-block rvt-m-tb-xs">
-                        <input type="radio" name="radio-photoType" id="radio-official-med" value={IMAGE_MODES.iu_medium}
+                        <input tabindex="-1" type="radio" name="radio-photoType" id="radio-official-med" value={IMAGE_MODES.iu_medium}
                             checked={IMAGE_MODES.iu_medium === props.image_mode} onChange={handleTypeOptionChange.bind(this)}
                             onKeyDown={handleRadios.bind(this)} role="menuitemradio" />
                         <label htmlFor="radio-official-med" className="rvt-m-right-sm photo-option">Official IU (medium)</label>
                     </div>
                     <div className="rvt-radio rvt-display-block rvt-m-tb-xs">
-                        <input type="radio" name="radio-photoType" id="radio-canvas" value={IMAGE_MODES.canvas}
+                        <input tabindex="-1" type="radio" name="radio-photoType" id="radio-canvas" value={IMAGE_MODES.canvas}
                             checked={IMAGE_MODES.canvas === props.image_mode} onChange={handleTypeOptionChange.bind(this)}
                             onKeyDown={handleRadios.bind(this)} role="menuitemradio" />
                         <label htmlFor="radio-canvas" className="rvt-m-right-sm photo-option">Canvas</label>
