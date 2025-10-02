@@ -36,7 +36,6 @@ package edu.iu.uits.lms.photoroster.services.swagger;
 import edu.iu.uits.lms.iuonly.config.IuCustomRestConfiguration;
 import edu.iu.uits.lms.lti.config.LtiClientTestConfig;
 import edu.iu.uits.lms.lti.config.LtiRestConfiguration;
-import edu.iu.uits.lms.lti.repository.DefaultInstructorRoleRepository;
 import edu.iu.uits.lms.lti.swagger.SwaggerTestingBean;
 import edu.iu.uits.lms.photoroster.config.SecurityConfig;
 import edu.iu.uits.lms.photoroster.config.SwaggerConfig;
@@ -63,21 +62,6 @@ import static edu.iu.uits.lms.iuonly.IuCustomConstants.IUCUSTOM_GROUP_CODE_PATH;
         LtiClientTestConfig.class
 })
 public class SwaggerTestConfig {
-
-   @MockBean
-   private BufferingApplicationStartup bufferingApplicationStartup;
-
-   @MockBean
-   private PhotorosterService photorosterService;
-
-   @MockBean
-   private DefaultInstructorRoleRepository defaultInstructorRoleRepository;
-
-   @MockBean
-   private ClientRegistrationRepository clientRegistrationRepository;
-
-   @MockBean
-   private OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
 
    @Bean
    public SwaggerTestingBean swaggerTestingBean() {

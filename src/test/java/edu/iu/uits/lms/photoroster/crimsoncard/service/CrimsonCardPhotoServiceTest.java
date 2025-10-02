@@ -45,13 +45,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -74,10 +74,10 @@ public class CrimsonCardPhotoServiceTest {
    private CrimsonCardPhotoService crimsonCardPhotoService = null;
 
    @Qualifier("ccWebClient")
-   @MockBean
+   @MockitoBean
    private WebClient ccWebClient;
 
-   @MockBean
+   @MockitoBean
    private CrimsonCardServicesConfig config;
 
    @Mock
