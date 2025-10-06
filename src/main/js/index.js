@@ -2,7 +2,7 @@
  * #%L
  * photoroster
  * %%
- * Copyright (C) 2015 - 2022 Indiana University
+ * Copyright (C) 2015 - 2025 Indiana University
  * %%
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
@@ -33,15 +33,14 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 import React from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client';
 import { injectGlobal } from 'styled-components'
 
 import App from 'App'
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('root')
-)
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<App />);
 
 // Leaving this here, in case it's needed for something in the future
 // eslint-disable-next-line

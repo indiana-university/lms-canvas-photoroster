@@ -4,7 +4,7 @@ package edu.iu.uits.lms.photoroster.services.swagger;
  * #%L
  * photoroster
  * %%
- * Copyright (C) 2015 - 2024 Indiana University
+ * Copyright (C) 2015 - 2025 Indiana University
  * %%
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
@@ -36,17 +36,11 @@ package edu.iu.uits.lms.photoroster.services.swagger;
 import edu.iu.uits.lms.iuonly.config.IuCustomRestConfiguration;
 import edu.iu.uits.lms.lti.config.LtiClientTestConfig;
 import edu.iu.uits.lms.lti.config.LtiRestConfiguration;
-import edu.iu.uits.lms.lti.repository.DefaultInstructorRoleRepository;
 import edu.iu.uits.lms.lti.swagger.SwaggerTestingBean;
 import edu.iu.uits.lms.photoroster.config.SecurityConfig;
 import edu.iu.uits.lms.photoroster.config.SwaggerConfig;
-import edu.iu.uits.lms.photoroster.service.PhotorosterService;
-import org.springframework.boot.context.metrics.buffering.BufferingApplicationStartup;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,21 +57,6 @@ import static edu.iu.uits.lms.iuonly.IuCustomConstants.IUCUSTOM_GROUP_CODE_PATH;
         LtiClientTestConfig.class
 })
 public class SwaggerTestConfig {
-
-   @MockBean
-   private BufferingApplicationStartup bufferingApplicationStartup;
-
-   @MockBean
-   private PhotorosterService photorosterService;
-
-   @MockBean
-   private DefaultInstructorRoleRepository defaultInstructorRoleRepository;
-
-   @MockBean
-   private ClientRegistrationRepository clientRegistrationRepository;
-
-   @MockBean
-   private OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
 
    @Bean
    public SwaggerTestingBean swaggerTestingBean() {
