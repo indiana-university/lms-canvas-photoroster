@@ -212,7 +212,8 @@ public class PhotorosterService {
                 populateUserLoginInfo(users, courseId, enrollmentStates, enrollmentTypes);
             }
 
-            // If there is still no login_id, we need to remove that user from the roster. We can't verify their ferpa status without login_id
+            // If there is still no login_id, we need to remove that user from the roster. We can't verify their ferpa status without login_id.
+            // We should not get to this point, but just in case...
             ListIterator<User> iterator = users.listIterator();
             while (iterator.hasNext()) {
                 User user = iterator.next();
