@@ -251,13 +251,13 @@ public class PhotorosterService {
     private void populateUserLoginInfo(List<User> users, String courseId, List<String> enrollmentStates, List<String> enrollmentTypes) {
         // retrieve all user info for this course and put it in a map for easy access. The info returned isn't
         // restricted by the current user
-        Map<String, String> canvasIdLoginIdMap = new HashMap<>();
+        Map<String, User> canvasIdUserMap = new HashMap<>();
         List<User> allUserInfo = courseService.getUsersForCourseByType(courseId, enrollmentTypes, enrollmentStates);
         if (allUserInfo != null) {
             for (User userInfo : allUserInfo) {
                 String loginId = userInfo.getLoginId();
                 if (loginId != null && !loginId.isBlank()) {
-                    canvasIdLoginIdMap.put(userInfo.getId(), loginId);
+                    canvasIdUserMap.put(userInfo.getId(), userInfo);
                 }
             }
         }
@@ -265,17 +265,20 @@ public class PhotorosterService {
         // The call above will not populate the login_id for users that are pending invited.
         // We will need to make a separate call to get those users.
 
-        // Now iterate through our roster and populate the missing login_id
+        // Now iterate through our roster and populate the missing login_id. Email is also missing, so populate that too.
         for (User user : users) {
             if (user.getLoginId() == null) {
                 // first, see if it is in our map
-                if (canvasIdLoginIdMap.containsKey(user.getId())) {
-                    user.setLoginId(canvasIdLoginIdMap.get(user.getId()));
+                if (canvasIdUserMap.containsKey(user.getId())) {
+                    User mappedUser = canvasIdUserMap.get(user.getId());
+                    user.setLoginId(mappedUser.getLoginId());
+                    user.setEmail(mappedUser.getEmail());
                 } else {
                     // try to get the user info directly
                     User thisUser = userService.getUserByCanvasId(user.getId());
                     if (thisUser != null && thisUser.getLoginId() != null) {
                         user.setLoginId(thisUser.getLoginId());
+                        user.setEmail(thisUser.getEmail());
                     }
                 }
             }
