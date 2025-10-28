@@ -44,6 +44,7 @@ import edu.iu.uits.lms.canvas.model.groups.CourseGroup;
 import edu.iu.uits.lms.canvas.services.AccountService;
 import edu.iu.uits.lms.canvas.services.CourseService;
 import edu.iu.uits.lms.canvas.services.GroupService;
+import edu.iu.uits.lms.canvas.services.UserService;
 import edu.iu.uits.lms.iuonly.model.ListWrapper;
 import edu.iu.uits.lms.iuonly.model.SisFerpaEntry;
 import edu.iu.uits.lms.iuonly.services.FeatureAccessServiceImpl;
@@ -73,6 +74,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TreeMap;
@@ -108,6 +110,9 @@ public class PhotorosterService {
 
     @Autowired
     private GroupService groupService = null;
+
+    @Autowired
+    private UserService userService = null;
 
     @Autowired
     @Qualifier("PhotorosterCacheManager")
@@ -206,6 +211,18 @@ public class PhotorosterService {
             if (loginIdMissing) {
                 populateUserLoginInfo(users, courseId, enrollmentStates, enrollmentTypes);
             }
+
+            // If there is still no login_id, we need to remove that user from the roster. We can't verify their ferpa status without login_id.
+            // We should not get to this point, but just in case...
+            ListIterator<User> iterator = users.listIterator();
+            while (iterator.hasNext()) {
+                User user = iterator.next();
+                String loginId = user.getLoginId();
+                if (loginId == null || loginId.isBlank()) {
+                    log.warn("Removing user with canvas id " + user.getId() + " from roster because login_id could not be populated.");
+                    iterator.remove(); // Safely remove user from the list
+                }
+            }
         }
 
         return users;
@@ -234,19 +251,34 @@ public class PhotorosterService {
     private void populateUserLoginInfo(List<User> users, String courseId, List<String> enrollmentStates, List<String> enrollmentTypes) {
         // retrieve all user info for this course and put it in a map for easy access. The info returned isn't
         // restricted by the current user
-        Map<String, String> canvasIdLoginIdMap = new HashMap<String, String>();
+        Map<String, String> canvasIdLoginIdMap = new HashMap<>();
         List<User> allUserInfo = courseService.getUsersForCourseByType(courseId, enrollmentTypes, enrollmentStates);
         if (allUserInfo != null) {
             for (User userInfo : allUserInfo) {
-                canvasIdLoginIdMap.put(userInfo.getId(), userInfo.getLoginId());
+                String loginId = userInfo.getLoginId();
+                if (loginId != null && !loginId.isBlank()) {
+                    canvasIdLoginIdMap.put(userInfo.getId(), loginId);
+                }
             }
         }
 
+        // The call above will not populate the login_id for users that are pending invited.
+        // We will need to make a separate call to get those users.
+
         // Now iterate through our roster and populate the missing login_id
         for (User user : users) {
-            if (user.getLoginId() == null && canvasIdLoginIdMap.containsKey(user.getId())) {
-                // populate the missing login_id
-                user.setLoginId(canvasIdLoginIdMap.get(user.getId()));
+            if (user.getLoginId() == null) {
+                // first, see if it is in our map
+                if (canvasIdLoginIdMap.containsKey(user.getId())) {
+                    user.setLoginId(canvasIdLoginIdMap.get(user.getId()));
+                } else {
+                    // try to get the user info directly
+                    User thisUser = userService.getUserByCanvasId(user.getId());
+                    if (thisUser != null && thisUser.getLoginId() != null) {
+                        user.setLoginId(thisUser.getLoginId());
+                        user.setEmail(thisUser.getEmail());  // email is also missing in this scenario
+                    }
+                }
             }
         }
     }
