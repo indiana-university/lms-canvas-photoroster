@@ -194,7 +194,7 @@ public class PhotorosterService {
 
     @Cacheable(PhotorosterConstants.COURSEROSTER_CACHE)
     public List<User> getRosterForCourse(String courseId, String currentUser) {
-        List<String> enrollmentStates = Arrays.asList(EnrollmentHelper.STATE.active.name(), EnrollmentHelper.STATE.invited.name());
+        List<String> enrollmentStates = Arrays.asList(EnrollmentHelper.STATE.active.name(), EnrollmentHelper.STATE.invited.name(), EnrollmentHelper.STATE.creation_pending.name());
         List<String> enrollmentTypes = Arrays.stream(EnrollmentHelper.TYPE.values())
               .map(EnrollmentHelper.TYPE::name)
               .collect(Collectors.toList());
