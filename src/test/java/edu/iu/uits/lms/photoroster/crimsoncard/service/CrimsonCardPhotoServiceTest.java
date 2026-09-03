@@ -39,8 +39,12 @@ import edu.iu.uits.lms.photoroster.crimsoncard.config.CrimsonCardServicesConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -67,6 +71,8 @@ import static org.mockito.ArgumentMatchers.eq;
 
 @ContextConfiguration(classes={CrimsonCardPhotoService.class})
 @SpringBootTest
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 @Slf4j
 public class CrimsonCardPhotoServiceTest {
 

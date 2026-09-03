@@ -31,8 +31,6 @@
  * #L%
  */
 import React from 'react';
-import 'rivet-clearable-input/dist/css/rivet-clearable-input.min.css';
-import ClearableInput from 'rivet-clearable-input/dist/js/rivet-clearable-input.js';
 
 class UserSearch extends React.Component {
 
@@ -44,9 +42,6 @@ class UserSearch extends React.Component {
   }
 
   componentDidMount() {
-    //Initialize the clearable input
-    ClearableInput.init()
-    //Setup the listener for then the text is cleared
     window.addEventListener('inputCleared', this.handleSearch);
   }
 

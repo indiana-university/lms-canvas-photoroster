@@ -31,7 +31,6 @@
     "react-native-uuid": "^2.0.3",
     "regenerator-runtime": "0.14.1",
     "rest": "^2.0.0",
-    "rivet-clearable-input": "maurercw/rivet-clearable-input#v0.5.0",
     "rxjs": "7.8.2",
     "styled-components": "^6.1.19"
   },

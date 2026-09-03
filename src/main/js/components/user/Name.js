@@ -35,7 +35,7 @@ import React from 'react'
 const Name = (props) => {
 
     var additionalClasses = "rvt-text-bold "
-    if (props.inModal) {
+    if (props.inModal || !props.gridView) {
         additionalClasses += "forceWrap"
     } else {
         additionalClasses += "textOverflow"
