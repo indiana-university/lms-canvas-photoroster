@@ -43,8 +43,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -72,7 +70,6 @@ import static org.mockito.ArgumentMatchers.eq;
 @ContextConfiguration(classes={CrimsonCardPhotoService.class})
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
 @Slf4j
 public class CrimsonCardPhotoServiceTest {
 
@@ -116,8 +113,6 @@ public class CrimsonCardPhotoServiceTest {
       Mockito.when(ccWebClient.post()).thenReturn(requestBodyUriSpec);
       Mockito.when(requestBodyUriSpec.uri(anyString())).thenReturn(requestBodySpec);
       Mockito.when(requestBodySpec.header(any(),any())).thenReturn(requestBodySpec);
-      Mockito.when(requestHeadersSpec.header(any(),any())).thenReturn(requestHeadersSpec);
-      Mockito.when(requestBodySpec.accept(any())).thenReturn(requestBodySpec);
       Mockito.when(requestBodySpec.body(any(), eq(List.class))).thenReturn(requestHeadersSpec);
       Mockito.when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
       Mockito.when(responseSpec.toEntity(any(ParameterizedTypeReference.class))).thenReturn(Mono.just(r));

@@ -13,6 +13,7 @@ const paths = {
 }
 
 module.exports = {
+  mode: 'production',
   context: paths.src,
   entry: ['index.js'],
   output: {
@@ -41,7 +42,7 @@ module.exports = {
         include: [paths.src, paths.devserver],
         loader: 'babel-loader',
         options: {
-          presets: ['@babel/preset-react', '@babel/preset-env']
+          presets: [['@babel/preset-react', { development: false }], '@babel/preset-env']
         }
       }, {
          test: /\.css$/,
