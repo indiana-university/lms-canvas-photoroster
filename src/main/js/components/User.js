@@ -2,7 +2,7 @@
  * #%L
  * photoroster
  * %%
- * Copyright (C) 2015 - 2025 Indiana University
+ * Copyright (C) 2015 - 2026 Indiana University
  * %%
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
@@ -51,7 +51,7 @@ const User = (props) => {
                     userId={userModel.user.id} openModalMethod={props.openModalMethod} groupingKey={props.groupingKey}
                     image_mode={props.image_mode} displayName={userModel.user.sortable_name}
                     srName={userModel.user.name} />
-                <Name displayName={userModel.user.sortable_name} srName={userModel.user.name} recordingUrl={userModel.recordingUrl} />
+                <Name gridView={true} displayName={userModel.user.sortable_name} srName={userModel.user.name} recordingUrl={userModel.recordingUrl} />
                 <Pronouns pronouns={userModel.preferredPronouns} srName={userModel.user.name} />
                 <EmailInfo email={userModel.user.email} srName={userModel.user.name} />
                 <Roles enrollmentData={enrollmentData} allGroups={props.allGroups} />
@@ -68,7 +68,7 @@ const User = (props) => {
                         srName={userModel.user.name}/>
                 </div>
                 <div className="rvt-cols">
-                    <Name displayName={userModel.user.sortable_name} srName={userModel.user.name} recordingUrl={userModel.recordingUrl} />
+                    <Name gridView={false} displayName={userModel.user.sortable_name} srName={userModel.user.name} recordingUrl={userModel.recordingUrl} />
                     <Pronouns pronouns={userModel.preferredPronouns} srName={userModel.user.name} />
                     <EmailInfo email={userModel.user.email} srName={userModel.user.name} />
                     <Roles enrollmentData={enrollmentData} allGroups={props.allGroups} />

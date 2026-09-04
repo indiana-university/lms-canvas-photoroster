@@ -4,7 +4,7 @@ package edu.iu.uits.lms.photoroster.crimsoncard.service;
  * #%L
  * photoroster
  * %%
- * Copyright (C) 2015 - 2025 Indiana University
+ * Copyright (C) 2015 - 2026 Indiana University
  * %%
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
@@ -39,8 +39,10 @@ import edu.iu.uits.lms.photoroster.crimsoncard.config.CrimsonCardServicesConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -67,6 +69,7 @@ import static org.mockito.ArgumentMatchers.eq;
 
 @ContextConfiguration(classes={CrimsonCardPhotoService.class})
 @SpringBootTest
+@ExtendWith(MockitoExtension.class)
 @Slf4j
 public class CrimsonCardPhotoServiceTest {
 
@@ -110,8 +113,6 @@ public class CrimsonCardPhotoServiceTest {
       Mockito.when(ccWebClient.post()).thenReturn(requestBodyUriSpec);
       Mockito.when(requestBodyUriSpec.uri(anyString())).thenReturn(requestBodySpec);
       Mockito.when(requestBodySpec.header(any(),any())).thenReturn(requestBodySpec);
-      Mockito.when(requestHeadersSpec.header(any(),any())).thenReturn(requestHeadersSpec);
-      Mockito.when(requestBodySpec.accept(any())).thenReturn(requestBodySpec);
       Mockito.when(requestBodySpec.body(any(), eq(List.class))).thenReturn(requestHeadersSpec);
       Mockito.when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
       Mockito.when(responseSpec.toEntity(any(ParameterizedTypeReference.class))).thenReturn(Mono.just(r));

@@ -3,7 +3,7 @@
   #%L
   photoroster
   %%
-  Copyright (C) 2015 - 2025 Indiana University
+  Copyright (C) 2015 - 2026 Indiana University
   %%
   Redistribution and use in source and binary forms, with or without modification,
   are permitted provided that the following conditions are met:
@@ -43,6 +43,7 @@
     <!-- The below link references commonFragments which lives in common-configuration and comes along on the classpath  -->
     <link th:replace="~{commonFragments/favicon :: favicon}" />
     <link rel="stylesheet" type="text/css" th:href="@{/app/jsrivet/rivet-core/rivet.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/app/jsrivet/rivet-clearable-input/rivet-clearable-input.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/app/css/photoroster.css}"/>
     <link rel="stylesheet" type="text/css" media="print" th:href="@{/app/css/print.css}"/>
 </head>
@@ -50,7 +51,9 @@
 
 <div id="root" data-rvt-dialog-mount></div>
 
-<div th:replace="~{commonFragments/layouts :: footer(${hideFooter}, ${@serverInfo.elements})}" ></div>
+<th:block th:with="serverInfoElements=${@serverInfo.elements}">
+    <div th:replace="~{commonFragments/layouts :: footer(${hideFooter}, ${serverInfoElements})}"></div>
+</th:block>
 
 <script th:inline="javascript">
       /*<![CDATA[*/
@@ -65,9 +68,11 @@
 <script th:src="@{/app/jsreact/lms-lti-photoroster/lms-lti-photoroster.js}"></script>
 <script type="text/javascript" th:src="@{/app/jsrivet/rivet-core/rivet.min.js}"></script>
 <script type="text/javascript" defer th:src="@{/app/jsrivet/scrolltotop/scrolltotop.js}"></script>
+<script type="text/javascript" th:src="@{/app/jsrivet/rivet-clearable-input/rivet-clearable-input.js}"></script>
 <script type="text/javascript" th:src="@{/app/webjars/jquery/jquery.min.js}"></script>
 <script>
     Rivet.init();
+    ClearableInput.init();
 </script>
 
 </body>

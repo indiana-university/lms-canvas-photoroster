@@ -4,7 +4,7 @@ package edu.iu.uits.lms.photoroster.crimsoncard;
  * #%L
  * photoroster
  * %%
- * Copyright (C) 2015 - 2025 Indiana University
+ * Copyright (C) 2015 - 2026 Indiana University
  * %%
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted provided that the following conditions are met:
@@ -34,17 +34,19 @@ package edu.iu.uits.lms.photoroster.crimsoncard;
  */
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Scanner;
 
 @Slf4j
 public class CrimsonCardErrorHandler extends DefaultResponseErrorHandler {
 
     @Override
-    public void handleError(ClientHttpResponse response) throws IOException {
+    public void handleError(URI url, HttpMethod method, ClientHttpResponse response) throws IOException {
         //conversion logic for decoding conversion
         Scanner scanner = new Scanner(response.getBody());
         scanner.useDelimiter("\\Z");

@@ -1,23 +1,11 @@
 spring:
   application:
     name: photoroster
-  session:
-    store-type: none
   config.import: optional:${app.fullFilePath}/${app.overridesFileName}, optional:${app.fullFilePath}/security.properties, classpath:canvas.properties, optional:classpath:git.properties, optional:classpath:denodo.properties, classpath:lti-registrations.properties
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
-    properties:
-      hibernate:
-        jdbc:
-          lob:
-            non_contextual_creation: true
-        boot:
-          allow_jdbc_metadata_access: false
-      jadira:
-        usertype:
-          autoRegisterUserTypes: true
   datasource:
     url: ${lms.db.url}
     username: ${lms.db.user}
@@ -43,15 +31,13 @@ spring:
         provider:
           cc:
             token-uri: ${crimsoncard.authUrl}
+  web.error.whitelabel.enabled: false
 photoroster:
   version: @app.version@
   env: ${app.env}
   roleGroupings: TeacherEnrollment,StudentEnrollment,ObserverEnrollment,TaEnrollment,DesignerEnrollment,OtherEnrollment
 
 server:
-  error:
-    whitelabel:
-      enabled: false
   servlet:
     session:
       timeout: 30m
@@ -72,8 +58,9 @@ management:
 spring:
   config.activate.on-profile: redis-session
   session:
-    store-type: redis
-    redis.namespace: photoroster-@app.version@:session
+    data:
+      redis:
+        namespace: photoroster-@app.version@:session
 management.health.redis.enabled: true
 
 ---
@@ -92,26 +79,3 @@ spring:
       enabled: true
       backend: ua-vpit/enterprise-systems/lms/kv
       application-name: photoroster
-
----
-
-spring:
-  config:
-    activate.on-profile: swagger
-springdoc:
-  api-docs:
-    enabled: true
-    path: /api/v3/api-docs
-  cache.disabled: true
-  packagesToScan: edu.iu.uits.lms.photoroster.controller.rest
-  swagger-ui:
-    enabled: false
-    disable-swagger-default-url: true
-    path: /api/swagger-ui.html
-    # Setting supportedSubmitMethods to an empty list is what turns off the "try it out" button
-    #    supportedSubmitMethods:
-    oauth:
-      clientId: ${oauth.tokenprovider.clientId}
-  oAuthFlow:
-    authorizationUrl: ${oauth.tokenprovider.url}/oauth/authorize
-    tokenUrl: ${oauth.tokenprovider.accessTokenUri}
