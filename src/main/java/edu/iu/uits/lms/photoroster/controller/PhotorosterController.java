@@ -33,13 +33,20 @@ package edu.iu.uits.lms.photoroster.controller;
  * #L%
  */
 
+import edu.iu.uits.lms.canvasoauth2.CanvasOAuth2Registration;
 import edu.iu.uits.lms.lti.LTIConstants;
 import edu.iu.uits.lms.lti.controller.OidcTokenAwareController;
 import edu.iu.uits.lms.lti.service.OidcTokenUtils;
 import edu.iu.uits.lms.photoroster.service.PhotorosterService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.ClientAuthorizationRequiredException;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,24 +60,48 @@ import uk.ac.ox.ctl.lti13.security.oauth2.client.lti.authentication.OidcAuthenti
 @Controller
 public class PhotorosterController extends OidcTokenAwareController {
 
+   @Autowired
+   private OAuth2AuthorizedClientRepository canvasOAuth2AuthorizedClientRepository = null;
+
+   @Autowired
+   private CanvasOAuth2Registration canvasOAuth2Registration = null;
+
    @GetMapping("/launch")
    public String launch(Model model, SecurityContextHolderAwareRequestWrapper request) {
       OidcAuthenticationToken token = getTokenWithoutContext();
       OidcTokenUtils oidcTokenUtils = new OidcTokenUtils(token);
       String courseId = oidcTokenUtils.getCourseId();
 
-      return index(courseId, model, request.getSession());
+      return index(courseId, model, request.getSession(), request);
    }
 
    @RequestMapping(value = "/{courseId}")
    @Secured({LTIConstants.INSTRUCTOR_AUTHORITY, LTIConstants.TA_AUTHORITY, LTIConstants.STUDENT_AUTHORITY})
-   public String index(@PathVariable("courseId") String courseId, Model model, HttpSession httpSession) {
+   public String index(@PathVariable("courseId") String courseId, Model model, HttpSession httpSession,
+                       HttpServletRequest request) {
       getValidatedToken(courseId);
+      // The page's data comes from /app/rest/people, which fetches the roster with the user's own Canvas token.
+      // Ask for consent here, where the "connect your Canvas account" page can render; a REST call can't show it.
+      ensureCanvasOAuth2Consent(request);
       model.addAttribute("courseId", courseId);
       model.addAttribute("ungroupedId", PhotorosterService.UNGROUPED_ID);
       //For session tracking
       model.addAttribute("customId", httpSession.getId());
       return "react";
+   }
+
+   /**
+    * Makes sure the current user has an authorized Canvas OAuth2 client on file. If not, throws the same exception
+    * the {@code @RegisteredOAuth2AuthorizedClient} resolver would have; {@code OAuth2ConsentControllerAdvice} catches
+    * it and renders the "connect your Canvas account" consent breakout page instead of an error.
+    * @param request the current request
+    */
+   private void ensureCanvasOAuth2Consent(HttpServletRequest request) {
+      OAuth2AuthorizedClient authorizedClient = canvasOAuth2AuthorizedClientRepository.loadAuthorizedClient(
+            canvasOAuth2Registration.getRegistrationId(), SecurityContextHolder.getContext().getAuthentication(), request);
+      if (authorizedClient == null) {
+         throw new ClientAuthorizationRequiredException(canvasOAuth2Registration.getRegistrationId());
+      }
    }
 
 }
