@@ -157,6 +157,20 @@ public class LinkHeaderParserTest {
     }
 
 
+    @Test
+    public void testDebugWithPageAsFirstParam() {
+        // URLEncodedUtils.parse(url, ...) used to treat the whole url as a query string, so a leading
+        // page param came back named "http://foo/?page" and wasn't found
+        String current = "http://foo/?page=7&per_page=2";
+        String first = "http://foo/?page=1&per_page=2";
+        String last = "http://foo/?page=100&per_page=2";
+
+        HttpHeaders headers = headerBuilder(first, last, null, null);
+
+        LinkHeaderParser lhp = new LinkHeaderParser(headers);
+        Assertions.assertEquals("Page 7 of 100", lhp.debug(current));
+    }
+
     private HttpHeaders headerBuilder(String first, String last, String previous, String next) {
         List<String> headerList = new ArrayList<>();
         String format = "<{0}>; rel=\"{1}\"";

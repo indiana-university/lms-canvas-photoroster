@@ -33,6 +33,7 @@ package edu.iu.uits.lms.photoroster.crimsoncard.config;
  * #L%
  */
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
@@ -48,7 +49,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class CrimsonCardPhotoServicesEnvironmentConfig {
 
     @Bean(name = "ccWebClient")
-    WebClient webClient(OAuth2AuthorizedClientManager authorizedClientManager) {
+    // By name: canvas-oauth2-client also defines an OAuth2AuthorizedClientManager (canvasOAuth2AuthorizedClientManager)
+    WebClient webClient(@Qualifier("authorizedClientManager") OAuth2AuthorizedClientManager authorizedClientManager) {
         ServletOAuth2AuthorizedClientExchangeFilterFunction oauth2Client =
                 new ServletOAuth2AuthorizedClientExchangeFilterFunction(authorizedClientManager);
         oauth2Client.setDefaultClientRegistrationId("crimsoncard");
