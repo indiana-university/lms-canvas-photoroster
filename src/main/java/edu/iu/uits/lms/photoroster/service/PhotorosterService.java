@@ -66,6 +66,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -118,9 +119,17 @@ public class PhotorosterService {
     @Qualifier("PhotorosterCacheManager")
     private CacheManager cacheManager;
 
+    // Only the roster fetch uses the launching user's own Canvas OAuth2 token. The other Canvas calls stay on the
+    // shared admin token on purpose; see the comment on each.
+    @Autowired
+    @Qualifier("CanvasRestTemplateAsUser")
+    private RestTemplate canvasRestTemplateAsUser;
+
     @Cacheable(PhotorosterConstants.COURSE_CACHE)
     public Course getCourse(String courseId) {
         log.debug("course lookup");
+        // Admin token: buildPermissionsModel needs the SIS course and term ids, which Canvas only returns with
+        // read_sis (disabled for Teacher at IU). Also cached per course, shared by every user.
         return courseService.getCourse(courseId);
     }
 
@@ -152,6 +161,7 @@ public class PhotorosterService {
     @Cacheable(value = PhotorosterConstants.ROLES_CACHE)
     public Map<String, String> getCanvasRoleMap(String accountId) {
         List<CanvasRole> canvasRoles;
+        // Admin token: account-level role lookups need account admin access
         //TODO This if check an probably go away when we remove the old photoroster
         if (accountId == null) {
             canvasRoles = accountService.getAllRoles();
@@ -167,6 +177,7 @@ public class PhotorosterService {
     @Cacheable(PhotorosterConstants.COURSESECTIONS_CACHE)
     public Map<String, String> getSectionMap(String courseId) {
         Map<String, String> sectionMap = new TreeMap<>();
+        // Admin token: the full course view for every role, cached per course and shared by every user
         List<Section> sections = courseService.getCourseSections(courseId);
         if (sections != null) {
             log.debug("Sections: " + sections.size());
@@ -181,6 +192,7 @@ public class PhotorosterService {
     @Cacheable(PhotorosterConstants.COURSEGROUPS_CACHE)
     public Map<String, String> getCourseGroupMap(String courseId) {
         Map<String, String> groupMap = new LinkedHashMap<>();
+        // Admin token: the full course view for every role, cached per course and shared by every user
         List<CourseGroup> groups = groupService.getGroupsForCourse(courseId);
         if (groups != null) {
             log.debug("Groups: " + groups.size());
@@ -192,6 +204,13 @@ public class PhotorosterService {
         return groupMap;
     }
 
+    /**
+     * @param courseId Canvas course id
+     * @param currentUser the launching user's Canvas user id. The roster is fetched with that user's own Canvas
+     *                    OAuth2 token, so this isn't sent to Canvas; it keys the cache, since each user's view of the
+     *                    roster can differ.
+     * @return the roster as the launching user sees it, with login_id filled in
+     */
     @Cacheable(PhotorosterConstants.COURSEROSTER_CACHE)
     public List<User> getRosterForCourse(String courseId, String currentUser) {
         List<String> enrollmentStates = Arrays.asList(EnrollmentHelper.STATE.active.name(), EnrollmentHelper.STATE.invited.name(), EnrollmentHelper.STATE.creation_pending.name());
@@ -199,11 +218,13 @@ public class PhotorosterService {
               .map(EnrollmentHelper.TYPE::name)
               .collect(Collectors.toList());
 
-        List<User> users = courseService.getRosterForCourseAsUser(courseId, currentUser, enrollmentStates);
+        // The user's own token, so no as_user_id masquerade: Canvas applies the same permissions either way
+        List<User> users = courseService.getRosterForCourseAsUser(courseId, null, enrollmentStates, canvasRestTemplateAsUser);
         if (users == null) {
             users = new ArrayList<User>();
         } else {
-            // In some scenarios (such as a Locked course), login_id is not included in the returned User info.
+            // In some scenarios (such as a Locked course, or any student launch, since students can't see login ids),
+            // login_id is not included in the returned User info.
             // This prevents the photos from being displayed, so we need to verify the login_id was included in the returned
             // results and populate it if missing.
             boolean loginIdMissing = users.stream().anyMatch(user -> user.getLoginId() == null);
@@ -250,7 +271,8 @@ public class PhotorosterService {
      */
     private void populateUserLoginInfo(List<User> users, String courseId, List<String> enrollmentStates, List<String> enrollmentTypes) {
         // retrieve all user info for this course and put it in a map for easy access. The info returned isn't
-        // restricted by the current user
+        // restricted by the current user. Admin token on purpose: this exists to see more than the current user can
+        // (login ids are needed for the FERPA check, which hides restricted users from students)
         Map<String, String> canvasIdLoginIdMap = new HashMap<>();
         List<User> allUserInfo = courseService.getUsersForCourseByType(courseId, enrollmentTypes, enrollmentStates);
         if (allUserInfo != null) {
@@ -313,6 +335,7 @@ public class PhotorosterService {
         boolean courseHasGroups = courseGroupMap != null && !courseGroupMap.isEmpty();
         if (courseHasGroups) {
             for (String groupId : courseGroupMap.keySet()) {
+                // Admin token: the full course view for every role, like the group list itself
                 List<User> groupMembers = groupService.getUsersInGroup(groupId, false);
 
                 for (User user : groupMembers) {
@@ -443,6 +466,7 @@ public class PhotorosterService {
         if (isInstructor) {
             if (course != null) {
                 String sisCourseId = course.getSisCourseId();
+                // Admin token: walking the account hierarchy needs account admin access
                 List<Account> parentAccounts = accountService.getParentAccounts(course.getAccountId());
                 List<String> parentAccountIds = parentAccounts.stream().map(Account::getId).collect(Collectors.toList());
                 if (sisCourseId != null && !sisCourseId.isEmpty() &&

@@ -42,8 +42,13 @@ import edu.iu.uits.lms.photoroster.service.PhotorosterService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.oauth2.client.ClientAuthorizationRequiredException;
+import org.springframework.security.oauth2.core.OAuth2AuthorizationException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -71,6 +76,7 @@ public class PhotorosterRestController extends PhotorosterController {
       OidcAuthenticationToken token = getValidatedToken(courseId);
       OidcTokenUtils oidcTokenUtils = new OidcTokenUtils(token);
 
+      // Keys the roster cache per user; the roster itself is fetched with the user's own Canvas token
       String canvasUserId = oidcTokenUtils.getUserId();
       log.debug("/people/" + courseId);
       return photorosterService.buildBackingModel(courseId, canvasUserId, request);
@@ -108,5 +114,14 @@ public class PhotorosterRestController extends PhotorosterController {
       }
 
       return courseGroups;
+   }
+
+   @ExceptionHandler({ClientAuthorizationRequiredException.class, OAuth2AuthorizationException.class})
+   public ResponseEntity<Void> handleCanvasOAuth2Failure(Exception exception) {
+      // The user's Canvas token is missing or was revoked after the page loaded (the page itself requires consent in
+      // PhotorosterController.index). The consent page can't render in a REST response, so return 401; the React app
+      // reloads the top-level page on 401, which runs the consent check again.
+      log.warn("Canvas OAuth2 authorization failed mid-session", exception);
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
    }
 }

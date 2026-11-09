@@ -33,8 +33,8 @@ package edu.iu.uits.lms.photoroster.crimsoncard.service;
  * #L%
  */
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.json.JsonMapper;
 import edu.iu.uits.lms.photoroster.crimsoncard.config.CrimsonCardServicesConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
@@ -51,7 +51,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -145,7 +144,7 @@ public class CrimsonCardPhotoServiceTest {
 
    @Test
    public void testWithObject() throws Exception {
-      ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
+      JsonMapper objectMapper = JsonMapper.builder().build();
       CCImageResponse inputObj = new CCImageResponse("user1", "http://foobar.com");
 
       String json = objectMapper.writeValueAsString(Collections.singletonList(inputObj));
@@ -160,7 +159,7 @@ public class CrimsonCardPhotoServiceTest {
 
    @Test
    public void testWithJson() throws Exception {
-      ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json().build();
+      JsonMapper objectMapper = JsonMapper.builder().build();
 
       String json = "[{\"Id\":\"user1\",\"PhotoUrl\":\"http://foobar.com\"}]";
       TypeReference<ArrayList<CCImageResponse>> listType = new TypeReference<>() {};

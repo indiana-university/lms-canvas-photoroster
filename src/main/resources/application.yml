@@ -28,10 +28,29 @@ spring:
             client-id: ${crimsoncard.clientId}
             client-secret: ${crimsoncard.secret}
             authorization-grant-type: client_credentials
+          lms_canvas_oauth2_photoroster:
+            client-id: ${canvas.oauth2.clientId}
+            client-secret: ${canvas.oauth2.clientSecret}
+            authorization-grant-type: authorization_code
+            client-authentication-method: client_secret_post
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: [url:GET|/api/v1/courses/:course_id/users]
         provider:
           cc:
             token-uri: ${crimsoncard.authUrl}
+          lms_canvas_oauth2_photoroster:
+            authorization-uri: ${canvas.baseUrl}/login/oauth2/auth
+            token-uri: ${canvas.baseUrl}/login/oauth2/token
   web.error.whitelabel.enabled: false
+# canvas.oauth2.enabled only gates the CanvasRestTemplateAsUser bean. @EnableCanvasOAuth2Client (on
+# WebApplication) always needs canvas.oauth2.encryptionPassword/encryptionSalt, which come from
+# security.properties like the other secrets (see viewem's application.yml for the full explanation).
+canvas:
+  oauth2:
+    enabled: true
+    clientId: ${canvas.oauth2.clientId.photoroster}
+    clientSecret: ${canvas.oauth2.clientSecret.photoroster}
+
 photoroster:
   version: @app.version@
   env: ${app.env}

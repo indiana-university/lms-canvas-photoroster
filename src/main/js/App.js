@@ -58,6 +58,20 @@ class App extends React.Component {
     // The customId value got ijected in to the react.html file and is a global variable
     axios.defaults.headers.common['X-Auth-Token'] = customId;
 
+    // If the user's Canvas access is missing or revoked mid-session, /app/rest/* calls return 401 (see
+    // PhotorosterRestController#handleCanvasOAuth2Failure). Reload the top-level page so the launch runs the
+    // Canvas OAuth2 consent check again; there's no in-page recovery from this state.
+    axios.interceptors.response.use(
+        response => response,
+        error => {
+            if (error.response && error.response.status === 401) {
+                window.top.location.reload();
+                return new Promise(() => {});
+            }
+            return Promise.reject(error);
+        }
+    )
+
     this.state = {
         users: [],
         allUsers: [],

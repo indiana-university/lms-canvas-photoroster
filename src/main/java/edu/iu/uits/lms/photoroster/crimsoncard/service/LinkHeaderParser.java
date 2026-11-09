@@ -36,15 +36,15 @@ package edu.iu.uits.lms.photoroster.crimsoncard.service;
 import jakarta.ws.rs.core.Link;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.NameValuePair;
-import org.apache.hc.core5.net.URLEncodedUtils;
+import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.http.HttpHeaders;
 
-import java.nio.charset.Charset;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 public class LinkHeaderParser {
@@ -107,10 +107,18 @@ public class LinkHeaderParser {
     }
 
     private String getPageForUrl(String url) {
-        List<NameValuePair> queryParams = URLEncodedUtils.parse(url, Charset.defaultCharset());
-        Map<String, String> paramMap = queryParams.stream()
-                .collect(Collectors.toMap(NameValuePair::getName, NameValuePair::getValue));
-        return paramMap.get("page");
+        List<NameValuePair> queryParams;
+        try {
+            queryParams = new URIBuilder(url, StandardCharsets.UTF_8).getQueryParams();
+        } catch (URISyntaxException e) {
+            log.warn("Unable to parse paging link {}", url, e);
+            return null;
+        }
+        return queryParams.stream()
+                .filter(param -> "page".equals(param.getName()))
+                .map(NameValuePair::getValue)
+                .findFirst()
+                .orElse(null);
     }
 }
 
